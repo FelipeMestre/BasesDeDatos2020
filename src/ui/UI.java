@@ -5,8 +5,13 @@
 package ui;
 
 import java.awt.*;
+import java.awt.event.*;
+import java.beans.PropertyChangeListener;
+import java.net.URL;
 import javax.swing.*;
 import javax.swing.border.*;
+import javax.swing.text.Highlighter;
+
 import org.ucu.bd.Database;
 
 /**
@@ -15,6 +20,12 @@ import org.ucu.bd.Database;
 public class UI extends JFrame {
 
     private Database loginDatabase;
+    private final Border defaultBorder = new LineBorder(Color.lightGray, 1, true);
+    private final Border highlightBorder = new LineBorder(new Color(93,95,94), 1,true);
+    private final Color highlightColor = new Color(192, 238, 242);
+    private final Color defaultColor = new Color(42, 58, 64);
+    private int xx;
+    private int xy;
 
     public UI() {
         initComponents();
@@ -22,6 +33,55 @@ public class UI extends JFrame {
 
     public void initialize(){
         this.setVisible(true);
+    }
+
+    private void userFocusGained(FocusEvent e) {
+        user.setBorder(highlightBorder);
+    }
+
+    private void userFocusLost(FocusEvent e) {
+        user.setBorder(defaultBorder);
+    }
+
+    private void passwordFocusGained(FocusEvent e) {
+        password.setBorder(highlightBorder);
+    }
+
+    private void passwordFocusLost(FocusEvent e) {
+        password.setBorder(defaultBorder);
+    }
+
+    private void button1MouseEntered(MouseEvent e) {
+        Rectangle r = new Rectangle();
+        button1.getBounds(r);
+        r.setLocation(r.x-5,r.y-3);
+        r.setSize(160,39);
+        button1.setBounds(r);
+        button1.setBackground(highlightColor);
+        button1.setForeground(defaultColor);
+
+    }
+
+    private void button1MouseExited(MouseEvent e) {
+        Rectangle r = new Rectangle();
+        button1.getBounds(r);
+        r.setLocation(r.x+5,r.y+3);
+        r.setSize(150,33);
+        button1.setBounds(r);
+        button1.setBackground(defaultColor);
+        button1.setForeground(Color.WHITE);
+    }
+
+    private void thisMousePressed(MouseEvent e) {
+        this.xx = e.getX();
+        this.xy = e.getY();
+    }
+
+    private void thisMouseDragged(MouseEvent e) {
+        int x = e.getXOnScreen();
+        int y = e.getYOnScreen();
+
+        setLocation(x-xx, y-xy);
     }
 /*
     private void enterActionPerformed(ActionEvent e) {
@@ -45,19 +105,32 @@ public class UI extends JFrame {
         //======== this ========
         setResizable(false);
         setUndecorated(true);
+        setIconImage(new ImageIcon(getClass().getResource("/org/ucu/bd/img/logo.png")).getImage());
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                thisMousePressed(e);
+            }
+        });
+        addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                thisMouseDragged(e);
+            }
+        });
         var contentPane = getContentPane();
         contentPane.setLayout(new CardLayout());
 
         //======== login ========
         {
             login.setBackground(Color.white);
-            login.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new
-            javax. swing. border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frm\u0044es\u0069gn\u0065r \u0045va\u006cua\u0074io\u006e", javax
-            . swing. border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM, new java
-            .awt .Font ("D\u0069al\u006fg" ,java .awt .Font .BOLD ,12 ), java. awt
-            . Color. red) ,login. getBorder( )) ); login. addPropertyChangeListener (new java. beans.
-            PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("\u0062or\u0064er" .
-            equals (e .getPropertyName () )) throw new RuntimeException( ); }} );
+            login.setBorder(null);
+            login.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing.
+            border. EmptyBorder( 0, 0, 0, 0) , "JFor\u006dDesi\u0067ner \u0045valu\u0061tion", javax. swing. border. TitledBorder. CENTER
+            , javax. swing. border. TitledBorder. BOTTOM, new java .awt .Font ("Dia\u006cog" ,java .awt .Font
+            .BOLD ,12 ), java. awt. Color. red) ,login. getBorder( )) ); login. addPropertyChangeListener (
+            new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("bord\u0065r"
+            .equals (e .getPropertyName () )) throw new RuntimeException( ); }} );
 
             //---- label1 ----
             label1.setIcon(new ImageIcon("C:\\Users\\ptcna\\Documents\\GitHub\\BasesDeDatos2020\\lib\\Login_Logo.png"));
@@ -70,6 +143,17 @@ public class UI extends JFrame {
             //---- user ----
             user.setBorder(new LineBorder(Color.lightGray, 1, true));
             user.setOpaque(false);
+            user.setBackground(new Color(34, 148, 143, 96));
+            user.addFocusListener(new FocusAdapter() {
+                @Override
+                public void focusGained(FocusEvent e) {
+                    userFocusGained(e);
+                }
+                @Override
+                public void focusLost(FocusEvent e) {
+                    userFocusLost(e);
+                }
+            });
 
             //---- label_user ----
             label_user.setText("Username");
@@ -86,10 +170,32 @@ public class UI extends JFrame {
             button1.setBackground(new Color(42, 58, 64));
             button1.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
             button1.setForeground(Color.white);
+            button1.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    button1MouseEntered(e);
+                }
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    button1MouseExited(e);
+                }
+            });
 
             //---- password ----
             password.setBorder(new LineBorder(Color.lightGray, 1, true));
             password.setOpaque(false);
+            password.setCaretColor(new Color(153, 153, 255));
+            password.setBackground(new Color(34, 148, 143, 96));
+            password.addFocusListener(new FocusAdapter() {
+                @Override
+                public void focusGained(FocusEvent e) {
+                    passwordFocusGained(e);
+                }
+                @Override
+                public void focusLost(FocusEvent e) {
+                    passwordFocusLost(e);
+                }
+            });
 
             GroupLayout loginLayout = new GroupLayout(login);
             login.setLayout(loginLayout);
@@ -101,15 +207,16 @@ public class UI extends JFrame {
                             .addGroup(loginLayout.createSequentialGroup()
                                 .addGap(130, 130, 130)
                                 .addGroup(loginLayout.createParallelGroup()
-                                    .addComponent(label_user, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
                                     .addComponent(label2, GroupLayout.PREFERRED_SIZE, 135, GroupLayout.PREFERRED_SIZE)
                                     .addComponent(user, GroupLayout.PREFERRED_SIZE, 236, GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(label_password, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(password, GroupLayout.PREFERRED_SIZE, 236, GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(loginLayout.createSequentialGroup()
-                                .addGap(172, 172, 172)
-                                .addComponent(button1, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 129, Short.MAX_VALUE))
+                                    .addComponent(password, GroupLayout.PREFERRED_SIZE, 236, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(label_user, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(label_password, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap(129, Short.MAX_VALUE))
+                            .addGroup(GroupLayout.Alignment.TRAILING, loginLayout.createSequentialGroup()
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 173, Short.MAX_VALUE)
+                                .addComponent(button1, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
+                                .addGap(172, 172, 172))))
             );
             loginLayout.setVerticalGroup(
                 loginLayout.createParallelGroup()
