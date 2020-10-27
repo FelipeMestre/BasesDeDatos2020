@@ -45,8 +45,8 @@ public class Database {
         if (isConnected()) {
             try {
                 stmt = db_connection.createStatement();
-                ResultSet rs = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE usuario =" + user + " and "
-                        +   "contraseña = " + password);
+                ResultSet rs = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE nombre_usuario =" + user
+                        + " and " + "contraseña = " + password);
                 return rs;
             } catch (SQLException ex) {
                 this.initConnection();
