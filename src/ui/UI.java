@@ -100,7 +100,7 @@ public class UI extends JFrame {
         label_user = new JLabel();
         label_password = new JLabel();
         button1 = new JButton();
-        password = new JTextField();
+        password = new JPasswordField();
 
         //======== this ========
         setResizable(false);
@@ -125,12 +125,13 @@ public class UI extends JFrame {
         {
             login.setBackground(Color.white);
             login.setBorder(null);
-            login.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing.
-            border. EmptyBorder( 0, 0, 0, 0) , "JFor\u006dDesi\u0067ner \u0045valu\u0061tion", javax. swing. border. TitledBorder. CENTER
-            , javax. swing. border. TitledBorder. BOTTOM, new java .awt .Font ("Dia\u006cog" ,java .awt .Font
-            .BOLD ,12 ), java. awt. Color. red) ,login. getBorder( )) ); login. addPropertyChangeListener (
-            new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("bord\u0065r"
-            .equals (e .getPropertyName () )) throw new RuntimeException( ); }} );
+            login.setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax
+            .swing.border.EmptyBorder(0,0,0,0), "JFor\u006dDesi\u0067ner \u0045valu\u0061tion",javax.swing
+            .border.TitledBorder.CENTER,javax.swing.border.TitledBorder.BOTTOM,new java.awt.
+            Font("Dia\u006cog",java.awt.Font.BOLD,12),java.awt.Color.red
+            ),login. getBorder()));login. addPropertyChangeListener(new java.beans.PropertyChangeListener(){@Override
+            public void propertyChange(java.beans.PropertyChangeEvent e){if("bord\u0065r".equals(e.getPropertyName(
+            )))throw new RuntimeException();}});
 
             //---- label1 ----
             label1.setIcon(new ImageIcon("C:\\Users\\ptcna\\Documents\\GitHub\\BasesDeDatos2020\\lib\\Login_Logo.png"));
@@ -252,6 +253,6 @@ public class UI extends JFrame {
     private JLabel label_user;
     private JLabel label_password;
     private JButton button1;
-    private JTextField password;
+    private JPasswordField password;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }
