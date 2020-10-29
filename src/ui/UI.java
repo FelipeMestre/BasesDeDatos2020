@@ -30,8 +30,6 @@ import org.ucu.bd.Database;
 public class UI extends JFrame {
 
     private Database loginDatabase;
-    private String lastUsedUsername;
-    private int tries = 3;
     private final Border defaultBorder = new LineBorder(Color.lightGray, 1, true);
     private final Border highlightBorder = new LineBorder(new Color(93,95,94), 1,true);
     private final Color highlightColor = new Color(192, 238, 242);
@@ -105,27 +103,39 @@ public class UI extends JFrame {
         if (user!= null && password != null){
             //Ejecutamos el query
             ResultSet rs = loginDatabase.login(userText, passwordText, "usuario");
-            //Si no hay resulados
             try {
-                if (!rs.next()){
+                if (!rs.next()){ //Si no hay resultados
+
                     JOptionPane.showMessageDialog(this, "Usuario Incorrecto");
+
                 } else { //Si hay resultados
-                    if(PasswordManager.validatePassword(rs.getString("Contraseña"),passwordText,
-                                                            rs.getInt("id_usuario")) ){
-                        //Iniciar programa
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Contraseña Incorrecta");
-                        if (lastUsedUsername == userText){ //SI fue el mismo que probo antes se le resta 1
-                            tries--;
-                            if (tries == 0){ //Se podria implementar el tries a nivel de db
-                                //Bloquear cuenta
+                    int tries = rs.getInt("availableTries");
+                    if (rs.getBoolean("admin")){ //Si es administrador
+                        if (!rs.getBoolean("bloqueado")){ //Si no esta bloqueado
+                            if(PasswordManager.validatePassword(rs.getString("Contraseña"),passwordText,
+                                    rs.getInt("id_usuario")) ){
+                                //Iniciar programa
+                                if (tries != 5){
+                                    rs.updateInt("availableTries",5);
+                                    rs.updateRow();
+                                }
+                            } else {
+                                JOptionPane.showMessageDialog(this, "Contraseña Incorrecta");
+                                if(tries == 0){
+                                    rs.updateBoolean("bloqueado",true);
+                                } else {
+                                    rs.updateInt("availableTries",tries--);
+                                }
+                                rs.updateRow();
                             }
                         } else {
-                            lastUsedUsername = userText;
-                            tries = 2;
+                            JOptionPane.showMessageDialog(this, "Cuenta Bloqueada.\nContacte al administrador");
                         }
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Usuario Incorrecto");
                     }
                 }
+                rs.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
