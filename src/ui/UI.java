@@ -102,14 +102,14 @@ public class UI extends JFrame {
         String passwordText = password.getText();
         if (user!= null && password != null){
             //Ejecutamos el query
-            ResultSet rs = loginDatabase.login(userText, passwordText, "usuario");
+            ResultSet rs = loginDatabase.login(userText, "usuario");
             try {
                 if (!rs.next()){ //Si no hay resultados
 
                     JOptionPane.showMessageDialog(this, "Usuario Incorrecto");
 
                 } else { //Si hay resultados
-                    int tries = rs.getInt("availableTries");
+                    int tries = rs.getInt("availabletries");
                     if (rs.getBoolean("admin")){ //Si es administrador
                         if (!rs.getBoolean("bloqueado")){ //Si no esta bloqueado
                             if(PasswordManager.validatePassword(rs.getString("Contraseña"),passwordText,
@@ -124,7 +124,7 @@ public class UI extends JFrame {
                                 if(tries == 0){
                                     rs.updateBoolean("bloqueado",true);
                                 } else {
-                                    rs.updateInt("availableTries",tries--);
+                                    rs.updateInt("availableTries",--tries);
                                 }
                                 rs.updateRow();
                             }

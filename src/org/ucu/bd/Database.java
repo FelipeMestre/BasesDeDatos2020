@@ -41,7 +41,7 @@ public class Database {
         return "jdbc:postgresql://" + ip + ":" +  port + "/" + DB_name;
     }
 
-    public ResultSet login (String user, String password,String tableName){
+    public ResultSet login (String user,String tableName){
         if (isConnected()) {
             try {
                 stmt = db_connection.createStatement(ResultSet.TYPE_FORWARD_ONLY,ResultSet.CONCUR_UPDATABLE);
