@@ -6,12 +6,22 @@ package ui;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.beans.PropertyChangeListener;
-import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.*;
 import javax.swing.border.*;
-import javax.swing.text.Highlighter;
 
+
+//Cosas de passwords
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+
+import Utils.PasswordManager;
 import org.ucu.bd.Database;
 
 /**
@@ -20,6 +30,8 @@ import org.ucu.bd.Database;
 public class UI extends JFrame {
 
     private Database loginDatabase;
+    private String lastUsedUsername;
+    private int tries = 3;
     private final Border defaultBorder = new LineBorder(Color.lightGray, 1, true);
     private final Border highlightBorder = new LineBorder(new Color(93,95,94), 1,true);
     private final Color highlightColor = new Color(192, 238, 242);
@@ -27,7 +39,9 @@ public class UI extends JFrame {
     private int xx;
     private int xy;
 
-    public UI() {
+    public UI(Database loginDatabase)
+    {
+        this.loginDatabase = loginDatabase;
         initComponents();
     }
 
@@ -53,23 +67,23 @@ public class UI extends JFrame {
 
     private void button1MouseEntered(MouseEvent e) {
         Rectangle r = new Rectangle();
-        button1.getBounds(r);
+        enter.getBounds(r);
         r.setLocation(r.x-5,r.y-3);
         r.setSize(160,39);
-        button1.setBounds(r);
-        button1.setBackground(highlightColor);
-        button1.setForeground(defaultColor);
+        enter.setBounds(r);
+        enter.setBackground(highlightColor);
+        enter.setForeground(defaultColor);
 
     }
 
     private void button1MouseExited(MouseEvent e) {
         Rectangle r = new Rectangle();
-        button1.getBounds(r);
+        enter.getBounds(r);
         r.setLocation(r.x+5,r.y+3);
         r.setSize(150,33);
-        button1.setBounds(r);
-        button1.setBackground(defaultColor);
-        button1.setForeground(Color.WHITE);
+        enter.setBounds(r);
+        enter.setBackground(defaultColor);
+        enter.setForeground(Color.WHITE);
     }
 
     private void thisMousePressed(MouseEvent e) {
@@ -83,13 +97,41 @@ public class UI extends JFrame {
 
         setLocation(x-xx, y-xy);
     }
-/*
-    private void enterActionPerformed(ActionEvent e) {
-        if (user.getText() != null && password != null){
-          //  ResultSet loginDatabase.login();
+
+    private void enterActionPerformed() {
+        //Tomamos el texto de los campos a ingresar
+        String userText = user.getText();
+        String passwordText = password.getText();
+        if (user!= null && password != null){
+            //Ejecutamos el query
+            ResultSet rs = loginDatabase.login(userText, passwordText, "usuario");
+            //Si no hay resulados
+            try {
+                if (!rs.next()){
+                    JOptionPane.showMessageDialog(this, "Usuario Incorrecto");
+                } else { //Si hay resultados
+                    if(PasswordManager.validatePassword(rs.getString("Contraseña"),passwordText,
+                                                            rs.getInt("id_usuario")) ){
+                        //Iniciar programa
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Contraseña Incorrecta");
+                        if (lastUsedUsername == userText){ //SI fue el mismo que probo antes se le resta 1
+                            tries--;
+                            if (tries == 0){ //Se podria implementar el tries a nivel de db
+                                //Bloquear cuenta
+                            }
+                        } else {
+                            lastUsedUsername = userText;
+                            tries = 2;
+                        }
+                    }
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
     }
-*/
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - unknown
@@ -99,7 +141,7 @@ public class UI extends JFrame {
         user = new JTextField();
         label_user = new JLabel();
         label_password = new JLabel();
-        button1 = new JButton();
+        enter = new JButton();
         password = new JPasswordField();
 
         //======== this ========
@@ -125,13 +167,13 @@ public class UI extends JFrame {
         {
             login.setBackground(Color.white);
             login.setBorder(null);
-            login.setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax
-            .swing.border.EmptyBorder(0,0,0,0), "JFor\u006dDesi\u0067ner \u0045valu\u0061tion",javax.swing
-            .border.TitledBorder.CENTER,javax.swing.border.TitledBorder.BOTTOM,new java.awt.
-            Font("Dia\u006cog",java.awt.Font.BOLD,12),java.awt.Color.red
-            ),login. getBorder()));login. addPropertyChangeListener(new java.beans.PropertyChangeListener(){@Override
-            public void propertyChange(java.beans.PropertyChangeEvent e){if("bord\u0065r".equals(e.getPropertyName(
-            )))throw new RuntimeException();}});
+            login.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing
+            . border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn", javax. swing. border. TitledBorder
+            . CENTER, javax. swing. border. TitledBorder. BOTTOM, new java .awt .Font ("Dia\u006cog" ,java .
+            awt .Font .BOLD ,12 ), java. awt. Color. red) ,login. getBorder( )) )
+            ; login. addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e
+            ) {if ("\u0062ord\u0065r" .equals (e .getPropertyName () )) throw new RuntimeException( ); }} )
+            ;
 
             //---- label1 ----
             label1.setIcon(new ImageIcon("C:\\Users\\ptcna\\Documents\\GitHub\\BasesDeDatos2020\\lib\\Login_Logo.png"));
@@ -166,12 +208,12 @@ public class UI extends JFrame {
             label_password.setFont(new Font("Segoe UI", Font.PLAIN, 10));
             label_password.setForeground(new Color(112, 112, 112));
 
-            //---- button1 ----
-            button1.setText("Login");
-            button1.setBackground(new Color(42, 58, 64));
-            button1.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
-            button1.setForeground(Color.white);
-            button1.addMouseListener(new MouseAdapter() {
+            //---- enter ----
+            enter.setText("Login");
+            enter.setBackground(new Color(42, 58, 64));
+            enter.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
+            enter.setForeground(Color.white);
+            enter.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseEntered(MouseEvent e) {
                     button1MouseEntered(e);
@@ -181,6 +223,7 @@ public class UI extends JFrame {
                     button1MouseExited(e);
                 }
             });
+            enter.addActionListener(e -> enterActionPerformed());
 
             //---- password ----
             password.setBorder(new LineBorder(Color.lightGray, 1, true));
@@ -213,10 +256,10 @@ public class UI extends JFrame {
                                     .addComponent(password, GroupLayout.PREFERRED_SIZE, 236, GroupLayout.PREFERRED_SIZE)
                                     .addComponent(label_user, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
                                     .addComponent(label_password, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap(129, Short.MAX_VALUE))
+                                .addContainerGap(386, Short.MAX_VALUE))
                             .addGroup(GroupLayout.Alignment.TRAILING, loginLayout.createSequentialGroup()
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 173, Short.MAX_VALUE)
-                                .addComponent(button1, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 430, Short.MAX_VALUE)
+                                .addComponent(enter, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
                                 .addGap(172, 172, 172))))
             );
             loginLayout.setVerticalGroup(
@@ -234,7 +277,7 @@ public class UI extends JFrame {
                         .addGap(2, 2, 2)
                         .addComponent(password, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
                         .addGap(45, 45, 45)
-                        .addComponent(button1, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(enter, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(69, Short.MAX_VALUE))
             );
         }
@@ -252,7 +295,7 @@ public class UI extends JFrame {
     private JTextField user;
     private JLabel label_user;
     private JLabel label_password;
-    private JButton button1;
+    private JButton enter;
     private JPasswordField password;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }

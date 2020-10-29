@@ -17,8 +17,8 @@ public class Program {
         try {
             Initialize();
             Database primerDB = new Database(user, password, Database.generateUri(host, port, db_name));
-           // primerDB.initConnection();
-            UI user_interface = new UI();
+            primerDB.initConnection();
+            UI user_interface = new UI(primerDB);
             user_interface.initialize();
 
         } catch(Exception e){
