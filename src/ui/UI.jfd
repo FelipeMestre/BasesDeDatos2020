@@ -11,8 +11,8 @@ new FormModel {
 			addEvent( new FormEvent( "java.awt.event.MouseListener", "mousePressed", "thisMousePressed", true ) )
 			addEvent( new FormEvent( "java.awt.event.MouseMotionListener", "mouseDragged", "thisMouseDragged", true ) )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-				"$horizontalGroup": "par l {seq l {comp label1:::p::p, par l {seq {space :p:130:p, par l {comp label2::l:p:135:p, comp user::l:p:236:p, comp password::l:p:236:p, comp label_user::l:p:63:p, comp label_password::l:p:63:p}, space ::129:x}, seq t {space ::173:x, comp button1:::p:150:p, space :p:172:p}}}}"
-				"$verticalGroup": "par l {comp label1::t::403:x, seq l {space :p:86:p, comp label2:::p::p, space s:::p, comp label_user:::p:22:p, space :p:2:p, comp user:::p:27:p, space s:::p, comp label_password:::p:22:p, space :p:2:p, comp password:::p:27:p, space :p:45:p, comp button1:::p:33:p, space ::69:x}}"
+				"$horizontalGroup": "par l {seq {comp label1:::p:132:p, par l {seq l {space :p:14:p, par l {comp label2::l:p:135:p, comp user::l:p:236:p, comp password::l:p:236:p, comp label_user::l:p:63:p, comp label_password::l:p:63:p}, space ::386:x}, seq {space ::314:x, comp enter:::p:150:p, space :p:172:p}}}}"
+				"$verticalGroup": "par l {seq l {space :p:86:p, comp label2:::p::p, space s:::p, comp label_user:::p:22:p, space :p:2:p, comp user:::p:27:p, space s:::p, comp label_password:::p:22:p, space :p:2:p, comp password:::p:27:p, space :p:45:p, comp enter:::p:33:p, space ::69:x}, comp label1::t::403:x}"
 			} ) {
 				name: "login"
 				"background": new java.awt.Color( 255, 255, 255, 255 )
@@ -48,13 +48,14 @@ new FormModel {
 					"foreground": new java.awt.Color( 112, 112, 112, 255 )
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
-					name: "button1"
+					name: "enter"
 					"text": "Login"
 					"background": new java.awt.Color( 42, 58, 64, 255 )
 					"font": new java.awt.Font( "Segoe UI Semibold", 1, 14 )
 					"foreground": new java.awt.Color( 255, 255, 255, 255 )
 					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseEntered", "button1MouseEntered", true ) )
 					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseExited", "button1MouseExited", true ) )
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "enterActionPerformed", false ) )
 				} )
 				add( new FormComponent( "javax.swing.JPasswordField" ) {
 					name: "password"

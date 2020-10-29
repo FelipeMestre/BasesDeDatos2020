@@ -1,0 +1,70 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.CardLayout ) ) {
+			name: "this"
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {comp menuSelector:::::x}"
+				"$verticalGroup": "par l {seq l {comp menuSelector:::p:54:p, space ::346:x}}"
+			} ) {
+				name: "mainMenu"
+				"background": new java.awt.Color( 255, 255, 255, 255 )
+				"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				"foreground": new java.awt.Color( 81, 104, 223, 255 )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {seq {space :p:14:p, comp label2:::p::p, space :p:30:p, comp button1:::p::p, space s:::p, comp button3:::p::p, space s:::p, comp button2:::p::p, space s:::p, comp button4:::p::p, space ::66:x}}"
+					"$verticalGroup": "par l {seq {space :0:0:p, par l {comp label2::t:::x, seq {par b {comp button3::b:p:54:p, comp button1::b:p:54:p, comp button2::b:p:54:p, comp button4::b:p:54:p}, space :0:0:x}}, space :::p}}"
+				} ) {
+					name: "menuSelector"
+					"background": new java.awt.Color( 81, 104, 223, 255 )
+					"foreground": new java.awt.Color( 81, 104, 223, 255 )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "label2"
+						"text": "Main menu"
+						"font": new java.awt.Font( "Dubai", 0, 24 )
+						"foreground": new java.awt.Color( 255, 255, 255, 255 )
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "button1"
+						"text": "usuario"
+						"background": &Color0 new java.awt.Color( 81, 104, 223, 255 )
+						"foreground": sfield java.awt.Color white
+						"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"font": &Font0 new java.awt.Font( "Segoe UI", 0, 16 )
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "button2"
+						"text": "menus"
+						"background": #Color0
+						"foreground": sfield java.awt.Color white
+						"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"font": #Font0
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "button3"
+						"text": "personas"
+						"background": #Color0
+						"foreground": sfield java.awt.Color white
+						"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"font": #Font0
+					} )
+					add( new FormComponent( "javax.swing.JButton" ) {
+						name: "button4"
+						"text": "roles"
+						"background": #Color0
+						"foreground": sfield java.awt.Color white
+						"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"font": #Font0
+					} )
+				} )
+			}, new FormLayoutConstraints( class java.lang.String ) {
+				"value": "card1"
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 10, 10 )
+			"size": new java.awt.Dimension( 590, 400 )
+		} )
+	}
+}

@@ -45,8 +45,8 @@ public class Database {
         if (isConnected()) {
             try {
                 stmt = db_connection.createStatement();
-                ResultSet rs = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE nombre_usuario =" + user
-                        + " and " + "contraseña = " + password);
+                ResultSet rs = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE nombre_usuario = '" + user
+                        + "'"); //Hay que agregar todo el tema del hash
                 return rs;
             } catch (SQLException ex) {
                 this.initConnection();
