@@ -44,7 +44,7 @@ public class Database {
     public ResultSet login (String user,String tableName){
         if (isConnected()) {
             try {
-                stmt = db_connection.createStatement();
+                stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE,ResultSet.TYPE_FORWARD_ONLY);
                 ResultSet rs = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE nombre_usuario = '" + user
                         + "'"); //Hay que agregar todo el tema del hash
                 return rs;
