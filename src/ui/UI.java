@@ -114,7 +114,7 @@ public class UI extends JFrame {
                         //Iniciar programa
                         this.getContentPane().removeAll();
                         this.getContentPane().invalidate();
-                        JPanel menu = new MainMenu();
+                        JPanel menu = new MainMenu(this, userText);
                         menu.setVisible(true);
                         this.getContentPane().add(menu);
                         this.getContentPane().revalidate();
@@ -173,14 +173,14 @@ public class UI extends JFrame {
         {
             login.setBackground(Color.white);
             login.setBorder(null);
-            login.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing. border. EmptyBorder( 0
-            , 0, 0, 0) , "JF\u006frmDes\u0069gner \u0045valua\u0074ion", javax. swing. border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM
-            , new java .awt .Font ("D\u0069alog" ,java .awt .Font .BOLD ,12 ), java. awt. Color. red) ,
-            login. getBorder( )) ); login. addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e
-            ) {if ("\u0062order" .equals (e .getPropertyName () )) throw new RuntimeException( ); }} );
+            login.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing. border. EmptyBorder(
+            0, 0, 0, 0) , "JF\u006frmDes\u0069gner \u0045valua\u0074ion", javax. swing. border. TitledBorder. CENTER, javax. swing. border. TitledBorder
+            . BOTTOM, new java .awt .Font ("D\u0069alog" ,java .awt .Font .BOLD ,12 ), java. awt. Color.
+            red) ,login. getBorder( )) ); login. addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .
+            beans .PropertyChangeEvent e) {if ("\u0062order" .equals (e .getPropertyName () )) throw new RuntimeException( ); }} );
 
             //---- label1 ----
-            label1.setIcon(new ImageIcon("C:\\Users\\ptcna\\Documents\\GitHub\\BasesDeDatos2020\\lib\\Login_Logo.png"));
+            label1.setIcon(new ImageIcon(getClass().getResource("/img/Login_Logo.png")));
 
             //---- label2 ----
             label2.setText("Login");
@@ -250,26 +250,26 @@ public class UI extends JFrame {
             loginLayout.setHorizontalGroup(
                 loginLayout.createParallelGroup()
                     .addGroup(loginLayout.createSequentialGroup()
-                        .addComponent(label1, GroupLayout.PREFERRED_SIZE, 132, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(label1)
                         .addGroup(loginLayout.createParallelGroup()
                             .addGroup(loginLayout.createSequentialGroup()
-                                .addGap(14, 14, 14)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 173, Short.MAX_VALUE)
+                                .addComponent(enter, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(172, Short.MAX_VALUE))
+                            .addGroup(loginLayout.createSequentialGroup()
+                                .addGap(126, 126, 126)
                                 .addGroup(loginLayout.createParallelGroup()
                                     .addComponent(label2, GroupLayout.PREFERRED_SIZE, 135, GroupLayout.PREFERRED_SIZE)
                                     .addComponent(user, GroupLayout.PREFERRED_SIZE, 236, GroupLayout.PREFERRED_SIZE)
                                     .addComponent(password, GroupLayout.PREFERRED_SIZE, 236, GroupLayout.PREFERRED_SIZE)
                                     .addComponent(label_user, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
                                     .addComponent(label_password, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap(386, Short.MAX_VALUE))
-                            .addGroup(loginLayout.createSequentialGroup()
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 314, Short.MAX_VALUE)
-                                .addComponent(enter, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
-                                .addGap(172, 172, 172))))
+                                .addContainerGap(133, Short.MAX_VALUE))))
             );
             loginLayout.setVerticalGroup(
                 loginLayout.createParallelGroup()
                     .addGroup(loginLayout.createSequentialGroup()
-                        .addGap(86, 86, 86)
+                        .addGap(85, 85, 85)
                         .addComponent(label2)
                         .addGap(18, 18, 18)
                         .addComponent(label_user, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
@@ -279,9 +279,9 @@ public class UI extends JFrame {
                         .addComponent(label_password, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
                         .addGap(2, 2, 2)
                         .addComponent(password, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
-                        .addGap(45, 45, 45)
+                        .addGap(34, 34, 34)
                         .addComponent(enter, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(69, Short.MAX_VALUE))
+                        .addContainerGap(81, Short.MAX_VALUE))
                     .addComponent(label1, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
             );
         }
