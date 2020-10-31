@@ -1,6 +1,8 @@
 package org.ucu.bd;
 
 import java.util.HashMap;
+
+import com.sun.tools.javac.Main;
 import ui.*;
 
 public class Program {
@@ -20,6 +22,8 @@ public class Program {
             primerDB.initConnection();
             UI user_interface = new UI(primerDB);
             user_interface.initialize();
+            //MainMenu mainMenu = new MainMenu();
+            //mainMenu.setVisible(true);
 
         } catch(Exception e){
             System.out.println("Error durante la inicialización\n" + e.getMessage());

@@ -30,6 +30,8 @@ import org.ucu.bd.Database;
 public class UI extends JFrame {
 
     private Database loginDatabase;
+    private String lastUsedUsername;
+    private int tries = 3;
     private final Border defaultBorder = new LineBorder(Color.lightGray, 1, true);
     private final Border highlightBorder = new LineBorder(new Color(93,95,94), 1,true);
     private final Color highlightColor = new Color(192, 238, 242);
@@ -177,13 +179,11 @@ public class UI extends JFrame {
         {
             login.setBackground(Color.white);
             login.setBorder(null);
-            login.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing
-            . border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn", javax. swing. border. TitledBorder
-            . CENTER, javax. swing. border. TitledBorder. BOTTOM, new java .awt .Font ("Dia\u006cog" ,java .
-            awt .Font .BOLD ,12 ), java. awt. Color. red) ,login. getBorder( )) )
-            ; login. addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e
-            ) {if ("\u0062ord\u0065r" .equals (e .getPropertyName () )) throw new RuntimeException( ); }} )
-            ;
+            login.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing. border. EmptyBorder( 0
+            , 0, 0, 0) , "JF\u006frmDes\u0069gner \u0045valua\u0074ion", javax. swing. border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM
+            , new java .awt .Font ("D\u0069alog" ,java .awt .Font .BOLD ,12 ), java. awt. Color. red) ,
+            login. getBorder( )) ); login. addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e
+            ) {if ("\u0062order" .equals (e .getPropertyName () )) throw new RuntimeException( ); }} );
 
             //---- label1 ----
             label1.setIcon(new ImageIcon("C:\\Users\\ptcna\\Documents\\GitHub\\BasesDeDatos2020\\lib\\Login_Logo.png"));
@@ -256,10 +256,10 @@ public class UI extends JFrame {
             loginLayout.setHorizontalGroup(
                 loginLayout.createParallelGroup()
                     .addGroup(loginLayout.createSequentialGroup()
-                        .addComponent(label1)
+                        .addComponent(label1, GroupLayout.PREFERRED_SIZE, 132, GroupLayout.PREFERRED_SIZE)
                         .addGroup(loginLayout.createParallelGroup()
                             .addGroup(loginLayout.createSequentialGroup()
-                                .addGap(130, 130, 130)
+                                .addGap(14, 14, 14)
                                 .addGroup(loginLayout.createParallelGroup()
                                     .addComponent(label2, GroupLayout.PREFERRED_SIZE, 135, GroupLayout.PREFERRED_SIZE)
                                     .addComponent(user, GroupLayout.PREFERRED_SIZE, 236, GroupLayout.PREFERRED_SIZE)
@@ -267,14 +267,13 @@ public class UI extends JFrame {
                                     .addComponent(label_user, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
                                     .addComponent(label_password, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE))
                                 .addContainerGap(386, Short.MAX_VALUE))
-                            .addGroup(GroupLayout.Alignment.TRAILING, loginLayout.createSequentialGroup()
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 430, Short.MAX_VALUE)
+                            .addGroup(loginLayout.createSequentialGroup()
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 314, Short.MAX_VALUE)
                                 .addComponent(enter, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
                                 .addGap(172, 172, 172))))
             );
             loginLayout.setVerticalGroup(
                 loginLayout.createParallelGroup()
-                    .addComponent(label1, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
                     .addGroup(loginLayout.createSequentialGroup()
                         .addGap(86, 86, 86)
                         .addComponent(label2)
@@ -289,6 +288,7 @@ public class UI extends JFrame {
                         .addGap(45, 45, 45)
                         .addComponent(enter, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(69, Short.MAX_VALUE))
+                    .addComponent(label1, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
             );
         }
         contentPane.add(login, "card1");

@@ -19,6 +19,11 @@ public class PasswordManager {
         return hashedString.compareTo(databasePassword) == 0;
     }
 
+    public static boolean validatePassword2(String databasePassword, String inputPassword){
+        // Para utilizar contraseña sin hash.
+        return databasePassword.compareTo(inputPassword) == 0;
+    }
+
     public static String hashPassword( final char[] password, final byte[] salt, final int iterations, final int keyLength ) {
         try {
             SecretKeyFactory skf = SecretKeyFactory.getInstance( "PBKDF2WithHmacSHA512" );
