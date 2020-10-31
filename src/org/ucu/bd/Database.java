@@ -66,15 +66,18 @@ public class Database {
         }
     }
 
-    public ResultSet search(String tableName, String column, String value){
+    public ResultSet search(String tableName, String column, String value) {
         try {
-            stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE,ResultSet.TYPE_FORWARD_ONLY);
+            stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
             ResultSet rs = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE " + column + " = '" + value
                     + "'");
             return rs;
         } catch (SQLException ex) {
             this.initConnection();
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 
     public ResultSet getAllElements(String tableName) {
         if(isConnected()) {
