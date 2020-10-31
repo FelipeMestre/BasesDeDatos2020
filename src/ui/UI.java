@@ -120,6 +120,12 @@ public class UI extends JFrame {
                                     rs.updateInt("availableTries",5);
                                     rs.updateRow();
                                 }
+                                this.getContentPane().removeAll();
+                                this.getContentPane().invalidate();
+                                JPanel menu = new MainMenu(this, userText);
+                                menu.setVisible(true);
+                                this.getContentPane().add(menu);
+                                this.getContentPane().revalidate();
                             } else {
                                 JOptionPane.showMessageDialog(this, "Contraseña Incorrecta");
                                 if(tries == 0){
