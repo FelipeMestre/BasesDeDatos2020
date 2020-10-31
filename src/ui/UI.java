@@ -6,7 +6,6 @@ package ui;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.nio.charset.StandardCharsets;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.*;
@@ -22,6 +21,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
 import Utils.PasswordManager;
+import model.currentUser;
 import org.ucu.bd.Database;
 
 /**
@@ -120,6 +120,8 @@ public class UI extends JFrame {
                                     rs.updateInt("availableTries",5);
                                     rs.updateRow();
                                 }
+                                currentUser user = currentUser.getCurrentUser();
+                                user.setUser_id(rs.getInt("id_usuario"));
                                 this.getContentPane().removeAll();
                                 this.getContentPane().invalidate();
                                 JPanel menu = new MainMenu(this, userText);

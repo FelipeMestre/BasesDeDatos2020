@@ -46,12 +46,39 @@ public class Database {
             try {
                 stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE,ResultSet.TYPE_FORWARD_ONLY);
                 ResultSet rs = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE nombre_usuario = '" + user
-                        + "'"); //Hay que agregar todo el tema del hash
+                        + "'");
                 return rs;
             } catch (SQLException ex) {
                 this.initConnection();
                 Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
+        return null;
+    }
+
+    public void join(String userName, String password, String person_ci){
+        try {
+            stmt = db_connection.createStatement();
+            ResultSet rs = stmt.executeQuery("INSERT INTO usuario (nombre_usuario,contraseña,ci_persona)" );
+        } catch (SQLException ex) {
+            this.initConnection();
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void addPerson(){
+
+    }
+
+    public ResultSet search(String tableName, String column, String value){
+        try {
+            stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE,ResultSet.TYPE_FORWARD_ONLY);
+            ResultSet rs = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE " + column + " = '" + value
+                    + "'");
+            return rs;
+        } catch (SQLException ex) {
+            this.initConnection();
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
