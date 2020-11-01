@@ -122,12 +122,11 @@ public class UI extends JFrame {
                                 }
                                 currentUser user = currentUser.getCurrentUser();
                                 user.setUser_id(rs.getInt("id_usuario"));
-                                this.getContentPane().removeAll();
-                                this.getContentPane().invalidate();
-                                JPanel menu = new MainMenu(this, userText);
+
+                                JFrame menu = new MainMenu(this, userText, this.loginDatabase);
                                 menu.setVisible(true);
-                                this.getContentPane().add(menu);
-                                this.getContentPane().revalidate();
+                                this.dispose();
+
                             } else {
                                 JOptionPane.showMessageDialog(this, "Contraseña Incorrecta");
                                 if(tries == 0){

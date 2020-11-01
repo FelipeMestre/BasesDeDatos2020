@@ -4,6 +4,9 @@
 
 package ui;
 
+import javax.swing.table.*;
+import org.ucu.bd.Database;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.event.MouseEvent;
@@ -12,19 +15,45 @@ import javax.swing.*;
 /**
  * @author unknown
  */
-public class MainMenu extends JPanel {
+public class MainMenu extends JFrame {
 
     private JFrame parent;
-    private final String main_back_path = "src/img/Main-back.png";
+    private JLabel selected_option_button;
+    private Option[] options;
+    private Database controller;
 
-    public MainMenu(JFrame parent, String username) {
+    public MainMenu(JFrame parent, String username, Database controller) {
         initComponents();
+        this.controller = controller;
+        options = createOptions();
         this.parent = parent;
         this.name.setText(username);
+        RolesTable.setModel(new DefaultTableModel(
+                new Object[][] {
+                        {null, "", new JLabel("Hola")},
+                        {null, null, new JLabel("Adios")},
+                },
+                new String[] {
+                        "Nombre", "Descripci\u00f3n", " "
+                }
+        ));
     }
 
+    private Option[] createOptions(){
+        Option option1 = new Option(optionBack_1, usersLabel, icon_user, "/img/option.png",
+                "/img/usability-edit.png", "/img/usability-edit-selected.png");
+        Option option2 = new Option(optionBack_2, rolesLabel, icon_roles, "/img/option.png",
+                "/img/roles-edit.png", "/img/diamond.png");
+        Option option3 = new Option(optionBack_3, peopleLabel, icon_people, "/img/option.png",
+                "/img/people-edit.png","/img/people-edit-selected.png");
+        Option option4 = new Option(optionBack_4, RelationshipsLabel, icon_relation, "/img/option.png",
+                        "/img/link-edit.png","/img/link-edit-selected.png");
+        return new Option[]{option1, option2, option3, option4};
+    }
+
+
     private void exitMouseClicked(MouseEvent e) {
-        parent.dispose();
+        this.dispose();
     }
 
     private void exitMouseEntered(MouseEvent e) {
@@ -34,18 +63,110 @@ public class MainMenu extends JPanel {
     private void exitMouseExited(MouseEvent e) {
         exit.setIcon(new ImageIcon(getClass().getResource("/img/logout-edit.png")));
     }
-    
-    
 
+    private void optionBack_1MouseEntered(MouseEvent e) {
+        updateOptionState(optionBack_1, true);
+    }
+
+    private void optionBack_1MouseExited(MouseEvent e) {
+        updateOptionState(optionBack_1, false);
+    }
+
+    private void updateOptionState(JLabel option,boolean state){
+        if (!option.equals(selected_option_button)){
+            if (state){
+                option.setIcon(new ImageIcon(getClass().getResource("/img/option.png")));
+            } else {
+                option.setIcon(null);
+            }
+        }
+    }
+
+
+    private void optionBack_2MouseEntered(MouseEvent e) {
+        updateOptionState(optionBack_2, true);
+    }
+
+    private void optionBack_2MouseExited(MouseEvent e) {
+        updateOptionState(optionBack_2, false);
+    }
+
+    private void optionBack_3MouseEntered(MouseEvent e) {
+        updateOptionState(optionBack_3, true);
+    }
+
+    private void optionBack_3MouseExited(MouseEvent e) {
+        updateOptionState(optionBack_3, false);
+    }
+
+    private void optionBack_4MouseEntered(MouseEvent e) {
+        updateOptionState(optionBack_4, true);
+    }
+
+    private void optionBack_4MouseExited(MouseEvent e) {
+        updateOptionState(optionBack_4, false);
+    }
+
+    private void optionBack_2MouseClicked(MouseEvent e) {
+        resetOptions();
+        options[1].select();
+        changeCard("roles");
+        selected_option_button = optionBack_2;
+    }
+
+    private void optionBack_1MouseClicked(MouseEvent e) {
+        resetOptions();
+        options[0].select();
+        selected_option_button = optionBack_1;
+    }
+
+    private void optionBack_3MouseClicked(MouseEvent e) {
+        resetOptions();
+        options[2].select();
+        selected_option_button = optionBack_3;
+    }
+
+    private void resetOptions(){
+        for (Option op: options){
+            op.reset();
+        }
+    }
+
+    private void changeCard(String card_name){
+        CardLayout cl = (CardLayout)(this.main.getLayout());
+        cl.show(this.main, card_name);
+    }
+
+    private void optionBack_4MouseClicked(MouseEvent e) {
+        resetOptions();
+        options[3].select();
+        selected_option_button = optionBack_4;
+    }
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
     // Generated using JFormDesigner Evaluation license - unknown
     private JPanel Header;
     private JLabel exit;
-    private JPanel panel2;
+    private JPanel main;
+    private JPanel Roles;
+    private JLabel RolesTitle;
+    private JLabel RolesDesc;
+    private JLayeredPane layeredPane1;
+    private JLabel TotalRoles;
+    private JLabel ActiveRoles;
+    private JLabel total_title;
+    private JLabel active_title;
+    private JLabel dashboard_back;
+    private JLayeredPane layeredPane2;
+    private JLabel label1;
+    private JScrollPane scrollTable;
+    private JTable RolesTable;
+    private JLabel roles_list_back;
+    private JPanel Default;
     private JLayeredPane Nav;
     private JLabel iconUser;
     private JLabel name;
     private JLabel nameUser;
+    private JLabel usersLabel;
     private JLabel serparator_1;
     private JLabel serparator_2;
     private JLabel serparator_3;
@@ -54,20 +175,45 @@ public class MainMenu extends JPanel {
     private JLabel icon_user;
     private JLabel icon_roles;
     private JLabel icon_people;
-    private JLabel icon_roles2;
+    private JLabel icon_relation;
+    private JLabel rolesLabel;
+    private JLabel peopleLabel;
+    private JLabel RelationshipsLabel;
+    private JLabel optionBack_1;
+    private JLabel optionBack_2;
+    private JLabel optionBack_3;
+    private JLabel optionBack_4;
     private JLabel main_back;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
+
+
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - unknown
         Header = new JPanel();
         exit = new JLabel();
-        panel2 = new JPanel();
+        main = new JPanel();
+        Roles = new JPanel();
+        RolesTitle = new JLabel();
+        RolesDesc = new JLabel();
+        layeredPane1 = new JLayeredPane();
+        TotalRoles = new JLabel();
+        ActiveRoles = new JLabel();
+        total_title = new JLabel();
+        active_title = new JLabel();
+        dashboard_back = new JLabel();
+        layeredPane2 = new JLayeredPane();
+        label1 = new JLabel();
+        scrollTable = new JScrollPane();
+        RolesTable = new JTable();
+        roles_list_back = new JLabel();
+        Default = new JPanel();
         Nav = new JLayeredPane();
         iconUser = new JLabel();
         name = new JLabel();
         nameUser = new JLabel();
+        usersLabel = new JLabel();
         serparator_1 = new JLabel();
         serparator_2 = new JLabel();
         serparator_3 = new JLabel();
@@ -76,23 +222,30 @@ public class MainMenu extends JPanel {
         icon_user = new JLabel();
         icon_roles = new JLabel();
         icon_people = new JLabel();
-        icon_roles2 = new JLabel();
+        icon_relation = new JLabel();
+        rolesLabel = new JLabel();
+        peopleLabel = new JLabel();
+        RelationshipsLabel = new JLabel();
+        optionBack_1 = new JLabel();
+        optionBack_2 = new JLabel();
+        optionBack_3 = new JLabel();
+        optionBack_4 = new JLabel();
         main_back = new JLabel();
 
         //======== this ========
-        setPreferredSize(new Dimension(1024, 576));
-        setMaximumSize(new Dimension(1920, 1080));
-        setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax .
-        swing. border .EmptyBorder ( 0, 0 ,0 , 0) ,  "JF\u006frmDesi\u0067ner Ev\u0061luatio\u006e" , javax. swing .border
-        . TitledBorder. CENTER ,javax . swing. border .TitledBorder . BOTTOM, new java. awt .Font ( "Dialo\u0067"
-        , java .awt . Font. BOLD ,12 ) ,java . awt. Color .red ) , getBorder
-        () ) );  addPropertyChangeListener( new java. beans .PropertyChangeListener ( ){ @Override public void propertyChange (java
-        . beans. PropertyChangeEvent e) { if( "borde\u0072" .equals ( e. getPropertyName () ) )throw new RuntimeException
-        ( ) ;} } );
+        setMinimumSize(new Dimension(1024, 576));
+        setUndecorated(true);
+        var contentPane = getContentPane();
 
         //======== Header ========
         {
             Header.setBackground(Color.white);
+            Header.setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax . swing. border .
+            EmptyBorder ( 0, 0 ,0 , 0) ,  "JF\u006frmDesi\u0067ner Ev\u0061luatio\u006e" , javax. swing .border . TitledBorder. CENTER ,javax . swing
+            . border .TitledBorder . BOTTOM, new java. awt .Font ( "Dialo\u0067", java .awt . Font. BOLD ,12 ) ,
+            java . awt. Color .red ) ,Header. getBorder () ) ); Header. addPropertyChangeListener( new java. beans .PropertyChangeListener ( )
+            { @Override public void propertyChange (java . beans. PropertyChangeEvent e) { if( "borde\u0072" .equals ( e. getPropertyName () ) )
+            throw new RuntimeException( ) ;} } );
 
             //---- exit ----
             exit.setIcon(new ImageIcon(getClass().getResource("/img/logout-edit.png")));
@@ -112,7 +265,7 @@ public class MainMenu extends JPanel {
             HeaderLayout.setHorizontalGroup(
                 HeaderLayout.createParallelGroup()
                     .addGroup(GroupLayout.Alignment.TRAILING, HeaderLayout.createSequentialGroup()
-                        .addContainerGap(779, Short.MAX_VALUE)
+                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(exit)
                         .addGap(14, 14, 14))
             );
@@ -125,10 +278,160 @@ public class MainMenu extends JPanel {
             );
         }
 
-        //======== panel2 ========
+        //======== main ========
         {
-            panel2.setBackground(new Color(244, 244, 244));
-            panel2.setLayout(new CardLayout());
+            main.setBackground(new Color(244, 244, 244));
+            main.setLayout(new CardLayout());
+
+            //======== Roles ========
+            {
+                Roles.setBackground(new Color(245, 245, 245));
+
+                //---- RolesTitle ----
+                RolesTitle.setText("Roles");
+                RolesTitle.setFont(new Font("Segoe UI", Font.BOLD, 36));
+                RolesTitle.setBackground(new Color(64, 65, 65));
+                RolesTitle.setForeground(new Color(64, 65, 65));
+
+                //---- RolesDesc ----
+                RolesDesc.setText("Crea y administra los roles de tu aplicaci\u00f3n.");
+                RolesDesc.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
+                RolesDesc.setForeground(new Color(126, 126, 126));
+
+                //======== layeredPane1 ========
+                {
+
+                    //---- TotalRoles ----
+                    TotalRoles.setText("24");
+                    TotalRoles.setFont(new Font("Segoe UI", Font.BOLD, 32));
+                    TotalRoles.setHorizontalAlignment(SwingConstants.CENTER);
+                    TotalRoles.setForeground(new Color(52, 154, 162));
+                    layeredPane1.add(TotalRoles, JLayeredPane.DEFAULT_LAYER);
+                    TotalRoles.setBounds(60, 22, 70, 35);
+
+                    //---- ActiveRoles ----
+                    ActiveRoles.setText("16");
+                    ActiveRoles.setFont(new Font("Segoe UI", Font.BOLD, 32));
+                    ActiveRoles.setHorizontalAlignment(SwingConstants.CENTER);
+                    ActiveRoles.setForeground(new Color(52, 154, 162));
+                    layeredPane1.add(ActiveRoles, JLayeredPane.DEFAULT_LAYER);
+                    ActiveRoles.setBounds(210, 22, 70, 35);
+
+                    //---- total_title ----
+                    total_title.setText("Roles creados");
+                    total_title.setHorizontalAlignment(SwingConstants.CENTER);
+                    total_title.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
+                    total_title.setForeground(new Color(153, 153, 153));
+                    layeredPane1.add(total_title, JLayeredPane.DEFAULT_LAYER);
+                    total_title.setBounds(50, 65, 90, 16);
+
+                    //---- active_title ----
+                    active_title.setText("Roles activos");
+                    active_title.setHorizontalAlignment(SwingConstants.CENTER);
+                    active_title.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
+                    active_title.setForeground(new Color(153, 153, 153));
+                    layeredPane1.add(active_title, JLayeredPane.DEFAULT_LAYER);
+                    active_title.setBounds(200, 65, 90, 16);
+
+                    //---- dashboard_back ----
+                    dashboard_back.setIcon(new ImageIcon(getClass().getResource("/img/rolesHeader.png")));
+                    layeredPane1.add(dashboard_back, JLayeredPane.DEFAULT_LAYER);
+                    dashboard_back.setBounds(0, 0, 348, 105);
+                }
+
+                //======== layeredPane2 ========
+                {
+
+                    //---- label1 ----
+                    label1.setText("Lista de Roles");
+                    label1.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 18));
+                    label1.setForeground(new Color(102, 102, 102));
+                    layeredPane2.add(label1, JLayeredPane.DEFAULT_LAYER);
+                    label1.setBounds(30, 15, 120, 31);
+
+                    //======== scrollTable ========
+                    {
+
+                        //---- RolesTable ----
+                        RolesTable.setBackground(Color.white);
+                        RolesTable.setModel(new DefaultTableModel(
+                            new Object[][] {
+                                {null, "", null},
+                                {null, null, null},
+                            },
+                            new String[] {
+                                "Nombre", "Descripci\u00f3n", " "
+                            }
+                        ) {
+                            Class<?>[] columnTypes = new Class<?>[] {
+                                String.class, String.class, Object.class
+                            };
+                            @Override
+                            public Class<?> getColumnClass(int columnIndex) {
+                                return columnTypes[columnIndex];
+                            }
+                        });
+                        scrollTable.setViewportView(RolesTable);
+                    }
+                    layeredPane2.add(scrollTable, JLayeredPane.DEFAULT_LAYER);
+                    scrollTable.setBounds(0, 55, 348, 175);
+
+                    //---- roles_list_back ----
+                    roles_list_back.setIcon(new ImageIcon(getClass().getResource("/img/RolesTableBack.png")));
+                    layeredPane2.add(roles_list_back, JLayeredPane.DEFAULT_LAYER);
+                    roles_list_back.setBounds(0, 0, 355, 55);
+                }
+
+                GroupLayout RolesLayout = new GroupLayout(Roles);
+                Roles.setLayout(RolesLayout);
+                RolesLayout.setHorizontalGroup(
+                    RolesLayout.createParallelGroup()
+                        .addGroup(RolesLayout.createSequentialGroup()
+                            .addGroup(RolesLayout.createParallelGroup()
+                                .addGroup(RolesLayout.createSequentialGroup()
+                                    .addGap(88, 88, 88)
+                                    .addGroup(RolesLayout.createParallelGroup()
+                                        .addComponent(RolesTitle)
+                                        .addComponent(RolesDesc, GroupLayout.PREFERRED_SIZE, 369, GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(RolesLayout.createSequentialGroup()
+                                    .addGap(77, 77, 77)
+                                    .addGroup(RolesLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(layeredPane1, GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE)
+                                        .addComponent(layeredPane2, GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE))))
+                            .addContainerGap(363, Short.MAX_VALUE))
+                );
+                RolesLayout.setVerticalGroup(
+                    RolesLayout.createParallelGroup()
+                        .addGroup(RolesLayout.createSequentialGroup()
+                            .addGap(49, 49, 49)
+                            .addComponent(RolesTitle)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(RolesDesc)
+                            .addGap(18, 18, 18)
+                            .addComponent(layeredPane1, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(layeredPane2, GroupLayout.PREFERRED_SIZE, 235, GroupLayout.PREFERRED_SIZE)
+                            .addContainerGap(40, Short.MAX_VALUE))
+                );
+            }
+            main.add(Roles, "roles");
+
+            //======== Default ========
+            {
+                Default.setBackground(new Color(245, 245, 245));
+
+                GroupLayout DefaultLayout = new GroupLayout(Default);
+                Default.setLayout(DefaultLayout);
+                DefaultLayout.setHorizontalGroup(
+                    DefaultLayout.createParallelGroup()
+                        .addGap(0, 820, Short.MAX_VALUE)
+                );
+                DefaultLayout.setVerticalGroup(
+                    DefaultLayout.createParallelGroup()
+                        .addGap(0, 529, Short.MAX_VALUE)
+                );
+            }
+            main.add(Default, "card2");
         }
 
         //======== Nav ========
@@ -151,6 +454,13 @@ public class MainMenu extends JPanel {
             nameUser.setIcon(new ImageIcon(getClass().getResource("/img/NameUser.png")));
             Nav.add(nameUser, JLayeredPane.DEFAULT_LAYER);
             nameUser.setBounds(65, 150, 70, 25);
+
+            //---- usersLabel ----
+            usersLabel.setText("Usuarios");
+            usersLabel.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+            usersLabel.setForeground(Color.white);
+            Nav.add(usersLabel, JLayeredPane.DEFAULT_LAYER);
+            usersLabel.setBounds(75, 231, 55, usersLabel.getPreferredSize().height);
 
             //---- serparator_1 ----
             serparator_1.setIcon(new ImageIcon(getClass().getResource("/img/serparator.png")));
@@ -192,36 +502,138 @@ public class MainMenu extends JPanel {
             Nav.add(icon_people, JLayeredPane.DEFAULT_LAYER);
             icon_people.setBounds(35, 335, 30, 35);
 
-            //---- icon_roles2 ----
-            icon_roles2.setIcon(new ImageIcon(getClass().getResource("/img/link-edit.png")));
-            Nav.add(icon_roles2, JLayeredPane.DEFAULT_LAYER);
-            icon_roles2.setBounds(35, 390, 30, 35);
+            //---- icon_relation ----
+            icon_relation.setIcon(new ImageIcon(getClass().getResource("/img/link-edit.png")));
+            Nav.add(icon_relation, JLayeredPane.DEFAULT_LAYER);
+            icon_relation.setBounds(35, 390, 30, 35);
+
+            //---- rolesLabel ----
+            rolesLabel.setText("Roles");
+            rolesLabel.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+            rolesLabel.setForeground(Color.white);
+            Nav.add(rolesLabel, JLayeredPane.DEFAULT_LAYER);
+            rolesLabel.setBounds(75, 286, 35, 20);
+
+            //---- peopleLabel ----
+            peopleLabel.setText("Personas");
+            peopleLabel.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+            peopleLabel.setForeground(Color.white);
+            Nav.add(peopleLabel, JLayeredPane.DEFAULT_LAYER);
+            peopleLabel.setBounds(75, 341, 60, 20);
+
+            //---- RelationshipsLabel ----
+            RelationshipsLabel.setText("Relaciones");
+            RelationshipsLabel.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+            RelationshipsLabel.setForeground(Color.white);
+            Nav.add(RelationshipsLabel, JLayeredPane.DEFAULT_LAYER);
+            RelationshipsLabel.setBounds(75, 396, 70, 20);
+
+            //---- optionBack_1 ----
+            optionBack_1.setBackground(new Color(120, 223, 225, 106));
+            optionBack_1.setRequestFocusEnabled(false);
+            optionBack_1.setIcon(null);
+            optionBack_1.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    optionBack_1MouseClicked(e);
+                }
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    optionBack_1MouseEntered(e);
+                }
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    optionBack_1MouseExited(e);
+                }
+            });
+            Nav.add(optionBack_1, JLayeredPane.DEFAULT_LAYER);
+            optionBack_1.setBounds(0, 215, 203, 55);
+
+            //---- optionBack_2 ----
+            optionBack_2.setBackground(new Color(60, 63, 65, 0));
+            optionBack_2.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    optionBack_2MouseClicked(e);
+                }
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    optionBack_2MouseEntered(e);
+                }
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    optionBack_2MouseExited(e);
+                }
+            });
+            Nav.add(optionBack_2, JLayeredPane.DEFAULT_LAYER);
+            optionBack_2.setBounds(0, 270, 203, 55);
+
+            //---- optionBack_3 ----
+            optionBack_3.setBackground(new Color(60, 63, 65, 0));
+            optionBack_3.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    optionBack_3MouseClicked(e);
+                }
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    optionBack_3MouseEntered(e);
+                }
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    optionBack_3MouseExited(e);
+                }
+            });
+            Nav.add(optionBack_3, JLayeredPane.DEFAULT_LAYER);
+            optionBack_3.setBounds(0, 325, 203, 55);
+
+            //---- optionBack_4 ----
+            optionBack_4.setBackground(new Color(60, 63, 65, 0));
+            optionBack_4.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    optionBack_4MouseClicked(e);
+                }
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    optionBack_4MouseEntered(e);
+                }
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    optionBack_4MouseExited(e);
+                }
+            });
+            Nav.add(optionBack_4, JLayeredPane.DEFAULT_LAYER);
+            optionBack_4.setBounds(0, 380, 203, 55);
 
             //---- main_back ----
             main_back.setIcon(new ImageIcon(getClass().getResource("/img/Main-back.png")));
             Nav.add(main_back, JLayeredPane.DEFAULT_LAYER);
-            main_back.setBounds(0, 0, 203, 575);
+            main_back.setBounds(0, 0, 203, 576);
         }
 
-        GroupLayout layout = new GroupLayout(this);
-        setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup()
-                .addGroup(layout.createSequentialGroup()
+        GroupLayout contentPaneLayout = new GroupLayout(contentPane);
+        contentPane.setLayout(contentPaneLayout);
+        contentPaneLayout.setHorizontalGroup(
+            contentPaneLayout.createParallelGroup()
+                .addGroup(contentPaneLayout.createSequentialGroup()
                     .addComponent(Nav, GroupLayout.PREFERRED_SIZE, 203, GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, 0)
-                    .addGroup(layout.createParallelGroup()
+                    .addGroup(contentPaneLayout.createParallelGroup()
                         .addComponent(Header, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(panel2, GroupLayout.DEFAULT_SIZE, 822, Short.MAX_VALUE)))
+                        .addComponent(main, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup()
-                .addGroup(layout.createSequentialGroup()
+        contentPaneLayout.setVerticalGroup(
+            contentPaneLayout.createParallelGroup()
+                .addGroup(contentPaneLayout.createSequentialGroup()
                     .addComponent(Header, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, 0)
-                    .addComponent(panel2, GroupLayout.DEFAULT_SIZE, 526, Short.MAX_VALUE))
-                .addComponent(Nav, GroupLayout.DEFAULT_SIZE, 575, Short.MAX_VALUE)
+                    .addComponent(main, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(Nav)
         );
+        pack();
+        setLocationRelativeTo(getOwner());
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
+
 }
