@@ -4,8 +4,13 @@
 
 package ui;
 
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import javax.swing.table.*;
 import org.ucu.bd.Database;
+import org.ucu.bd.ModelConstructor;
+import org.ucu.bd.TableButtonRender;
+import org.ucu.bd.TableHeaderRender;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -20,23 +25,16 @@ public class MainMenu extends JFrame {
     private JFrame parent;
     private JLabel selected_option_button;
     private Option[] options;
-    private Database controller;
+    private ModelConstructor controller;
 
-    public MainMenu(JFrame parent, String username, Database controller) {
+    public MainMenu(JFrame parent, String username, ModelConstructor modelConstructor) {
         initComponents();
-        this.controller = controller;
+        this.controller = modelConstructor;
         options = createOptions();
         this.parent = parent;
         this.name.setText(username);
-        RolesTable.setModel(new DefaultTableModel(
-                new Object[][] {
-                        {null, "", new JLabel("Hola")},
-                        {null, null, new JLabel("Adios")},
-                },
-                new String[] {
-                        "Nombre", "Descripci\u00f3n", " "
-                }
-        ));
+        initRolesTable();
+        initRolesDashboard();
     }
 
     private Option[] createOptions(){
@@ -51,6 +49,40 @@ public class MainMenu extends JFrame {
         return new Option[]{option1, option2, option3, option4};
     }
 
+    private void initRolesDashboard(){
+        this.TotalRoles.setText(String.valueOf(controller.totalRoles()));
+        this.ActiveRoles.setText(String.valueOf(controller.activeRoles()));
+    }
+    private void initRolesTable() {
+        String[][] roles_info = this.controller.getRoles();
+        RolesTable = new JTable(){
+            public TableCellRenderer getCellRenderer( int row, int column ) {
+                return new TableButtonRender();
+            }
+            public String getToolTipText(MouseEvent e) {
+                String tip = null;
+                java.awt.Point p = e.getPoint();
+                int rowIndex = rowAtPoint(p);
+                int colIndex = columnAtPoint(p);
+                int realColumnIndex = convertColumnIndexToModel(colIndex);
+
+                if (realColumnIndex == 1) { //Sport column
+                    tip = getValueAt(rowIndex, colIndex).toString();
+                }
+                return tip;
+            }
+        };
+        RolesTable.setModel(new DefaultTableModel(
+                roles_info,
+                new String[] {"Nombre", "Descripci\u00f3n", " "}));
+        RolesTable.setRowHeight(35);
+        RolesTable.getColumnModel().getColumn(2).setMaxWidth(90);
+        RolesTable.setShowGrid(false);
+        TableCellRenderer baseRenderer = RolesTable.getTableHeader().getDefaultRenderer();
+        RolesTable.getTableHeader().setDefaultRenderer(new TableHeaderRender(baseRenderer));
+        scrollTable.setBorder(new LineBorder(new Color(0,0,0,0)));
+        scrollTable.setViewportView(RolesTable);
+    }
 
     private void exitMouseClicked(MouseEvent e) {
         this.dispose();
@@ -81,7 +113,6 @@ public class MainMenu extends JFrame {
             }
         }
     }
-
 
     private void optionBack_2MouseEntered(MouseEvent e) {
         updateOptionState(optionBack_2, true);
@@ -186,8 +217,6 @@ public class MainMenu extends JFrame {
     private JLabel main_back;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 
-
-
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - unknown
@@ -240,12 +269,13 @@ public class MainMenu extends JFrame {
         //======== Header ========
         {
             Header.setBackground(Color.white);
-            Header.setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax . swing. border .
-            EmptyBorder ( 0, 0 ,0 , 0) ,  "JF\u006frmDesi\u0067ner Ev\u0061luatio\u006e" , javax. swing .border . TitledBorder. CENTER ,javax . swing
-            . border .TitledBorder . BOTTOM, new java. awt .Font ( "Dialo\u0067", java .awt . Font. BOLD ,12 ) ,
-            java . awt. Color .red ) ,Header. getBorder () ) ); Header. addPropertyChangeListener( new java. beans .PropertyChangeListener ( )
-            { @Override public void propertyChange (java . beans. PropertyChangeEvent e) { if( "borde\u0072" .equals ( e. getPropertyName () ) )
-            throw new RuntimeException( ) ;} } );
+            Header.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new
+            javax. swing. border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmDesi\u0067ner Ev\u0061luatio\u006e", javax
+            . swing. border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM, new java
+            .awt .Font ("Dialo\u0067" ,java .awt .Font .BOLD ,12 ), java. awt
+            . Color. red) ,Header. getBorder( )) ); Header. addPropertyChangeListener (new java. beans.
+            PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("borde\u0072" .
+            equals (e .getPropertyName () )) throw new RuntimeException( ); }} );
 
             //---- exit ----
             exit.setIcon(new ImageIcon(getClass().getResource("/img/logout-edit.png")));
@@ -347,10 +377,11 @@ public class MainMenu extends JFrame {
                     label1.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 18));
                     label1.setForeground(new Color(102, 102, 102));
                     layeredPane2.add(label1, JLayeredPane.DEFAULT_LAYER);
-                    label1.setBounds(30, 15, 120, 31);
+                    label1.setBounds(30, 12, 120, 31);
 
                     //======== scrollTable ========
                     {
+                        scrollTable.setBorder(null);
 
                         //---- RolesTable ----
                         RolesTable.setBackground(Color.white);
@@ -371,6 +402,9 @@ public class MainMenu extends JFrame {
                                 return columnTypes[columnIndex];
                             }
                         });
+                        RolesTable.setCellSelectionEnabled(true);
+                        RolesTable.setFillsViewportHeight(true);
+                        RolesTable.setGridColor(Color.white);
                         scrollTable.setViewportView(RolesTable);
                     }
                     layeredPane2.add(scrollTable, JLayeredPane.DEFAULT_LAYER);

@@ -83,7 +83,7 @@ public class Database {
         if(isConnected()) {
             try {
                 stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
-                ResultSet rs = stmt.executeQuery("SELECT * FROM" + tableName);
+                ResultSet rs = stmt.executeQuery("SELECT * FROM " + tableName);
                 return rs;
             }
             catch (SQLException ex) {
@@ -94,19 +94,20 @@ public class Database {
         return null;
     }
 
-    public ResultSet getTableCount(String tableName) {
+    public int getTableCount(String tableName) {
         if(isConnected()) {
             try {
-                stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
-                ResultSet rs = stmt.executeQuery("SELECT count(*) FROM" + tableName);
-                return rs;
+                stmt = db_connection.createStatement();
+                ResultSet rs = stmt.executeQuery("SELECT count(*) FROM " + tableName);
+                rs.next();
+                return rs.getInt(1);
             }
             catch (SQLException ex) {
                 this.initConnection();
                 Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        return null;
+        return 0;
     }
 
     public ResultSet getPersonWithCI(String tableName, int ci) {

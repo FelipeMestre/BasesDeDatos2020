@@ -20,9 +20,9 @@ public class Program {
             Initialize();
             Database primerDB = new Database(user, password, Database.generateUri(host, port, db_name));
             primerDB.initConnection();
-            UI user_interface = new UI(primerDB);
+            ModelConstructor model = new ModelConstructor(primerDB);
+            UI user_interface = new UI(primerDB, model);
             user_interface.initialize();
-
         } catch(Exception e){
             System.out.println("Error durante la inicialización\n" + e.getMessage());
             e.printStackTrace();

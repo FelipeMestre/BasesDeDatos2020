@@ -23,6 +23,7 @@ import java.security.spec.InvalidKeySpecException;
 import Utils.PasswordManager;
 import model.currentUser;
 import org.ucu.bd.Database;
+import org.ucu.bd.ModelConstructor;
 
 /**
  * @author unknown
@@ -30,6 +31,7 @@ import org.ucu.bd.Database;
 public class UI extends JFrame {
 
     private Database loginDatabase;
+    private ModelConstructor model;
     private String lastUsedUsername;
     private int tries = 3;
     private final Border defaultBorder = new LineBorder(Color.lightGray, 1, true);
@@ -39,9 +41,10 @@ public class UI extends JFrame {
     private int xx;
     private int xy;
 
-    public UI(Database loginDatabase)
+    public UI(Database loginDatabase, ModelConstructor model)
     {
         this.loginDatabase = loginDatabase;
+        this.model = model;
         initComponents();
     }
 
@@ -123,7 +126,7 @@ public class UI extends JFrame {
                                 currentUser user = currentUser.getCurrentUser();
                                 user.setUser_id(rs.getInt("id_usuario"));
 
-                                JFrame menu = new MainMenu(this, userText, this.loginDatabase);
+                                JFrame menu = new MainMenu(this, userText, this.model);
                                 menu.setVisible(true);
                                 this.dispose();
 
