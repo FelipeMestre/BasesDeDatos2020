@@ -4,6 +4,8 @@
 
 package ui;
 
+import org.ucu.bd.ModelConstructor;
+
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.GroupLayout;
@@ -12,8 +14,30 @@ import javax.swing.GroupLayout;
  * @author unknown
  */
 public class CreateRolForm extends JFrame {
-    public CreateRolForm() {
+
+    private ModelConstructor constructor;
+    public CreateRolForm(ModelConstructor controller) {
+        this.constructor = controller;
         initComponents();
+    }
+
+    private void SubmitActionPerformed() {
+        String name = Nombre.getText();
+        String description = Descripcion.getText();
+        if (name != null && name.length() <= 50 && description != null && description.length() <= 200){
+            constructor.createRole(name,description);
+            this.dispose();
+        } else {
+            if(name == null){
+                JOptionPane.showMessageDialog(this,"Ingrese Nombre");
+            } else if (name.length() > 50){
+                JOptionPane.showMessageDialog(this,"El nombre debe ser menor a 50 caracteres");
+            } else if(description == null){
+                JOptionPane.showMessageDialog(this,"Ingrese Descripcion");
+            } else if(description.length() > 200){
+                JOptionPane.showMessageDialog(this,"La descripcion debe ser menor a 200 caracteres");
+            }
+        }
     }
 
     private void initComponents() {
@@ -36,13 +60,13 @@ public class CreateRolForm extends JFrame {
         //======== panel1 ========
         {
             panel1.setBackground(new Color(244, 244, 244));
-            panel1.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax
-            . swing. border. EmptyBorder( 0, 0, 0, 0) , "JFor\u006dDesi\u0067ner \u0045valu\u0061tion", javax. swing
-            . border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM, new java .awt .
-            Font ("Dia\u006cog" ,java .awt .Font .BOLD ,12 ), java. awt. Color. red
-            ) ,panel1. getBorder( )) ); panel1. addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override
-            public void propertyChange (java .beans .PropertyChangeEvent e) {if ("bord\u0065r" .equals (e .getPropertyName (
-            ) )) throw new RuntimeException( ); }} );
+            panel1.setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax
+            . swing. border .EmptyBorder ( 0, 0 ,0 , 0) ,  "JFor\u006dDesi\u0067ner \u0045valu\u0061tion" , javax. swing
+            .border . TitledBorder. CENTER ,javax . swing. border .TitledBorder . BOTTOM, new java. awt .
+            Font ( "Dia\u006cog", java .awt . Font. BOLD ,12 ) ,java . awt. Color .red
+            ) ,panel1. getBorder () ) ); panel1. addPropertyChangeListener( new java. beans .PropertyChangeListener ( ){ @Override
+            public void propertyChange (java . beans. PropertyChangeEvent e) { if( "bord\u0065r" .equals ( e. getPropertyName (
+            ) ) )throw new RuntimeException( ) ;} } );
 
             //---- Title ----
             Title.setText("Crear un nuevo rol ");
@@ -83,6 +107,7 @@ public class CreateRolForm extends JFrame {
             Submit.setForeground(Color.white);
             Submit.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
             Submit.setBorderPainted(false);
+            Submit.addActionListener(e -> SubmitActionPerformed());
 
             GroupLayout panel1Layout = new GroupLayout(panel1);
             panel1.setLayout(panel1Layout);
@@ -121,7 +146,7 @@ public class CreateRolForm extends JFrame {
                         .addComponent(scrollPane1, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
                         .addGap(34, 34, 34)
                         .addComponent(Submit)
-                        .addContainerGap(34, Short.MAX_VALUE))
+                        .addContainerGap(28, Short.MAX_VALUE))
             );
         }
 

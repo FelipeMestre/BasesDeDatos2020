@@ -43,4 +43,9 @@ public class ModelConstructor {
     public int activeRoles() {
         return this.db.getTableCount("vista_roles_activos");
     }
+
+    public void createRole(String name, String description){
+        this.db.createRol(name,description);
+    }
+
 }

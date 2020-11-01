@@ -12,7 +12,7 @@ new FormModel {
 			"background": new java.awt.Color( 255, 255, 255, 255 )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 				"$horizontalGroup": "par l {seq {par l {seq {space :p:158:p, comp Title:::p::p}, seq l {space :p:47:p, par l {comp NameTitle::l:p::p, comp Nombre::l:p:215:p, comp DescTitle:::p:134:p, comp scrollPane1::l:p:278:p}}}, space ::158:x}, seq t {space :0:358:x, comp Submit:::p:103:p, space :p:47:p}}"
-				"$verticalGroup": "par l {seq l {space :p:16:p, comp Title:::p::p, space s:::p, comp NameTitle:::p::p, space :::p, comp Nombre:::p:30:p, space :0:0:p, comp DescTitle:::p::p, space :::p, comp scrollPane1:::p:46:p, space :p:34:p, comp Submit:::p::p, space ::34:x}}"
+				"$verticalGroup": "par l {seq l {space :p:16:p, comp Title:::p::p, space s:::p, comp NameTitle:::p::p, space :::p, comp Nombre:::p:30:p, space :0:0:p, comp DescTitle:::p::p, space :::p, comp scrollPane1:::p:46:p, space :p:34:p, comp Submit:::p::p, space ::28:x}}"
 			} ) {
 				name: "panel1"
 				"background": new java.awt.Color( 244, 244, 244, 255 )
@@ -59,6 +59,7 @@ new FormModel {
 					"foreground": new java.awt.Color( 255, 255, 255, 255 )
 					"font": new java.awt.Font( "Segoe UI Semibold", 0, 14 )
 					"borderPainted": false
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "SubmitActionPerformed", false ) )
 				} )
 			} )
 		}, new FormLayoutConstraints( null ) {
