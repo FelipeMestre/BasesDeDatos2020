@@ -232,4 +232,19 @@ public class Database {
         }
         return null;
     }
+
+    public ResultSet deleteRow(String table_name, int row_id, String col_name) {
+        if(isConnected()) {
+            try {
+                stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
+                ResultSet rs = stmt.executeQuery("DELETE FROM " + table_name + " WHERE " + col_name + " = " + row_id);
+                return rs;
+            }
+            catch (SQLException ex) {
+                this.initConnection();
+                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return null;
+    }
 }
