@@ -1,6 +1,8 @@
 package org.ucu.bd;
 
+import javax.swing.*;
 import javax.xml.crypto.Data;
+import java.awt.*;
 import java.sql.ResultSet;
 
 public class ModelConstructor {
@@ -44,8 +46,23 @@ public class ModelConstructor {
         return this.db.getTableCount("vista_roles_activos");
     }
 
-    public void createRole(String name, String description){
-        this.db.createRol(name,description);
+    public boolean createModel(String name, String description, String tablename, Component father){
+        if (name != null && name.length() <= 50 && description != null && description.length() <= 200){
+            this.db.createRol(name,description,tablename);
+            return true;
+        } else {
+            if(name == null){
+                JOptionPane.showMessageDialog(father,"Ingrese Nombre");
+            } else if (name.length() > 50){
+                JOptionPane.showMessageDialog(father,"El nombre debe ser menor a 50 caracteres");
+            } else if(description == null){
+                JOptionPane.showMessageDialog(father,"Ingrese Descripcion");
+            } else if(description.length() > 200){
+                JOptionPane.showMessageDialog(father,"La descripcion debe ser menor a 200 caracteres");
+            }
+            return false;
+        }
+
     }
 
 }

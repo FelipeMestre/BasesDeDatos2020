@@ -1,5 +1,11 @@
 package org.ucu.bd;
 
+import Utils.PasswordManager;
+import model.currentUser;
+import ui.MainMenu;
+
+import javax.swing.*;
+import java.awt.*;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,19 +47,53 @@ public class Database {
         return "jdbc:postgresql://" + ip + ":" +  port + "/" + DB_name;
     }
 
-    public ResultSet login (String user,String tableName){
+    public boolean login (String user,String passwordText, String tableName, Component parent){
         if (isConnected()) {
             try {
                 stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE,ResultSet.TYPE_FORWARD_ONLY);
                 ResultSet rs = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE nombre_usuario = '" + user
                         + "'");
-                return rs;
+
+                if (!rs.next()){ //Si no hay resultados
+
+                    JOptionPane.showMessageDialog(parent, "Usuario Incorrecto");
+
+                } else { //Si hay resultados
+                    int tries = rs.getInt("availabletries");
+                    if (rs.getBoolean("admin")){ //Si es administrador
+                        if (!rs.getBoolean("bloqueado")){ //Si no esta bloqueado
+                            if(PasswordManager.validatePassword2(rs.getString("Contraseña"),passwordText) ){
+                                //Iniciar programa
+                                if (tries != 5){
+                                    rs.updateInt("availableTries",5);
+                                    rs.updateRow();
+                                }
+                                currentUser logedUser = currentUser.getCurrentUser();
+                                logedUser.setUser_id(rs.getInt("id_usuario"));
+                                return true;
+                            } else {
+                                JOptionPane.showMessageDialog(parent, "Contraseña Incorrecta");
+                                if(tries == 0){
+                                    rs.updateBoolean("bloqueado",true);
+                                } else {
+                                    rs.updateInt("availableTries",--tries);
+                                }
+                                rs.updateRow();
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(parent, "Cuenta Bloqueada.\nContacte al administrador");
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(parent, "Usuario Incorrecto");
+                    }
+                }
+                rs.close();
             } catch (SQLException ex) {
                 this.initConnection();
                 Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        return null;
+        return false;
     }
 
     public void join(String userName, String password, String person_ci){
@@ -188,11 +228,11 @@ public class Database {
         return null;
     }
 
-    public ResultSet createRol(String name, String description) {
+    public ResultSet createRol(String name, String description, String tablename) {
         if(isConnected()) {
             try {
                 stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
-                ResultSet rs = stmt.executeQuery("INSERT INTO rol (nombre_rol, descripcion) VALUES ('" + name + "','" + description + "'");
+                ResultSet rs = stmt.executeQuery("INSERT INTO "+" tablename "+" (nombre_"+"+tablename"+", descripcion) VALUES ('" + name + "','" + description + "'");
                 return rs;
             }
             catch (SQLException ex) {

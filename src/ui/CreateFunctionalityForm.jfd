@@ -1,0 +1,70 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {comp panel1::l:::x}"
+			"$verticalGroup": "par l {comp panel1::l:::x}"
+		} ) {
+			name: "this"
+			"undecorated": true
+			"background": new java.awt.Color( 255, 255, 255, 255 )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq t {space :0:358:x, comp Submit:::p:103:p, space :p:47:p}, seq {par l {seq {space :p:47:p, par l {comp DescTitle:::p:134:p, comp scrollPane1::l:p:278:p, comp NameTitle::l:p::p, comp Nombre::l:p:215:p}}, seq l {space :p:131:p, comp Title:::p::p}}, space ::134:x}}"
+				"$verticalGroup": "par l {seq l {space :p:16:p, comp Title:::p::p, space s:::p, comp NameTitle:::p::p, space :::p, comp Nombre:::p:30:p, space :::p, comp DescTitle:::p::p, space :::p, comp scrollPane1:::p:46:p, space :p:34:p, comp Submit:::p::p, space ::22:x}}"
+			} ) {
+				name: "panel1"
+				"background": new java.awt.Color( 244, 244, 244, 255 )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "Title"
+					"text": "Crear Una Funcionalidad"
+					"font": new java.awt.Font( "Segoe UI Semibold", 0, 22 )
+					"foreground": new java.awt.Color( 112, 112, 112, 255 )
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "NameTitle"
+					"text": "Nombre de funcionalidad"
+					"font": new java.awt.Font( "Segoe UI Semibold", 0, 16 )
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "DescTitle"
+					"text": "Descripción"
+					"font": new java.awt.Font( "Segoe UI Semibold", 0, 16 )
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "Nombre"
+					"background": new java.awt.Color( 255, 255, 255, 255 )
+					"foreground": sfield java.awt.Color darkGray
+					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				} )
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "scrollPane1"
+					add( new FormComponent( "javax.swing.JTextArea" ) {
+						name: "Descripcion"
+						"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"background": new java.awt.Color( 255, 255, 255, 255 )
+						"lineWrap": true
+						"caretColor": new java.awt.Color( 255, 255, 255, 255 )
+						"foreground": sfield java.awt.Color darkGray
+						"font": new java.awt.Font( "Segoe UI", 0, 12 )
+						"margin": new java.awt.Insets( 0, 10, 0, 0 )
+					} )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "Submit"
+					"text": "Crear"
+					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"background": new java.awt.Color( 42, 58, 64, 255 )
+					"foreground": new java.awt.Color( 255, 255, 255, 255 )
+					"font": new java.awt.Font( "Segoe UI Semibold", 0, 14 )
+					"borderPainted": false
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "SubmitActionPerformed", false ) )
+				} )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 510, 320 )
+		} )
+	}
+}

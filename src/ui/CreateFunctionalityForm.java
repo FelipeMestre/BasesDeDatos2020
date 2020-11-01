@@ -6,17 +6,16 @@ package ui;
 
 import org.ucu.bd.ModelConstructor;
 
-import java.awt.*;
 import javax.swing.*;
-import javax.swing.GroupLayout;
+import java.awt.*;
 
 /**
  * @author unknown
  */
-public class CreateRolForm extends JFrame {
+public class CreateFunctionalityForm extends JFrame {
 
     private ModelConstructor constructor;
-    public CreateRolForm(ModelConstructor controller) {
+    public CreateFunctionalityForm(ModelConstructor controller) {
         this.constructor = controller;
         initComponents();
     }
@@ -24,7 +23,7 @@ public class CreateRolForm extends JFrame {
     private void SubmitActionPerformed() {
         String name = Nombre.getText();
         String description = Descripcion.getText();
-        if (constructor.createModel(name,description,"Rol",this)){
+        if (constructor.createModel(name,description,"funcionalidad",this)){
             this.dispose();
         }
     }
@@ -49,22 +48,20 @@ public class CreateRolForm extends JFrame {
         //======== panel1 ========
         {
             panel1.setBackground(new Color(244, 244, 244));
-            panel1.setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder (
-            new javax . swing. border .EmptyBorder ( 0, 0 ,0 , 0) ,  "JF\u006frmDesi\u0067ner Ev\u0061luatio\u006e"
-            , javax. swing .border . TitledBorder. CENTER ,javax . swing. border .TitledBorder . BOTTOM
-            , new java. awt .Font ( "Dialo\u0067", java .awt . Font. BOLD ,12 )
-            ,java . awt. Color .red ) ,panel1. getBorder () ) ); panel1. addPropertyChangeListener(
-            new java. beans .PropertyChangeListener ( ){ @Override public void propertyChange (java . beans. PropertyChangeEvent e
-            ) { if( "borde\u0072" .equals ( e. getPropertyName () ) )throw new RuntimeException( )
-            ;} } );
+            panel1.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing. border.
+            EmptyBorder( 0, 0, 0, 0) , "JFor\u006dDesi\u0067ner \u0045valu\u0061tion", javax. swing. border. TitledBorder. CENTER, javax. swing
+            . border. TitledBorder. BOTTOM, new java .awt .Font ("Dia\u006cog" ,java .awt .Font .BOLD ,12 ),
+            java. awt. Color. red) ,panel1. getBorder( )) ); panel1. addPropertyChangeListener (new java. beans. PropertyChangeListener( )
+            { @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("bord\u0065r" .equals (e .getPropertyName () ))
+            throw new RuntimeException( ); }} );
 
             //---- Title ----
-            Title.setText("Crear un nuevo rol ");
+            Title.setText("Crear Una Funcionalidad");
             Title.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 22));
             Title.setForeground(new Color(112, 112, 112));
 
             //---- NameTitle ----
-            NameTitle.setText("Nombre del rol");
+            NameTitle.setText("Nombre de funcionalidad");
             NameTitle.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 16));
 
             //---- DescTitle ----
@@ -103,23 +100,23 @@ public class CreateRolForm extends JFrame {
             panel1.setLayout(panel1Layout);
             panel1Layout.setHorizontalGroup(
                 panel1Layout.createParallelGroup()
-                    .addGroup(panel1Layout.createSequentialGroup()
-                        .addGroup(panel1Layout.createParallelGroup()
-                            .addGroup(panel1Layout.createSequentialGroup()
-                                .addGap(158, 158, 158)
-                                .addComponent(Title))
-                            .addGroup(panel1Layout.createSequentialGroup()
-                                .addGap(47, 47, 47)
-                                .addGroup(panel1Layout.createParallelGroup()
-                                    .addComponent(NameTitle)
-                                    .addComponent(Nombre, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(DescTitle, GroupLayout.PREFERRED_SIZE, 134, GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(scrollPane1, GroupLayout.PREFERRED_SIZE, 278, GroupLayout.PREFERRED_SIZE))))
-                        .addContainerGap(158, Short.MAX_VALUE))
                     .addGroup(GroupLayout.Alignment.TRAILING, panel1Layout.createSequentialGroup()
                         .addGap(0, 358, Short.MAX_VALUE)
                         .addComponent(Submit, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)
                         .addGap(47, 47, 47))
+                    .addGroup(panel1Layout.createSequentialGroup()
+                        .addGroup(panel1Layout.createParallelGroup()
+                            .addGroup(panel1Layout.createSequentialGroup()
+                                .addGap(47, 47, 47)
+                                .addGroup(panel1Layout.createParallelGroup()
+                                    .addComponent(DescTitle, GroupLayout.PREFERRED_SIZE, 134, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(scrollPane1, GroupLayout.PREFERRED_SIZE, 278, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(NameTitle)
+                                    .addComponent(Nombre, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(panel1Layout.createSequentialGroup()
+                                .addGap(131, 131, 131)
+                                .addComponent(Title)))
+                        .addContainerGap(134, Short.MAX_VALUE))
             );
             panel1Layout.setVerticalGroup(
                 panel1Layout.createParallelGroup()
@@ -130,13 +127,13 @@ public class CreateRolForm extends JFrame {
                         .addComponent(NameTitle)
                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Nombre, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(DescTitle)
                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(scrollPane1, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
                         .addGap(34, 34, 34)
                         .addComponent(Submit)
-                        .addContainerGap(28, Short.MAX_VALUE))
+                        .addContainerGap(22, Short.MAX_VALUE))
             );
         }
 

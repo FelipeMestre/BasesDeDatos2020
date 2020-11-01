@@ -13,12 +13,6 @@ import javax.swing.border.*;
 
 
 //Cosas de passwords
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 
 import Utils.PasswordManager;
 import model.currentUser;
@@ -28,7 +22,7 @@ import org.ucu.bd.ModelConstructor;
 /**
  * @author unknown
  */
-public class UI extends JFrame {
+public class Login extends JFrame {
 
     private Database loginDatabase;
     private ModelConstructor model;
@@ -41,7 +35,7 @@ public class UI extends JFrame {
     private int xx;
     private int xy;
 
-    public UI(Database loginDatabase, ModelConstructor model)
+    public Login(Database loginDatabase, ModelConstructor model)
     {
         this.loginDatabase = loginDatabase;
         this.model = model;
@@ -107,48 +101,11 @@ public class UI extends JFrame {
         String passwordText = password.getText();
         if (user!= null && password != null){
             //Ejecutamos el query
-            ResultSet rs = loginDatabase.login(userText, "usuario");
-            try {
-                if (!rs.next()){ //Si no hay resultados
-
-                    JOptionPane.showMessageDialog(this, "Usuario Incorrecto");
-
-                } else { //Si hay resultados
-                    int tries = rs.getInt("availabletries");
-                    if (rs.getBoolean("admin")){ //Si es administrador
-                        if (!rs.getBoolean("bloqueado")){ //Si no esta bloqueado
-                            if(PasswordManager.validatePassword2(rs.getString("Contraseña"),passwordText) ){
-                                //Iniciar programa
-                                if (tries != 5){
-                                    rs.updateInt("availableTries",5);
-                                    rs.updateRow();
-                                }
-                                currentUser user = currentUser.getCurrentUser();
-                                user.setUser_id(rs.getInt("id_usuario"));
-
-                                JFrame menu = new MainMenu(this, userText, this.model);
-                                menu.setVisible(true);
-                                this.dispose();
-
-                            } else {
-                                JOptionPane.showMessageDialog(this, "Contraseña Incorrecta");
-                                if(tries == 0){
-                                    rs.updateBoolean("bloqueado",true);
-                                } else {
-                                    rs.updateInt("availableTries",--tries);
-                                }
-                                rs.updateRow();
-                            }
-                        } else {
-                            JOptionPane.showMessageDialog(this, "Cuenta Bloqueada.\nContacte al administrador");
-                        }
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Usuario Incorrecto");
-                    }
-                }
-                rs.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
+            if(loginDatabase.login(userText, passwordText,"usuario",this))
+            {
+                JFrame menu = new MainMenu(this, userText, this.model);
+                menu.setVisible(true);
+                this.dispose();
             }
         }
     }
@@ -168,7 +125,7 @@ public class UI extends JFrame {
         //======== this ========
         setResizable(false);
         setUndecorated(true);
-        setIconImage(new ImageIcon(getClass().getResource("/org/ucu/bd/img/logo.png")).getImage());
+        setIconImage(new ImageIcon(getClass().getResource("/img/logo.png")).getImage());
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {

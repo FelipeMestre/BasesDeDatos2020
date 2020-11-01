@@ -2,7 +2,6 @@ package org.ucu.bd;
 
 import java.util.HashMap;
 
-import com.sun.tools.javac.Main;
 import ui.*;
 
 public class Program {
@@ -21,7 +20,7 @@ public class Program {
             Database primerDB = new Database(user, password, Database.generateUri(host, port, db_name));
             primerDB.initConnection();
             ModelConstructor model = new ModelConstructor(primerDB);
-            UI user_interface = new UI(primerDB, model);
+            Login user_interface = new Login(primerDB, model);
             user_interface.initialize();
         } catch(Exception e){
             System.out.println("Error durante la inicialización\n" + e.getMessage());
