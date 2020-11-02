@@ -38,13 +38,13 @@ public class MainMenu extends JFrame {
     }
 
     private Option[] createOptions(){
-        Option option1 = new Option(optionBack_1, usersLabel, icon_user, "/img/option.png",
+        Option option1 = new Option(Usuarios_Button, usersLabel, icon_user, "/img/option.png",
                 "/img/usability-edit.png", "/img/usability-edit-selected.png");
-        Option option2 = new Option(optionBack_2, rolesLabel, icon_roles, "/img/option.png",
+        Option option2 = new Option(Roles_Button, rolesLabel, icon_roles, "/img/option.png",
                 "/img/roles-edit.png", "/img/diamond.png");
-        Option option3 = new Option(optionBack_3, peopleLabel, icon_people, "/img/option.png",
+        Option option3 = new Option(Personas_Button, peopleLabel, icon_people, "/img/option.png",
                 "/img/people-edit.png","/img/people-edit-selected.png");
-        Option option4 = new Option(optionBack_4, RelationshipsLabel, icon_relation, "/img/option.png",
+        Option option4 = new Option(Relaciones_Button, RelationshipsLabel, icon_relation, "/img/option.png",
                         "/img/link-edit.png","/img/link-edit-selected.png");
         return new Option[]{option1, option2, option3, option4};
     }
@@ -97,11 +97,11 @@ public class MainMenu extends JFrame {
     }
 
     private void optionBack_1MouseEntered(MouseEvent e) {
-        updateOptionState(optionBack_1, true);
+        updateOptionState(Usuarios_Button, true);
     }
 
     private void optionBack_1MouseExited(MouseEvent e) {
-        updateOptionState(optionBack_1, false);
+        updateOptionState(Usuarios_Button, false);
     }
 
     private void updateOptionState(JLabel option,boolean state){
@@ -115,46 +115,46 @@ public class MainMenu extends JFrame {
     }
 
     private void optionBack_2MouseEntered(MouseEvent e) {
-        updateOptionState(optionBack_2, true);
+        updateOptionState(Roles_Button, true);
     }
 
     private void optionBack_2MouseExited(MouseEvent e) {
-        updateOptionState(optionBack_2, false);
+        updateOptionState(Roles_Button, false);
     }
 
     private void optionBack_3MouseEntered(MouseEvent e) {
-        updateOptionState(optionBack_3, true);
+        updateOptionState(Personas_Button, true);
     }
 
     private void optionBack_3MouseExited(MouseEvent e) {
-        updateOptionState(optionBack_3, false);
+        updateOptionState(Personas_Button, false);
     }
 
     private void optionBack_4MouseEntered(MouseEvent e) {
-        updateOptionState(optionBack_4, true);
+        updateOptionState(Relaciones_Button, true);
     }
 
     private void optionBack_4MouseExited(MouseEvent e) {
-        updateOptionState(optionBack_4, false);
+        updateOptionState(Relaciones_Button, false);
     }
 
     private void optionBack_2MouseClicked(MouseEvent e) {
         resetOptions();
         options[1].select();
         changeCard("roles");
-        selected_option_button = optionBack_2;
+        selected_option_button = Roles_Button;
     }
 
     private void optionBack_1MouseClicked(MouseEvent e) {
         resetOptions();
         options[0].select();
-        selected_option_button = optionBack_1;
+        selected_option_button = Usuarios_Button;
     }
 
     private void optionBack_3MouseClicked(MouseEvent e) {
         resetOptions();
         options[2].select();
-        selected_option_button = optionBack_3;
+        selected_option_button = Personas_Button;
     }
 
     private void resetOptions(){
@@ -171,7 +171,7 @@ public class MainMenu extends JFrame {
     private void optionBack_4MouseClicked(MouseEvent e) {
         resetOptions();
         options[3].select();
-        selected_option_button = optionBack_4;
+        selected_option_button = Relaciones_Button;
     }
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
     // Generated using JFormDesigner Evaluation license - unknown
