@@ -4,24 +4,18 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {comp panel1::l:::x}"
-			"$verticalGroup": "par l {comp panel1::l:::x}"
+			"$horizontalGroup": "par l {seq {space :0:0:p, par l {comp panel2::l:::x, comp panel1::l:::x, comp panel3::l:::x}}}"
+			"$verticalGroup": "par l {seq t {comp panel2:::p::p, space :0:0:p, comp panel1:::p::p, space :0:0:p, comp panel3:::p::p}}"
 		} ) {
 			name: "this"
 			"undecorated": true
 			"background": new java.awt.Color( 255, 255, 255, 255 )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-				"$horizontalGroup": "par l {seq {par l {seq {space :p:158:p, comp Title:::p::p}, seq l {space :p:47:p, par l {comp NameTitle::l:p::p, comp Nombre::l:p:215:p, comp DescTitle:::p:134:p, comp scrollPane1::l:p:278:p}}}, space ::158:x}, seq t {space :0:358:x, comp Submit:::p:103:p, space :p:47:p}}"
-				"$verticalGroup": "par l {seq l {space :p:16:p, comp Title:::p::p, space s:::p, comp NameTitle:::p::p, space :::p, comp Nombre:::p:30:p, space :0:0:p, comp DescTitle:::p::p, space :::p, comp scrollPane1:::p:46:p, space :p:34:p, comp Submit:::p::p, space ::28:x}}"
+				"$horizontalGroup": "par l {seq l {space :p:44:p, par l {comp NameTitle::l:p::p, comp Nombre::l:p:215:p, comp DescTitle:::p:134:p, comp scrollPane1::l:p:278:p}, space ::186:x}}"
+				"$verticalGroup": "par l {seq l {space :p:20:p, comp NameTitle:::p::p, space :::p, comp Nombre:::p:30:p, space u:::p, comp DescTitle:::p::p, space :::p, comp scrollPane1:::p:46:p, space ::25:x}}"
 			} ) {
 				name: "panel1"
 				"background": new java.awt.Color( 244, 244, 244, 255 )
-				add( new FormComponent( "javax.swing.JLabel" ) {
-					name: "Title"
-					"text": "Crear un nuevo rol "
-					"font": new java.awt.Font( "Segoe UI Semibold", 0, 22 )
-					"foreground": new java.awt.Color( 112, 112, 112, 255 )
-				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "NameTitle"
 					"text": "Nombre del rol"
@@ -51,13 +45,44 @@ new FormModel {
 						"margin": new java.awt.Insets( 0, 10, 0, 0 )
 					} )
 				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq t {space ::160:x, comp Title:::p::p, space :p:156:p}}"
+				"$verticalGroup": "par l {seq t {space ::11:x, comp Title:::p::p, space :::p}}"
+			} ) {
+				name: "panel2"
+				"background": new java.awt.Color( 42, 58, 64, 255 )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "Title"
+					"text": "Crear un nuevo rol "
+					"font": new java.awt.Font( "Segoe UI Semibold", 0, 22 )
+					"foreground": sfield java.awt.Color white
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq t {space ::269:x, comp Cancel:::p:103:p, space u:::p, comp Submit:::p:103:p, space :p:21:p}}"
+				"$verticalGroup": "par l {seq l {space :p:10:p, par b {comp Submit::b:p:30:p, comp Cancel::b:p:30:p}, space ::12:x}}"
+			} ) {
+				name: "panel3"
+				"background": new java.awt.Color( 203, 203, 203, 255 )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "Cancel"
+					"text": "Cancelar"
+					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"background": new java.awt.Color( 181, 181, 181, 255 )
+					"foreground": &Color0 new java.awt.Color( 255, 255, 255, 255 )
+					"font": &Font0 new java.awt.Font( "Segoe UI Semibold", 0, 14 )
+					"borderPainted": false
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "SubmitActionPerformed", false ) )
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "CancelActionPerformed", true ) )
+				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "Submit"
 					"text": "Crear"
 					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
 					"background": new java.awt.Color( 42, 58, 64, 255 )
-					"foreground": new java.awt.Color( 255, 255, 255, 255 )
-					"font": new java.awt.Font( "Segoe UI Semibold", 0, 14 )
+					"foreground": #Color0
+					"font": #Font0
 					"borderPainted": false
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "SubmitActionPerformed", false ) )
 				} )

@@ -8,19 +8,26 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class TableButtonRender extends JPanel implements TableCellRenderer {
-
+    private final String edit_Icon_Path =  "/img/edit_button.png";
+    private final String delete_Icon_Path = "/img/delete_button.png";
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         setBackground(Color.WHITE);
         JPanel panel = new JPanel();
+        panel.setBackground(Color.WHITE);
 
         switch (column) {
             case 2:
-                JLabel edit_button = new JLabel("Edit");
-                panel.setBackground(Color.WHITE);
+                JLabel edit_button = new JLabel();
+                edit_button.setIcon(new ImageIcon(getClass().getResource(edit_Icon_Path)));
                 panel.add(edit_button);
-                this.add(panel);
             break;
+            case 3:
+                JLabel delete_icon = new JLabel();
+                delete_icon.setIcon(new ImageIcon(getClass().getResource(delete_Icon_Path)));
+                panel.setBackground(Color.WHITE);
+                panel.add(delete_icon);
+                break;
             case 1:
                 JTextArea textArea;
                 if (value == null){
@@ -37,7 +44,7 @@ public class TableButtonRender extends JPanel implements TableCellRenderer {
                 textArea.setBorder(new EmptyBorder(0,0,0,0));
                 panel.add(textArea);
                 panel.setBackground(Color.WHITE);
-                this.add(panel);
+
                 break;
             default:
                 JLabel label;
@@ -51,9 +58,10 @@ public class TableButtonRender extends JPanel implements TableCellRenderer {
                 label.setFont(font);
                 panel.setBackground(Color.WHITE);
                 panel.add(label);
-                this.add(panel);
+
                 break;
         }
+        this.add(panel);
         return this;
     }
 

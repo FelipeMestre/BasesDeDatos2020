@@ -4,15 +4,15 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq l {comp Nav:::p:203:p, space :0:0:p, par l {comp Header:::::x, comp main:::::x}}}"
-			"$verticalGroup": "par l {seq {comp Header:::p::p, space :0:0:p, comp main:::::x}, comp Nav:::::x}"
+			"$horizontalGroup": "par l {seq l {comp Nav:::p:203:p, space :0:0:p, par l {comp main:::::x, comp Header:::::x}}}"
+			"$verticalGroup": "par l {seq {comp Header:::p::p, space :0:0:x, comp main:::p:537:p}, comp Nav:::::x}"
 		} ) {
 			name: "this"
 			"minimumSize": new java.awt.Dimension( 1024, 576 )
 			"undecorated": true
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-				"$horizontalGroup": "par l {seq t {space :::x, comp exit:::p::p, space :p:14:p}}"
-				"$verticalGroup": "par l {seq t {space :::p, comp exit::::37:x, space :::p}}"
+				"$horizontalGroup": "par l {seq t {space :::x, comp exit:::p::p, space :p:20:p}}"
+				"$verticalGroup": "par l {comp exit::l::35:x}"
 			} ) {
 				name: "Header"
 				"background": new java.awt.Color( 255, 255, 255, 255 )
@@ -28,10 +28,11 @@ new FormModel {
 				"background": new java.awt.Color( 244, 244, 244, 255 )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 					"$horizontalGroup": "par l {seq {par l {seq {space :p:88:p, par l {comp RolesTitle:::p::p, comp RolesDesc:::p:369:p}}, seq l {space :p:77:p, par l:::p {comp layeredPane1::::353:x, comp layeredPane2::::353:x}}}, space ::363:x}}"
-					"$verticalGroup": "par l {seq l {space :p:49:p, comp RolesTitle:::p::p, space :::p, comp RolesDesc:::p::p, space s:::p, comp layeredPane1:::p:103:p, space u:::p, comp layeredPane2:::p:235:p, space ::40:x}}"
+					"$verticalGroup": "par l {seq l {space :p:49:p, comp RolesTitle:::p::p, space :::p, comp RolesDesc:::p::p, space s:::p, comp layeredPane1:::p:103:p, space u:::p, comp layeredPane2:::p:235:p, space ::48:x}}"
 				} ) {
 					name: "Roles"
 					"background": new java.awt.Color( 245, 245, 245, 255 )
+					"foreground": new java.awt.Color( 185, 185, 185, 255 )
 					add( new FormComponent( "javax.swing.JLabel" ) {
 						name: "RolesTitle"
 						"text": "Roles"
@@ -108,6 +109,18 @@ new FormModel {
 					add( new FormContainer( "javax.swing.JLayeredPane", new FormLayoutManager( class javax.swing.JLayeredPane ) ) {
 						name: "layeredPane2"
 						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "add_button"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/img/add_button.png" )
+							addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseEntered", "add_buttonMouseEntered", true ) )
+							addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseExited", "add_buttonMouseExited", true ) )
+							addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "add_buttonMouseClicked", true ) )
+						}, new FormLayoutConstraints( null ) {
+							"x": 220
+							"y": 10
+							"width": 105
+							"height": 35
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "label1"
 							"text": "Lista de Roles"
 							"font": new java.awt.Font( "Segoe UI Semibold", 0, 18 )
@@ -164,7 +177,8 @@ new FormModel {
 						} )
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "roles_list_back"
-							"icon": new com.jformdesigner.model.SwingIcon( 0, "/img/RolesTableBack.png" )
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/img/rolesHeader.png" )
+							"background": new java.awt.Color( 255, 255, 255, 255 )
 						}, new FormLayoutConstraints( null ) {
 							"x": 0
 							"y": 0
@@ -177,7 +191,7 @@ new FormModel {
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 					"$horizontalGroup": "par l {space :0:820:x}"
-					"$verticalGroup": "par l {space :0:529:x}"
+					"$verticalGroup": "par l {space :0:537:x}"
 				} ) {
 					name: "Default"
 					"background": new java.awt.Color( 245, 245, 245, 255 )
@@ -399,13 +413,13 @@ new FormModel {
 				}, new FormLayoutConstraints( null ) {
 					"x": 0
 					"y": 0
-					"width": 203
+					"width": 205
 					"height": 576
 				} )
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 15, 10 )
-			"size": new java.awt.Dimension( 1025, 610 )
+			"size": new java.awt.Dimension( 1025, 605 )
 		} )
 	}
 }

@@ -74,9 +74,10 @@ public class MainMenu extends JFrame {
         };
         RolesTable.setModel(new DefaultTableModel(
                 roles_info,
-                new String[] {"Nombre", "Descripci\u00f3n", " "}));
+                new String[] {"Nombre", "Descripci\u00f3n", " ", " "}));
         RolesTable.setRowHeight(35);
-        RolesTable.getColumnModel().getColumn(2).setMaxWidth(90);
+        RolesTable.getColumnModel().getColumn(2).setMaxWidth(32);
+        RolesTable.getColumnModel().getColumn(3).setMaxWidth(32);
         RolesTable.setShowGrid(false);
         TableCellRenderer baseRenderer = RolesTable.getTableHeader().getDefaultRenderer();
         RolesTable.getTableHeader().setDefaultRenderer(new TableHeaderRender(baseRenderer));
@@ -173,6 +174,21 @@ public class MainMenu extends JFrame {
         options[3].select();
         selected_option_button = Relaciones_Button;
     }
+
+    private void add_buttonMouseEntered(MouseEvent e) {
+        add_button.setIcon(new ImageIcon(getClass().getResource("/img/add_button_pressed.png")));
+    }
+
+    private void add_buttonMouseExited(MouseEvent e) {
+        add_button.setIcon(new ImageIcon(getClass().getResource("/img/add_button.png")));
+    }
+
+    private void add_buttonMouseClicked(MouseEvent e) {
+        JFrame addRoleFrame = new CreateRolForm(controller, this);
+        this.disable();
+        addRoleFrame.setVisible(true);
+    }
+
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
     // Generated using JFormDesigner Evaluation license - unknown
     private JPanel Header;
@@ -188,6 +204,7 @@ public class MainMenu extends JFrame {
     private JLabel active_title;
     private JLabel dashboard_back;
     private JLayeredPane layeredPane2;
+    private JLabel add_button;
     private JLabel label1;
     private JScrollPane scrollTable;
     private JTable RolesTable;
@@ -233,6 +250,7 @@ public class MainMenu extends JFrame {
         active_title = new JLabel();
         dashboard_back = new JLabel();
         layeredPane2 = new JLayeredPane();
+        add_button = new JLabel();
         label1 = new JLabel();
         scrollTable = new JScrollPane();
         RolesTable = new JTable();
@@ -269,13 +287,7 @@ public class MainMenu extends JFrame {
         //======== Header ========
         {
             Header.setBackground(Color.white);
-            Header.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing
-            . border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn", javax. swing. border. TitledBorder
-            . CENTER, javax. swing. border. TitledBorder. BOTTOM, new java .awt .Font ("Dia\u006cog" ,java .
-            awt .Font .BOLD ,12 ), java. awt. Color. red) ,Header. getBorder( )) )
-            ; Header. addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e
-            ) {if ("\u0062ord\u0065r" .equals (e .getPropertyName () )) throw new RuntimeException( ); }} )
-            ;
+
 
             //---- exit ----
             exit.setIcon(new ImageIcon(getClass().getResource("/img/logout-edit.png")));
@@ -297,14 +309,11 @@ public class MainMenu extends JFrame {
                     .addGroup(GroupLayout.Alignment.TRAILING, HeaderLayout.createSequentialGroup()
                         .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(exit)
-                        .addGap(14, 14, 14))
+                        .addGap(20, 20, 20))
             );
             HeaderLayout.setVerticalGroup(
                 HeaderLayout.createParallelGroup()
-                    .addGroup(GroupLayout.Alignment.TRAILING, HeaderLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(exit, GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
-                        .addContainerGap())
+                    .addComponent(exit, GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
             );
         }
 
@@ -316,6 +325,7 @@ public class MainMenu extends JFrame {
             //======== Roles ========
             {
                 Roles.setBackground(new Color(245, 245, 245));
+                Roles.setForeground(new Color(185, 185, 185));
 
                 //---- RolesTitle ----
                 RolesTitle.setText("Roles");
@@ -372,6 +382,25 @@ public class MainMenu extends JFrame {
                 //======== layeredPane2 ========
                 {
 
+                    //---- add_button ----
+                    add_button.setIcon(new ImageIcon(getClass().getResource("/img/add_button.png")));
+                    add_button.addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mouseClicked(MouseEvent e) {
+                            add_buttonMouseClicked(e);
+                        }
+                        @Override
+                        public void mouseEntered(MouseEvent e) {
+                            add_buttonMouseEntered(e);
+                        }
+                        @Override
+                        public void mouseExited(MouseEvent e) {
+                            add_buttonMouseExited(e);
+                        }
+                    });
+                    layeredPane2.add(add_button, JLayeredPane.DEFAULT_LAYER);
+                    add_button.setBounds(220, 10, 105, 35);
+
                     //---- label1 ----
                     label1.setText("Lista de Roles");
                     label1.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 18));
@@ -411,7 +440,8 @@ public class MainMenu extends JFrame {
                     scrollTable.setBounds(0, 55, 348, 175);
 
                     //---- roles_list_back ----
-                    roles_list_back.setIcon(new ImageIcon(getClass().getResource("/img/RolesTableBack.png")));
+                    roles_list_back.setIcon(new ImageIcon(getClass().getResource("/img/rolesHeader.png")));
+                    roles_list_back.setBackground(Color.white);
                     layeredPane2.add(roles_list_back, JLayeredPane.DEFAULT_LAYER);
                     roles_list_back.setBounds(0, 0, 355, 55);
                 }
@@ -445,7 +475,7 @@ public class MainMenu extends JFrame {
                             .addComponent(layeredPane1, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                             .addComponent(layeredPane2, GroupLayout.PREFERRED_SIZE, 235, GroupLayout.PREFERRED_SIZE)
-                            .addContainerGap(40, Short.MAX_VALUE))
+                            .addContainerGap(48, Short.MAX_VALUE))
                 );
             }
             main.add(Roles, "roles");
@@ -462,7 +492,7 @@ public class MainMenu extends JFrame {
                 );
                 DefaultLayout.setVerticalGroup(
                     DefaultLayout.createParallelGroup()
-                        .addGap(0, 529, Short.MAX_VALUE)
+                        .addGap(0, 537, Short.MAX_VALUE)
                 );
             }
             main.add(Default, "card2");
@@ -643,7 +673,7 @@ public class MainMenu extends JFrame {
             //---- main_back ----
             main_back.setIcon(new ImageIcon(getClass().getResource("/img/Main-back.png")));
             Nav.add(main_back, JLayeredPane.DEFAULT_LAYER);
-            main_back.setBounds(0, 0, 203, 576);
+            main_back.setBounds(0, 0, 205, 576);
         }
 
         GroupLayout contentPaneLayout = new GroupLayout(contentPane);
@@ -654,15 +684,15 @@ public class MainMenu extends JFrame {
                     .addComponent(Nav, GroupLayout.PREFERRED_SIZE, 203, GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, 0)
                     .addGroup(contentPaneLayout.createParallelGroup()
-                        .addComponent(Header, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(main, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(main, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Header, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         contentPaneLayout.setVerticalGroup(
             contentPaneLayout.createParallelGroup()
                 .addGroup(contentPaneLayout.createSequentialGroup()
                     .addComponent(Header, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, 0)
-                    .addComponent(main, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(main, GroupLayout.PREFERRED_SIZE, 537, GroupLayout.PREFERRED_SIZE))
                 .addComponent(Nav)
         );
         pack();
