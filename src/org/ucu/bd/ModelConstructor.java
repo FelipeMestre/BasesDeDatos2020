@@ -1,7 +1,6 @@
 package org.ucu.bd;
 
 import javax.swing.*;
-import javax.xml.crypto.Data;
 import java.awt.*;
 import java.sql.ResultSet;
 
@@ -48,8 +47,7 @@ public class ModelConstructor {
 
     public boolean createModel(String name, String description, String tablename, Component father){
         if (name != null && name.length() <= 50 && description != null && description.length() <= 200){
-            this.db.createRol(name,description,tablename);
-            return true;
+            return this.db.createModel(name,description,tablename);
         } else {
             if(name == null){
                 JOptionPane.showMessageDialog(father,"Ingrese Nombre");

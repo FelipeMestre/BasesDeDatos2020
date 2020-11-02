@@ -6,16 +6,8 @@ package ui;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import javax.swing.*;
 import javax.swing.border.*;
-
-
-//Cosas de passwords
-
-import Utils.PasswordManager;
-import model.currentUser;
 import org.ucu.bd.Database;
 import org.ucu.bd.ModelConstructor;
 
@@ -26,7 +18,6 @@ public class Login extends JFrame {
 
     private Database loginDatabase;
     private ModelConstructor model;
-    private String lastUsedUsername;
     private int tries = 3;
     private final Border defaultBorder = new LineBorder(Color.lightGray, 1, true);
     private final Border highlightBorder = new LineBorder(new Color(93,95,94), 1,true);

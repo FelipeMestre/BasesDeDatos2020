@@ -344,7 +344,7 @@ new FormModel {
 					"y": 396
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
-					name: "optionBack_1"
+					name: "Usuarios_Button"
 					"background": new java.awt.Color( 120, 223, 225, 106 )
 					"requestFocusEnabled": false
 					"icon": sfield com.jformdesigner.model.FormObject NULL_VALUE
@@ -358,7 +358,7 @@ new FormModel {
 					"height": 55
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
-					name: "optionBack_2"
+					name: "Roles_Button"
 					"background": new java.awt.Color( 60, 63, 65, 0 )
 					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseEntered", "optionBack_2MouseEntered", true ) )
 					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseExited", "optionBack_2MouseExited", true ) )
@@ -370,7 +370,7 @@ new FormModel {
 					"y": 270
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
-					name: "optionBack_3"
+					name: "Personas_Button"
 					"background": new java.awt.Color( 60, 63, 65, 0 )
 					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseEntered", "optionBack_3MouseEntered", true ) )
 					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseExited", "optionBack_3MouseExited", true ) )
@@ -382,7 +382,7 @@ new FormModel {
 					"y": 325
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
-					name: "optionBack_4"
+					name: "Relaciones_Button"
 					"background": new java.awt.Color( 60, 63, 65, 0 )
 					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseEntered", "optionBack_4MouseEntered", true ) )
 					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseExited", "optionBack_4MouseExited", true ) )

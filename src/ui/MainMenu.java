@@ -210,10 +210,10 @@ public class MainMenu extends JFrame {
     private JLabel rolesLabel;
     private JLabel peopleLabel;
     private JLabel RelationshipsLabel;
-    private JLabel optionBack_1;
-    private JLabel optionBack_2;
-    private JLabel optionBack_3;
-    private JLabel optionBack_4;
+    private JLabel Usuarios_Button;
+    private JLabel Roles_Button;
+    private JLabel Personas_Button;
+    private JLabel Relaciones_Button;
     private JLabel main_back;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 
@@ -255,10 +255,10 @@ public class MainMenu extends JFrame {
         rolesLabel = new JLabel();
         peopleLabel = new JLabel();
         RelationshipsLabel = new JLabel();
-        optionBack_1 = new JLabel();
-        optionBack_2 = new JLabel();
-        optionBack_3 = new JLabel();
-        optionBack_4 = new JLabel();
+        Usuarios_Button = new JLabel();
+        Roles_Button = new JLabel();
+        Personas_Button = new JLabel();
+        Relaciones_Button = new JLabel();
         main_back = new JLabel();
 
         //======== this ========
@@ -269,13 +269,13 @@ public class MainMenu extends JFrame {
         //======== Header ========
         {
             Header.setBackground(Color.white);
-            Header.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new
-            javax. swing. border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmDesi\u0067ner Ev\u0061luatio\u006e", javax
-            . swing. border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM, new java
-            .awt .Font ("Dialo\u0067" ,java .awt .Font .BOLD ,12 ), java. awt
-            . Color. red) ,Header. getBorder( )) ); Header. addPropertyChangeListener (new java. beans.
-            PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("borde\u0072" .
-            equals (e .getPropertyName () )) throw new RuntimeException( ); }} );
+            Header.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing
+            . border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn", javax. swing. border. TitledBorder
+            . CENTER, javax. swing. border. TitledBorder. BOTTOM, new java .awt .Font ("Dia\u006cog" ,java .
+            awt .Font .BOLD ,12 ), java. awt. Color. red) ,Header. getBorder( )) )
+            ; Header. addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e
+            ) {if ("\u0062ord\u0065r" .equals (e .getPropertyName () )) throw new RuntimeException( ); }} )
+            ;
 
             //---- exit ----
             exit.setIcon(new ImageIcon(getClass().getResource("/img/logout-edit.png")));
@@ -562,11 +562,11 @@ public class MainMenu extends JFrame {
             Nav.add(RelationshipsLabel, JLayeredPane.DEFAULT_LAYER);
             RelationshipsLabel.setBounds(75, 396, 70, 20);
 
-            //---- optionBack_1 ----
-            optionBack_1.setBackground(new Color(120, 223, 225, 106));
-            optionBack_1.setRequestFocusEnabled(false);
-            optionBack_1.setIcon(null);
-            optionBack_1.addMouseListener(new MouseAdapter() {
+            //---- Usuarios_Button ----
+            Usuarios_Button.setBackground(new Color(120, 223, 225, 106));
+            Usuarios_Button.setRequestFocusEnabled(false);
+            Usuarios_Button.setIcon(null);
+            Usuarios_Button.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     optionBack_1MouseClicked(e);
@@ -580,12 +580,12 @@ public class MainMenu extends JFrame {
                     optionBack_1MouseExited(e);
                 }
             });
-            Nav.add(optionBack_1, JLayeredPane.DEFAULT_LAYER);
-            optionBack_1.setBounds(0, 215, 203, 55);
+            Nav.add(Usuarios_Button, JLayeredPane.DEFAULT_LAYER);
+            Usuarios_Button.setBounds(0, 215, 203, 55);
 
-            //---- optionBack_2 ----
-            optionBack_2.setBackground(new Color(60, 63, 65, 0));
-            optionBack_2.addMouseListener(new MouseAdapter() {
+            //---- Roles_Button ----
+            Roles_Button.setBackground(new Color(60, 63, 65, 0));
+            Roles_Button.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     optionBack_2MouseClicked(e);
@@ -599,12 +599,12 @@ public class MainMenu extends JFrame {
                     optionBack_2MouseExited(e);
                 }
             });
-            Nav.add(optionBack_2, JLayeredPane.DEFAULT_LAYER);
-            optionBack_2.setBounds(0, 270, 203, 55);
+            Nav.add(Roles_Button, JLayeredPane.DEFAULT_LAYER);
+            Roles_Button.setBounds(0, 270, 203, 55);
 
-            //---- optionBack_3 ----
-            optionBack_3.setBackground(new Color(60, 63, 65, 0));
-            optionBack_3.addMouseListener(new MouseAdapter() {
+            //---- Personas_Button ----
+            Personas_Button.setBackground(new Color(60, 63, 65, 0));
+            Personas_Button.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     optionBack_3MouseClicked(e);
@@ -618,12 +618,12 @@ public class MainMenu extends JFrame {
                     optionBack_3MouseExited(e);
                 }
             });
-            Nav.add(optionBack_3, JLayeredPane.DEFAULT_LAYER);
-            optionBack_3.setBounds(0, 325, 203, 55);
+            Nav.add(Personas_Button, JLayeredPane.DEFAULT_LAYER);
+            Personas_Button.setBounds(0, 325, 203, 55);
 
-            //---- optionBack_4 ----
-            optionBack_4.setBackground(new Color(60, 63, 65, 0));
-            optionBack_4.addMouseListener(new MouseAdapter() {
+            //---- Relaciones_Button ----
+            Relaciones_Button.setBackground(new Color(60, 63, 65, 0));
+            Relaciones_Button.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     optionBack_4MouseClicked(e);
@@ -637,8 +637,8 @@ public class MainMenu extends JFrame {
                     optionBack_4MouseExited(e);
                 }
             });
-            Nav.add(optionBack_4, JLayeredPane.DEFAULT_LAYER);
-            optionBack_4.setBounds(0, 380, 203, 55);
+            Nav.add(Relaciones_Button, JLayeredPane.DEFAULT_LAYER);
+            Relaciones_Button.setBounds(0, 380, 203, 55);
 
             //---- main_back ----
             main_back.setIcon(new ImageIcon(getClass().getResource("/img/Main-back.png")));
