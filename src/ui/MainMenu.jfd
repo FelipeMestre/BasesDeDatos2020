@@ -21,6 +21,7 @@ new FormModel {
 					"icon": new com.jformdesigner.model.SwingIcon( 0, "/img/logout-edit.png" )
 					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "exitMouseClicked", true ) )
 					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseEntered", "exitMouseEntered", true ) )
+					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseExited", "exitMouseExited", true ) )
 				} )
 			} )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.CardLayout ) ) {
@@ -165,9 +166,13 @@ new FormModel {
 									add( null )
 									add( null )
 								} )
-								"cellSelectionEnabled": true
 								"fillsViewportHeight": true
+<<<<<<< HEAD
 								"gridColor": &Color11 new java.awt.Color( 255, 255, 255, 255 )
+=======
+								"gridColor": new java.awt.Color( 255, 255, 255, 255 )
+								"enabled": false
+>>>>>>> 36b4a130840ca79af382e878a98c976ad1bc3c6a
 							} )
 						}, new FormLayoutConstraints( null ) {
 							"width": 348

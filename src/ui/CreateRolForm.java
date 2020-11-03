@@ -73,6 +73,7 @@ public class CreateRolForm extends JFrame {
             . PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("bord\u0065r" .equals (e .
             getPropertyName () )) throw new RuntimeException( ); }} );
 
+
             //---- NameTitle ----
             NameTitle.setText("Nombre del rol");
             NameTitle.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 16));

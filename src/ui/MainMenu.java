@@ -68,7 +68,7 @@ public class MainMenu extends JFrame {
                 int colIndex = columnAtPoint(p);
                 int realColumnIndex = convertColumnIndexToModel(colIndex);
 
-                if (realColumnIndex == 1) { //Sport column
+                if (realColumnIndex == 2) { //Sport column
                     tip = getValueAt(rowIndex, colIndex).toString();
                 }
                 return tip;
@@ -76,13 +76,20 @@ public class MainMenu extends JFrame {
         };
         RolesTable.setModel(new DefaultTableModel(
                 roles_info,
-                new String[] {"Nombre", "Descripci\u00f3n", " ", " "}));
+                new String[] {"ID Rol","Nombre", "Descripci\u00f3n", " ", " "})
+        {   @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+        });
         RolesTable.setRowHeight(35);
-        RolesTable.getColumnModel().getColumn(2).setMaxWidth(32);
+        RolesTable.getColumnModel().getColumn(0).setMaxWidth(50);
         RolesTable.getColumnModel().getColumn(3).setMaxWidth(32);
+        RolesTable.getColumnModel().getColumn(4).setMaxWidth(32);
         RolesTable.setShowGrid(false);
         TableCellRenderer baseRenderer = RolesTable.getTableHeader().getDefaultRenderer();
         RolesTable.getTableHeader().setDefaultRenderer(new TableHeaderRender(baseRenderer));
+        RolesTable.setCellSelectionEnabled(false);
         scrollTable.setBorder(new LineBorder(new Color(0,0,0,0)));
         scrollTable.setViewportView(RolesTable);
     }
@@ -376,6 +383,10 @@ public class MainMenu extends JFrame {
                 public void mouseEntered(MouseEvent e) {
                     exitMouseEntered(e);
                 }
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    exitMouseExited(e);
+                }
             });
 
             GroupLayout HeaderLayout = new GroupLayout(Header);
@@ -507,9 +518,9 @@ public class MainMenu extends JFrame {
                                 return columnTypes[columnIndex];
                             }
                         });
-                        RolesTable.setCellSelectionEnabled(true);
                         RolesTable.setFillsViewportHeight(true);
                         RolesTable.setGridColor(Color.white);
+                        RolesTable.setEnabled(false);
                         scrollTable.setViewportView(RolesTable);
                     }
                     layeredPane2.add(scrollTable, JLayeredPane.DEFAULT_LAYER);
