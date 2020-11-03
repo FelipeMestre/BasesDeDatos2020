@@ -17,18 +17,18 @@ public class TableButtonRender extends JPanel implements TableCellRenderer {
         panel.setBackground(Color.WHITE);
 
         switch (column) {
-            case 2:
+            case 3:
                 JLabel edit_button = new JLabel();
                 edit_button.setIcon(new ImageIcon(getClass().getResource(edit_Icon_Path)));
                 panel.add(edit_button);
             break;
-            case 3:
+            case 4:
                 JLabel delete_icon = new JLabel();
                 delete_icon.setIcon(new ImageIcon(getClass().getResource(delete_Icon_Path)));
                 panel.setBackground(Color.WHITE);
                 panel.add(delete_icon);
                 break;
-            case 1:
+            case 2:
                 JTextArea textArea;
                 if (value == null){
                     textArea = new JTextArea("NULL");
