@@ -1,4 +1,4 @@
 usuario,postgres
 password,ELPEPE
-host,192.168.0.110
+host,obligatoriodb.ddns.net
 db_name,postgres

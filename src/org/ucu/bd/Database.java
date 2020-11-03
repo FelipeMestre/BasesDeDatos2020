@@ -7,6 +7,7 @@ import ui.MainMenu;
 import javax.swing.*;
 import java.awt.*;
 import java.sql.*;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -71,6 +72,7 @@ public class Database {
                                 }
                                 currentUser logedUser = currentUser.getCurrentUser();
                                 logedUser.setUser_id(rs.getInt("id_usuario"));
+                                logedUser.setUserName(rs.getString("nombre_usuario"));
                                 return true;
                             } else {
                                 JOptionPane.showMessageDialog(parent, "Contraseña Incorrecta");
@@ -180,10 +182,30 @@ public class Database {
     public boolean createModel(String name, String description, String tablename) {
         if(isConnected()) {
             try {
-                stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
-                ResultSet rs = stmt.executeQuery("INSERT INTO "+" tablename "+" (nombre_"+"+tablename"+
-                        ", descripcion) VALUES ('" + name + "','" + description + "'");
-                rs.close();
+                stmt = db_connection.createStatement();
+                stmt.executeUpdate("INSERT INTO "+ tablename +" (nombre_"+ tablename +
+                        ", descripcion) VALUES ('" + name + "',"+"'" + description + "')",Statement.RETURN_GENERATED_KEYS);
+
+                //Agarramos la key del model creado
+                ResultSet rs = stmt.getGeneratedKeys();
+                if ( rs.next() ) {
+                    int modelKey = rs.getInt(1);
+                    java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+
+                    String nombre_rol = currentUser.getCurrentUser().getUserName(); //Se puede actualizar a que sea nombre rol. no se
+                    String eventDescription = tablename + " creado el " + date + " por " + nombre_rol;
+                    stmt.executeUpdate(new StringBuilder().append("INSERT INTO evento (nombre_rol, descripcion) ").append("VALUES ('").append(nombre_rol).append("','").append(eventDescription).append("')").toString(),Statement.RETURN_GENERATED_KEYS);
+
+                    //Tomamos el key del evento creado
+                    rs = stmt.getGeneratedKeys();
+                    if ( rs.next() ) {
+                        int eventKey = rs.getInt(1);
+                        String query = new StringBuilder().append("INSERT INTO log_").append(tablename).append(" (id_").append(tablename).append(", fecha_registro, id_usuario, id_evento) VALUES ('").append(String.valueOf(modelKey)).append("','").append(date).append("','").append(currentUser.getCurrentUser().get_userId()).append("','").append(eventKey).append("')").toString();
+                        System.out.println(query);
+                        stmt.executeUpdate(query);
+                    }
+                }
+
                 return true;
             }
             catch (SQLException ex) {
@@ -225,5 +247,6 @@ public class Database {
         }
         return null;
     }
+
 
 }

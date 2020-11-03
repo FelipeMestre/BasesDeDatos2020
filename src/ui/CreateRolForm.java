@@ -28,9 +28,9 @@ public class CreateRolForm extends JFrame {
     private void SubmitActionPerformed() {
         String name = Nombre.getText();
         String description = Descripcion.getText();
-        //if (constructor.createModel(name,description,"Rol",this)){
+        if (constructor.createModel(name,description,"Rol",this)){
             this.Close();
-        //}
+        }
     }
     
     private void Close(){

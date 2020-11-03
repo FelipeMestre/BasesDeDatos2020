@@ -4,10 +4,8 @@
 
 package ui;
 
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.*;
-import org.ucu.bd.Database;
 import org.ucu.bd.ModelConstructor;
 import org.ucu.bd.TableButtonRender;
 import org.ucu.bd.TableHeaderRender;
@@ -287,7 +285,14 @@ public class MainMenu extends JFrame {
         //======== Header ========
         {
             Header.setBackground(Color.white);
-
+            Header.setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder (
+            new javax . swing. border .EmptyBorder ( 0, 0 ,0 , 0) ,  "JF\u006frmDes\u0069gner \u0045valua\u0074ion"
+            , javax. swing .border . TitledBorder. CENTER ,javax . swing. border .TitledBorder . BOTTOM
+            , new java. awt .Font ( "D\u0069alog", java .awt . Font. BOLD ,12 )
+            ,java . awt. Color .red ) ,Header. getBorder () ) ); Header. addPropertyChangeListener(
+            new java. beans .PropertyChangeListener ( ){ @Override public void propertyChange (java . beans. PropertyChangeEvent e
+            ) { if( "\u0062order" .equals ( e. getPropertyName () ) )throw new RuntimeException( )
+            ;} } );
 
             //---- exit ----
             exit.setIcon(new ImageIcon(getClass().getResource("/img/logout-edit.png")));
