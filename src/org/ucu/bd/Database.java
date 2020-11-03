@@ -201,7 +201,6 @@ public class Database {
                     if ( rs.next() ) {
                         int eventKey = rs.getInt(1);
                         String query = new StringBuilder().append("INSERT INTO log_").append(tablename).append(" (id_").append(tablename).append(", fecha_registro, id_usuario, id_evento) VALUES ('").append(String.valueOf(modelKey)).append("','").append(date).append("','").append(currentUser.getCurrentUser().get_userId()).append("','").append(eventKey).append("')").toString();
-                        System.out.println(query);
                         stmt.executeUpdate(query);
                     }
                 }
