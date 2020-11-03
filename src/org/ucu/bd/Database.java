@@ -181,9 +181,8 @@ public class Database {
         if(isConnected()) {
             try {
                 stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
-                ResultSet rs = stmt.executeQuery("INSERT INTO "+" tablename "+" (nombre_"+"+tablename"+
-                        ", descripcion) VALUES ('" + name + "','" + description + "'");
-                rs.close();
+                stmt.executeUpdate( "INSERT INTO "+tablename+" (nombre_rol, descripcion) "
+                        + "VALUES " + "('"+name+"','"+description+"'"+");");
                 return true;
             }
             catch (SQLException ex) {
