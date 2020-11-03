@@ -71,6 +71,7 @@ public class MainMenu extends JFrame {
     public void fetchRoles(){
         updateRolesTable(this.controller.getRoles());
     }
+
     private void updateRolesTable(String[][] newData){
         RolesTable.setModel(new DefaultTableModel(
                 newData,
@@ -79,8 +80,8 @@ public class MainMenu extends JFrame {
         public boolean isCellEditable(int row, int column) {
             return column == 3 || column == 4;
         }});
-        ButtonColumn editButton = new ButtonColumn(RolesTable,this, "/img/edit_button.png", new EditAction(),3);
-        ButtonColumn deleteButton = new ButtonColumn(RolesTable,this, "/img/delete_button.png", new DeleteAction(),3);
+        ButtonColumn editButton = new ButtonColumn(RolesTable,this, "/img/edit_button.png", new EditRoleAction(),3);
+        ButtonColumn deleteButton = new ButtonColumn(RolesTable,this, "/img/delete_button.png", new DeleteRoleAction(),3);
         RolesTable.setRowHeight(35);
         RolesTable.getColumnModel().getColumn(3).setCellRenderer(editButton);
         RolesTable.getColumnModel().getColumn(3).setCellEditor(editButton);
@@ -96,11 +97,6 @@ public class MainMenu extends JFrame {
         scrollTable.setViewportView(RolesTable);
     }
 
-    private void initUserDashboard(){
-        this.TotalUsuarios.setText(String.valueOf(controller.totalUsers()));
-        this.UsuariosBloqueado.setText(String.valueOf(controller.bloquedUsers()));
-    }
-
     public void editRole(int row){
         String id_edit = String.valueOf(RolesTable.getValueAt(row, 0));
         String role_name = String.valueOf(RolesTable.getValueAt(row, 1));
@@ -114,6 +110,11 @@ public class MainMenu extends JFrame {
         String id_edit = String.valueOf(RolesTable.getValueAt(row, 0));
         controller.deleteRole(id_edit);
         fetchRoles();
+    }
+
+    private void initUserDashboard(){
+        this.TotalUsuarios.setText(String.valueOf(controller.totalUsers()));
+        this.UsuariosBloqueado.setText(String.valueOf(controller.bloquedUsers()));
     }
 
     private void initUserTable() {
