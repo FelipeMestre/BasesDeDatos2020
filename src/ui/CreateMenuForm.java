@@ -4,6 +4,7 @@
 
 package ui;
 
+import java.awt.event.*;
 import org.ucu.bd.ModelConstructor;
 
 import javax.swing.*;
@@ -15,9 +16,12 @@ import java.awt.*;
 public class CreateMenuForm extends JFrame {
 
     private ModelConstructor constructor;
+    private JFrame parent;
+
     public CreateMenuForm(ModelConstructor controller) {
         this.constructor = controller;
-        initComponents();
+        this.parent = parent;
+        initComponents();;
     }
 
     private void SubmitActionPerformed() {
@@ -26,6 +30,16 @@ public class CreateMenuForm extends JFrame {
         if (constructor.createModel(name,description,"menu",this)){
             this.dispose();
         }
+    }
+
+    private void close(){
+        this.dispose();
+        parent.enable();
+        parent.requestFocus();
+    }
+
+    private void CancelActionPerformed(ActionEvent e) {
+        this.close();
     }
 
     private void initComponents() {
@@ -39,6 +53,7 @@ public class CreateMenuForm extends JFrame {
         scrollPane1 = new JScrollPane();
         Descripcion = new JTextArea();
         Submit = new JButton();
+        Cancel = new JButton();
 
         //======== this ========
         setUndecorated(true);
@@ -48,13 +63,11 @@ public class CreateMenuForm extends JFrame {
         //======== panel1 ========
         {
             panel1.setBackground(new Color(244, 244, 244));
-            panel1.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new
-            javax. swing. border. EmptyBorder( 0, 0, 0, 0) , "JFor\u006dDesi\u0067ner \u0045valu\u0061tion", javax
-            . swing. border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM, new java
-            .awt .Font ("Dia\u006cog" ,java .awt .Font .BOLD ,12 ), java. awt
-            . Color. red) ,panel1. getBorder( )) ); panel1. addPropertyChangeListener (new java. beans.
-            PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("bord\u0065r" .
-            equals (e .getPropertyName () )) throw new RuntimeException( ); }} );
+            panel1.setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax . swing. border .EmptyBorder (
+            0, 0 ,0 , 0) ,  "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn" , javax. swing .border . TitledBorder. CENTER ,javax . swing. border .TitledBorder
+            . BOTTOM, new java. awt .Font ( "Dia\u006cog", java .awt . Font. BOLD ,12 ) ,java . awt. Color .
+            red ) ,panel1. getBorder () ) ); panel1. addPropertyChangeListener( new java. beans .PropertyChangeListener ( ){ @Override public void propertyChange (java .
+            beans. PropertyChangeEvent e) { if( "\u0062ord\u0065r" .equals ( e. getPropertyName () ) )throw new RuntimeException( ) ;} } );
 
             //---- Title ----
             Title.setText("Crear Un Menu");
@@ -97,14 +110,28 @@ public class CreateMenuForm extends JFrame {
             Submit.setBorderPainted(false);
             Submit.addActionListener(e -> SubmitActionPerformed());
 
+            //---- Cancel ----
+            Cancel.setText("Cancelar");
+            Cancel.setBorder(null);
+            Cancel.setBackground(new Color(181, 181, 181));
+            Cancel.setForeground(Color.white);
+            Cancel.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+            Cancel.setBorderPainted(false);
+            Cancel.addActionListener(e -> {
+			SubmitActionPerformed();
+			CancelActionPerformed(e);
+		});
+
             GroupLayout panel1Layout = new GroupLayout(panel1);
             panel1.setLayout(panel1Layout);
             panel1Layout.setHorizontalGroup(
                 panel1Layout.createParallelGroup()
                     .addGroup(GroupLayout.Alignment.TRAILING, panel1Layout.createSequentialGroup()
-                        .addGap(0, 358, Short.MAX_VALUE)
+                        .addGap(0, 273, Short.MAX_VALUE)
+                        .addComponent(Cancel, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(Submit, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)
-                        .addGap(47, 47, 47))
+                        .addGap(17, 17, 17))
                     .addGroup(panel1Layout.createSequentialGroup()
                         .addGap(47, 47, 47)
                         .addGroup(panel1Layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
@@ -129,9 +156,11 @@ public class CreateMenuForm extends JFrame {
                         .addComponent(DescTitle)
                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(scrollPane1, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
-                        .addGap(34, 34, 34)
-                        .addComponent(Submit)
-                        .addContainerGap(22, Short.MAX_VALUE))
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                        .addGroup(panel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(Submit)
+                            .addComponent(Cancel, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+                        .addGap(14, 14, 14))
             );
         }
 
@@ -160,5 +189,6 @@ public class CreateMenuForm extends JFrame {
     private JScrollPane scrollPane1;
     private JTextArea Descripcion;
     private JButton Submit;
+    private JButton Cancel;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }

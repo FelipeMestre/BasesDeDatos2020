@@ -109,7 +109,7 @@ new FormModel {
 					add( new FormContainer( "javax.swing.JLayeredPane", new FormLayoutManager( class javax.swing.JLayeredPane ) ) {
 						name: "layeredPane2"
 						add( new FormComponent( "javax.swing.JLabel" ) {
-							name: "add_button"
+							name: "add_button_roles"
 							"icon": &SwingIcon1 new com.jformdesigner.model.SwingIcon( 0, "/img/add_button.png" )
 							addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseEntered", "add_buttonMouseEntered", true ) )
 							addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseExited", "add_buttonMouseExited", true ) )
@@ -281,8 +281,11 @@ new FormModel {
 					add( new FormContainer( "javax.swing.JLayeredPane", new FormLayoutManager( class javax.swing.JLayeredPane ) ) {
 						name: "layeredPane4"
 						add( new FormComponent( "javax.swing.JLabel" ) {
-							name: "add_button2"
+							name: "add_button_usuarios"
 							"icon": #SwingIcon1
+							addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "add_button_usuariosMouseClicked", false ) )
+							addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseEntered", "add_button_usuariosMouseEntered", false ) )
+							addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseExited", "add_button_usuariosMouseExited", false ) )
 						}, new FormLayoutConstraints( null ) {
 							"x": 220
 							"y": 10
@@ -390,8 +393,11 @@ new FormModel {
 					add( new FormContainer( "javax.swing.JLayeredPane", new FormLayoutManager( class javax.swing.JLayeredPane ) ) {
 						name: "layeredPane6"
 						add( new FormComponent( "javax.swing.JLabel" ) {
-							name: "add_button3"
+							name: "add_button_personas"
 							"icon": #SwingIcon1
+							addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "add_button_personasMouseClicked", false ) )
+							addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseEntered", "add_button_personasMouseEntered", false ) )
+							addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseExited", "add_button_personasMouseExited", false ) )
 						}, new FormLayoutConstraints( null ) {
 							"x": 220
 							"y": 10

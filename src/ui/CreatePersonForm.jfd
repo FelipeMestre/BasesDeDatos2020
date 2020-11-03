@@ -4,32 +4,31 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {comp panel1::l:::x}"
+			"$horizontalGroup": "par l {comp panel1::l::578:x}"
 			"$verticalGroup": "par l {comp panel1::l:::x}"
 		} ) {
 			name: "this"
 			"undecorated": true
 			"background": new java.awt.Color( 255, 255, 255, 255 )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-				"$horizontalGroup": "par l {seq t {space :0:273:x, comp Cancel:::p:103:p, space u:::p, comp Submit:::p:103:p, space :p:17:p}, seq l {space :p:47:p, par t {comp Title:::p::p, par l {comp DescTitle:::p:134:p, comp scrollPane1::l:p:278:p, comp NameTitle::l:p::p, comp Nombre::l:p:215:p}}, space ::183:x}}"
-				"$verticalGroup": "par l {seq l {space :p:16:p, comp Title:::p::p, space s:::p, comp NameTitle:::p::p, space :::p, comp Nombre:::p:30:p, space :::p, comp DescTitle:::p::p, space :::p, comp scrollPane1:::p:46:p, space ::42:x, par b {comp Submit::b:p::p, comp Cancel::b:p:30:p}, space :p:14:p}}"
+				"$horizontalGroup": "par l {seq {par l {seq l {space :p:47:p, par l {comp Title::l:p::p, comp Direccion::l:p:214:p, comp direccion_label::l:p:214:p, comp label1::l:p:214:p, comp Ci::l:p:214:p}}, seq l {space :p:46:p, par l {comp Nombre:::p:215:p, comp NameTitle:::p::p}, space :p:51:p, par l {seq {comp Telefono:::p:214:p, space :::p, comp Ci_label:::p:134:p}, comp Telefono_label:::p::p, seq l {comp Cancel:::p:103:p, space :::p, comp Submit:::p:103:p}}}}, space :::x}}"
+				"$verticalGroup": "par l {seq l {space :p:16:p, comp Title:::p::p, par l {seq l {space :p:70:p, comp Ci_label:::p::p, space :40:172:x, par b {comp Cancel::b:p:30:p, comp Submit::b:p::p}, space :p:20:p}, seq l {space :p:32:p, par b {comp NameTitle::b:p::p, comp Telefono_label::b:p::p}, space :::p, par b {comp Nombre::b:p:30:p, comp Telefono::b:p::p}, space u:::p, comp label1:::p:28:p, space :::p, comp Ci:::p::p, space :p:12:p, comp direccion_label:::p:28:p, space :::p, comp Direccion:::p::p, space :0:50:x}}}}"
 			} ) {
 				name: "panel1"
 				"background": new java.awt.Color( 244, 244, 244, 255 )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "Title"
-					"text": "Crear Un Menu"
+					"text": "Crear Una Persona"
 					"font": new java.awt.Font( "Segoe UI Semibold", 0, 22 )
 					"foreground": new java.awt.Color( 112, 112, 112, 255 )
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "NameTitle"
-					"text": "Nombre de Menu"
-					"font": new java.awt.Font( "Segoe UI Semibold", 0, 16 )
+					"text": "Nombre y Apellido"
+					"font": &Font0 new java.awt.Font( "Segoe UI Semibold", 0, 16 )
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
-					name: "DescTitle"
-					"text": "Descripción"
+					name: "Ci_label"
 					"font": new java.awt.Font( "Segoe UI Semibold", 0, 16 )
 				} )
 				add( new FormComponent( "javax.swing.JTextField" ) {
@@ -37,19 +36,6 @@ new FormModel {
 					"background": new java.awt.Color( 255, 255, 255, 255 )
 					"foreground": sfield java.awt.Color darkGray
 					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
-				} )
-				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
-					name: "scrollPane1"
-					add( new FormComponent( "javax.swing.JTextArea" ) {
-						name: "Descripcion"
-						"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
-						"background": new java.awt.Color( 255, 255, 255, 255 )
-						"lineWrap": true
-						"caretColor": new java.awt.Color( 255, 255, 255, 255 )
-						"foreground": sfield java.awt.Color darkGray
-						"font": new java.awt.Font( "Segoe UI", 0, 12 )
-						"margin": new java.awt.Insets( 0, 10, 0, 0 )
-					} )
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "Submit"
@@ -72,10 +58,37 @@ new FormModel {
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "SubmitActionPerformed", false ) )
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "CancelActionPerformed", true ) )
 				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label1"
+					"text": "Documento (solo números)"
+					"font": &Font1 new java.awt.Font( "Segoe UI Semibold", 0, 16 )
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "Ci"
+					"background": &Color0 new java.awt.Color( 255, 255, 255, 255 )
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "direccion_label"
+					"text": "Direccion"
+					"font": #Font1
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "Direccion"
+					"background": #Color0
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "Telefono_label"
+					"text": "Telefono"
+					"font": #Font0
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "Telefono"
+					"background": #Color0
+				} )
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )
-			"size": new java.awt.Dimension( 510, 320 )
+			"size": new java.awt.Dimension( 580, 370 )
 		} )
 	}
 }

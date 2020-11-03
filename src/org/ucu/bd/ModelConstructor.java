@@ -77,4 +77,8 @@ public class ModelConstructor {
 
     }
 
+    public boolean createPersona(int ci, String name, String direction, int phone){
+        return this.db.createPerson(ci,name,direction,phone);
+    }
+
 }

@@ -2,7 +2,6 @@ package org.ucu.bd;
 
 import Utils.PasswordManager;
 import model.currentUser;
-import ui.MainMenu;
 
 import javax.swing.*;
 import java.awt.*;
@@ -99,19 +98,42 @@ public class Database {
         return false;
     }
 
-    public ResultSet createPerson(int ci, String name, String direction, int phone) {
+    public boolean createPerson(int ci, String name, String direction, int phone) {
         if(isConnected()) {
             try {
                 stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
-                ResultSet rs = stmt.executeQuery("INSERT INTO persona (cedula, nombre, direccion, telefono) VALUES (" + ci  + ",'" + name + "','" + direction + "'," + phone);
-                return rs;
+                stmt.executeUpdate("INSERT INTO persona (cedula, nombre, direccion, telefono) VALUES ('" + ci  + "','" + name + "','" + direction + "','" + phone + "')",Statement.RETURN_GENERATED_KEYS);
+
+                //Agarramos la key de la persona creada
+                ResultSet rs = stmt.getGeneratedKeys();
+                if ( rs.next() ) {
+                    int personKey = rs.getInt(1);
+                    java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+                    int eventKey = createEvento("Persona",date);
+                    String query = new StringBuilder().append("INSERT INTO log_").append("Persona").append(" (id_").append("Persona").append(", fecha_registro, id_usuario, id_evento) VALUES ('").append(String.valueOf(personKey)).append("','").append(date).append("','").append(currentUser.getCurrentUser().get_userId()).append("','").append(eventKey).append("')").toString();
+                    stmt.executeUpdate(query);
+                    return true;
+                }
             }
             catch (SQLException ex) {
                 this.initConnection();
                 Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        return null;
+        return false;
+    }
+
+    private int createEvento(String tablename,java.sql.Date date ) throws SQLException {
+        String nombre_rol = currentUser.getCurrentUser().getUserName(); //Se puede actualizar a que sea nombre rol. no se
+        String eventDescription =  tablename + " creado el " + date + " por " + nombre_rol;
+        stmt.executeUpdate(new StringBuilder().append("INSERT INTO evento (nombre_rol, descripcion) ").append("VALUES ('").append(nombre_rol).append("','").append(eventDescription).append("')").toString(),Statement.RETURN_GENERATED_KEYS);
+        ResultSet rs = stmt.getGeneratedKeys();
+        if ( rs.next() ) {
+            int eventKey = rs.getInt(1);
+            return eventKey;
+        }
+        rs.close();
+        return 0;
     }
 
     public ResultSet createUser(String name, String password, int ci, boolean admin, int creator, boolean blocked) {
@@ -191,21 +213,11 @@ public class Database {
                 if ( rs.next() ) {
                     int modelKey = rs.getInt(1);
                     java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-
-                    String nombre_rol = currentUser.getCurrentUser().getUserName(); //Se puede actualizar a que sea nombre rol. no se
-                    String eventDescription = tablename + " creado el " + date + " por " + nombre_rol;
-                    stmt.executeUpdate(new StringBuilder().append("INSERT INTO evento (nombre_rol, descripcion) ").append("VALUES ('").append(nombre_rol).append("','").append(eventDescription).append("')").toString(),Statement.RETURN_GENERATED_KEYS);
-
-                    //Tomamos el key del evento creado
-                    rs = stmt.getGeneratedKeys();
-                    if ( rs.next() ) {
-                        int eventKey = rs.getInt(1);
-                        String query = new StringBuilder().append("INSERT INTO log_").append(tablename).append(" (id_").append(tablename).append(", fecha_registro, id_usuario, id_evento) VALUES ('").append(String.valueOf(modelKey)).append("','").append(date).append("','").append(currentUser.getCurrentUser().get_userId()).append("','").append(eventKey).append("')").toString();
-                        stmt.executeUpdate(query);
-                    }
+                   int eventKey = createEvento(tablename,date);
+                    String query = new StringBuilder().append("INSERT INTO log_").append(tablename).append(" (id_").append(tablename).append(", fecha_registro, id_usuario, id_evento) VALUES ('").append(String.valueOf(modelKey)).append("','").append(date).append("','").append(currentUser.getCurrentUser().get_userId()).append("','").append(eventKey).append("')").toString();
+                    stmt.executeUpdate(query);
+                    return true;
                 }
-
-                return true;
             }
             catch (SQLException ex) {
                 this.initConnection();

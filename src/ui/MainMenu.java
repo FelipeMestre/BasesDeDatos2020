@@ -274,11 +274,11 @@ public class MainMenu extends JFrame {
     }
 
     private void add_buttonMouseEntered(MouseEvent e) {
-        add_button.setIcon(new ImageIcon(getClass().getResource("/img/add_button_pressed.png")));
+        add_button_roles.setIcon(new ImageIcon(getClass().getResource("/img/add_button_pressed.png")));
     }
 
     private void add_buttonMouseExited(MouseEvent e) {
-        add_button.setIcon(new ImageIcon(getClass().getResource("/img/add_button.png")));
+        add_button_roles.setIcon(new ImageIcon(getClass().getResource("/img/add_button.png")));
     }
 
     private void add_buttonMouseClicked(MouseEvent e) {
@@ -286,6 +286,40 @@ public class MainMenu extends JFrame {
         this.disable();
         addRoleFrame.setVisible(true);
     }
+
+    private void add_button_usuariosMouseEntered() {
+        add_button_usuarios.setIcon(new ImageIcon(getClass().getResource("/img/add_button_pressed.png")));
+    }
+
+    private void add_button_usuariosMouseClicked() {
+        JFrame addRoleFrame = new CreateRolForm(controller, this);
+        this.disable();
+        addRoleFrame.setVisible(true);
+    }
+
+    private void add_button_usuariosMouseExited() {
+        add_button_usuarios.setIcon(new ImageIcon(getClass().getResource("/img/add_button.png")));
+    }
+
+    private void add_button_personasMouseClicked() {
+        JFrame addRoleFrame = new CreatePersonForm(controller, this);
+        this.disable();
+        addRoleFrame.setVisible(true);
+    }
+
+    private void add_button_personasMouseEntered() {
+        add_button_usuarios.setIcon(new ImageIcon(getClass().getResource("/img/add_button_pressed.png")));
+    }
+
+    private void add_button_personasMouseExited() {
+        add_button_roles.setIcon(new ImageIcon(getClass().getResource("/img/add_button.png")));
+    }
+
+
+
+
+
+
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
     // Generated using JFormDesigner Evaluation license - unknown
@@ -302,7 +336,7 @@ public class MainMenu extends JFrame {
     private JLabel active_title;
     private JLabel dashboard_back;
     private JLayeredPane layeredPane2;
-    private JLabel add_button;
+    private JLabel add_button_roles;
     private JLabel label1;
     private JScrollPane scrollTable;
     private JTable RolesTable;
@@ -318,7 +352,7 @@ public class MainMenu extends JFrame {
     private JLabel boqued_title2;
     private JLabel dashboard_back2;
     private JLayeredPane layeredPane4;
-    private JLabel add_button2;
+    private JLabel add_button_usuarios;
     private JLabel label2;
     private JScrollPane scrollTable2;
     private JTable UserTable;
@@ -331,7 +365,7 @@ public class MainMenu extends JFrame {
     private JLabel total_title3;
     private JLabel dashboard_back3;
     private JLayeredPane layeredPane6;
-    private JLabel add_button3;
+    private JLabel add_button_personas;
     private JLabel label3;
     private JScrollPane scrollTable3;
     private JTable PersonTable;
@@ -376,7 +410,7 @@ public class MainMenu extends JFrame {
         active_title = new JLabel();
         dashboard_back = new JLabel();
         layeredPane2 = new JLayeredPane();
-        add_button = new JLabel();
+        add_button_roles = new JLabel();
         label1 = new JLabel();
         scrollTable = new JScrollPane();
         RolesTable = new JTable();
@@ -392,7 +426,7 @@ public class MainMenu extends JFrame {
         boqued_title2 = new JLabel();
         dashboard_back2 = new JLabel();
         layeredPane4 = new JLayeredPane();
-        add_button2 = new JLabel();
+        add_button_usuarios = new JLabel();
         label2 = new JLabel();
         scrollTable2 = new JScrollPane();
         UserTable = new JTable();
@@ -405,7 +439,7 @@ public class MainMenu extends JFrame {
         total_title3 = new JLabel();
         dashboard_back3 = new JLabel();
         layeredPane6 = new JLayeredPane();
-        add_button3 = new JLabel();
+        add_button_personas = new JLabel();
         label3 = new JLabel();
         scrollTable3 = new JScrollPane();
         PersonTable = new JTable();
@@ -441,11 +475,12 @@ public class MainMenu extends JFrame {
         //======== Header ========
         {
             Header.setBackground(Color.white);
-            Header.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing. border. EmptyBorder( 0
-            , 0, 0, 0) , "JFor\u006dDesi\u0067ner \u0045valu\u0061tion", javax. swing. border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM
-            , new java .awt .Font ("Dia\u006cog" ,java .awt .Font .BOLD ,12 ), java. awt. Color. red) ,
-            Header. getBorder( )) ); Header. addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e
-            ) {if ("bord\u0065r" .equals (e .getPropertyName () )) throw new RuntimeException( ); }} );
+            Header.setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing.border.
+            EmptyBorder(0,0,0,0), "JF\u006frm\u0044es\u0069gn\u0065r \u0045va\u006cua\u0074io\u006e",javax.swing.border.TitledBorder.CENTER,javax.swing
+            .border.TitledBorder.BOTTOM,new java.awt.Font("D\u0069al\u006fg",java.awt.Font.BOLD,12),
+            java.awt.Color.red),Header. getBorder()));Header. addPropertyChangeListener(new java.beans.PropertyChangeListener()
+            {@Override public void propertyChange(java.beans.PropertyChangeEvent e){if("\u0062or\u0064er".equals(e.getPropertyName()))
+            throw new RuntimeException();}});
 
             //---- exit ----
             exit.setIcon(new ImageIcon(getClass().getResource("/img/logout-edit.png")));
@@ -540,9 +575,9 @@ public class MainMenu extends JFrame {
                 //======== layeredPane2 ========
                 {
 
-                    //---- add_button ----
-                    add_button.setIcon(new ImageIcon(getClass().getResource("/img/add_button.png")));
-                    add_button.addMouseListener(new MouseAdapter() {
+                    //---- add_button_roles ----
+                    add_button_roles.setIcon(new ImageIcon(getClass().getResource("/img/add_button.png")));
+                    add_button_roles.addMouseListener(new MouseAdapter() {
                         @Override
                         public void mouseClicked(MouseEvent e) {
                             add_buttonMouseClicked(e);
@@ -556,8 +591,8 @@ public class MainMenu extends JFrame {
                             add_buttonMouseExited(e);
                         }
                     });
-                    layeredPane2.add(add_button, JLayeredPane.DEFAULT_LAYER);
-                    add_button.setBounds(220, 10, 105, 35);
+                    layeredPane2.add(add_button_roles, JLayeredPane.DEFAULT_LAYER);
+                    add_button_roles.setBounds(220, 10, 105, 35);
 
                     //---- label1 ----
                     label1.setText("Lista de Roles");
@@ -715,10 +750,24 @@ public class MainMenu extends JFrame {
                 //======== layeredPane4 ========
                 {
 
-                    //---- add_button2 ----
-                    add_button2.setIcon(new ImageIcon(getClass().getResource("/img/add_button.png")));
-                    layeredPane4.add(add_button2, JLayeredPane.DEFAULT_LAYER);
-                    add_button2.setBounds(220, 10, 105, 35);
+                    //---- add_button_usuarios ----
+                    add_button_usuarios.setIcon(new ImageIcon(getClass().getResource("/img/add_button.png")));
+                    add_button_usuarios.addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mouseClicked(MouseEvent e) {
+                            add_button_usuariosMouseClicked();
+                        }
+                        @Override
+                        public void mouseEntered(MouseEvent e) {
+                            add_button_usuariosMouseEntered();
+                        }
+                        @Override
+                        public void mouseExited(MouseEvent e) {
+                            add_button_usuariosMouseExited();
+                        }
+                    });
+                    layeredPane4.add(add_button_usuarios, JLayeredPane.DEFAULT_LAYER);
+                    add_button_usuarios.setBounds(220, 10, 105, 35);
 
                     //---- label2 ----
                     label2.setText("Lista de Usuarios");
@@ -843,10 +892,24 @@ public class MainMenu extends JFrame {
                 //======== layeredPane6 ========
                 {
 
-                    //---- add_button3 ----
-                    add_button3.setIcon(new ImageIcon(getClass().getResource("/img/add_button.png")));
-                    layeredPane6.add(add_button3, JLayeredPane.DEFAULT_LAYER);
-                    add_button3.setBounds(220, 10, 105, 35);
+                    //---- add_button_personas ----
+                    add_button_personas.setIcon(new ImageIcon(getClass().getResource("/img/add_button.png")));
+                    add_button_personas.addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mouseClicked(MouseEvent e) {
+                            add_button_personasMouseClicked();
+                        }
+                        @Override
+                        public void mouseEntered(MouseEvent e) {
+                            add_button_personasMouseEntered();
+                        }
+                        @Override
+                        public void mouseExited(MouseEvent e) {
+                            add_button_personasMouseExited();
+                        }
+                    });
+                    layeredPane6.add(add_button_personas, JLayeredPane.DEFAULT_LAYER);
+                    add_button_personas.setBounds(220, 10, 105, 35);
 
                     //---- label3 ----
                     label3.setText("Lista de Personas");
