@@ -1,5 +1,4 @@
 out
-/lib/config.txt
+lib
+.idea/inspectionProfiles/Project_Default.xml
 lib/config.txt
-lib/config.txt
-*.txt

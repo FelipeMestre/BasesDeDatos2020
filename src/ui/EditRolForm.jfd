@@ -4,14 +4,14 @@ new FormModel {
 	contentType: "form/swing"
 	root: new FormRoot {
 		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-			"$horizontalGroup": "par l {seq {space :0:0:p, par l {comp panel2::l:::x, comp panel1::l:::x, comp panel3::l:::x}}}"
-			"$verticalGroup": "par l {seq t {comp panel2:::p::p, space :0:0:p, comp panel1:::p::p, space :0:0:p, comp panel3:::p::p}}"
+			"$horizontalGroup": "par l {comp panel3::l:::x, comp panel1:::::x, comp panel2::l:::x}"
+			"$verticalGroup": "par l {seq l {comp panel2:::p::p, space :0:0:p, comp panel1:::p::p, space :0:0:p, comp panel3:::::x}}"
 		} ) {
 			name: "this"
+			"resizable": false
 			"undecorated": true
-			"background": new java.awt.Color( 255, 255, 255, 255 )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-				"$horizontalGroup": "par l {seq l {space :p:44:p, par l {comp NameTitle::l:p::p, comp Nombre::l:p:215:p, comp DescTitle:::p:134:p, comp scrollPane1::l:p:278:p}, space ::186:x}}"
+				"$horizontalGroup": "par l {seq l {space :p:44:p, par l {comp NameTitle::l:p::p, comp Nombre::l:p:215:p, comp DescTitle:::p:134:p, comp scrollPane1::l:p:278:p}, space :::x}}"
 				"$verticalGroup": "par l {seq l {space :p:20:p, comp NameTitle:::p::p, space :::p, comp Nombre:::p:30:p, space u:::p, comp DescTitle:::p::p, space :::p, comp scrollPane1:::p:46:p, space ::25:x}}"
 			} ) {
 				name: "panel1"
@@ -47,21 +47,22 @@ new FormModel {
 				} )
 			} )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-				"$horizontalGroup": "par l {seq t {space ::160:x, comp Title:::p::p, space :p:156:p}}"
-				"$verticalGroup": "par l {seq t {space ::11:x, comp Title:::p::p, space :::p}}"
+				"$horizontalGroup": "par l {comp Title::l::508:x}"
+				"$verticalGroup": "par l {seq t {space :::x, comp Title:::p::p, space :::p}}"
 			} ) {
 				name: "panel2"
 				"background": new java.awt.Color( 42, 58, 64, 255 )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "Title"
-					"text": "Crear un nuevo rol "
+					"text": "Edición de rol "
 					"font": new java.awt.Font( "Segoe UI Semibold", 0, 22 )
 					"foreground": sfield java.awt.Color white
+					"horizontalAlignment": 0
 				} )
 			} )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-				"$horizontalGroup": "par l {seq t {space ::269:x, comp Cancel:::p:103:p, space u:::p, comp Submit:::p:103:p, space :p:21:p}}"
-				"$verticalGroup": "par l {seq l {space :p:10:p, par b {comp Submit::b:p:30:p, comp Cancel::b:p:30:p}, space ::12:x}}"
+				"$horizontalGroup": "par l {seq t {space :::x, comp Cancel:::p:103:p, space u:::p, comp Submit:::p:103:p, space :p:21:p}}"
+				"$verticalGroup": "par l {seq l {space :p:10:p, par b {comp Submit::b:p:30:p, comp Cancel::b:p:30:p}, space :::x}}"
 			} ) {
 				name: "panel3"
 				"background": new java.awt.Color( 203, 203, 203, 255 )
@@ -77,7 +78,7 @@ new FormModel {
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "Submit"
-					"text": "Crear"
+					"text": "Modificar"
 					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
 					"background": new java.awt.Color( 42, 58, 64, 255 )
 					"foreground": #Color0
@@ -88,7 +89,7 @@ new FormModel {
 			} )
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 0, 0 )
-			"size": new java.awt.Dimension( 510, 320 )
+			"size": new java.awt.Dimension( 510, 315 )
 		} )
 	}
 }

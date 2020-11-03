@@ -24,13 +24,8 @@ public class Database {
         this.uri = uri;
     }
 
-    public void initConnection() {
-        try {
-            this.db_connection = DriverManager.getConnection(this.uri, this.username, this.password);
-        } catch (SQLException e) {
-            System.out.println("Connection Failed\n" + e.getMessage());
-            e.printStackTrace();
-        }
+    public void initConnection() throws SQLException {
+        this.db_connection = DriverManager.getConnection(this.uri, this.username, this.password);
     }
 
     public boolean isConnected(){
@@ -91,7 +86,6 @@ public class Database {
                 }
                 rs.close();
             } catch (SQLException ex) {
-                this.initConnection();
                 Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -116,7 +110,6 @@ public class Database {
                 }
             }
             catch (SQLException ex) {
-                this.initConnection();
                 Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -146,7 +139,6 @@ public class Database {
                 return rs;
             }
             catch (SQLException ex) {
-                this.initConnection();
                 Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -162,7 +154,6 @@ public class Database {
                     + "'");
             return rs;
         } catch (SQLException ex) {
-            this.initConnection();
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
@@ -176,7 +167,6 @@ public class Database {
                 return rs;
             }
             catch (SQLException ex) {
-                this.initConnection();
                 Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -194,7 +184,6 @@ public class Database {
                 return count;
             }
             catch (SQLException ex) {
-                this.initConnection();
                 Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -220,26 +209,35 @@ public class Database {
                 }
             }
             catch (SQLException ex) {
-                this.initConnection();
                 Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return false;
     }
 
-    public ResultSet deleteRow(String table_name, int row_id, String col_name) {
+    public ResultSet deleteRow(String table_name, String row_id, String col_name) {
         if(isConnected()) {
             try {
                 stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
-                ResultSet rs = stmt.executeQuery("DELETE FROM " + table_name + " WHERE " + col_name + " = " + row_id);
-                return rs;
+                stmt.executeUpdate("DELETE FROM " + table_name + " WHERE " + col_name + " = " + row_id);
             }
             catch (SQLException ex) {
-                this.initConnection();
                 Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return null;
+    }
+
+    public void updateRole(String row_id, String new_name, String new_desc){
+        if(isConnected()) {
+            try {
+                stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
+                stmt.executeUpdate(String.format("UPDATE rol SET nombre_rol = \'%s\',descripcion = \'%s\' WHERE id_rol = %d",new_name,new_desc,Integer.parseInt(row_id)));
+            }
+            catch (SQLException ex) {
+                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     //Role asignments
@@ -252,7 +250,6 @@ public class Database {
                 return rs;
             }
             catch (SQLException ex) {
-                this.initConnection();
                 Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

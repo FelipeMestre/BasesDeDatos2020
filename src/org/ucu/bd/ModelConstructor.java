@@ -77,6 +77,15 @@ public class ModelConstructor {
 
     }
 
+    public void updateRole(String role_id, String newName, String newDesc){
+        db.updateRole(role_id, newName, newDesc);
+    }
+
+    public void deleteRole(String role_id){
+        db.deleteRow("rol", role_id, "id_rol");
+    }
+
+
     public boolean createPersona(int ci, String name, String direction, int phone){
         return this.db.createPerson(ci,name,direction,phone);
     }
