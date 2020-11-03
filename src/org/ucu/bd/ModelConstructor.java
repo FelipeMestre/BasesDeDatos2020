@@ -53,6 +53,12 @@ public class ModelConstructor {
 
     public int bloquedUsers() { return this.db.getTableCount("vista_usuario_bloqueado"); }
 
+    public String[][] getPersonas() {
+        return this.getStringArray(db.getAllElements("vista_personas"));
+    }
+
+    public int totalPersons() { return this.db.getTableCount("persona"); }
+
     public boolean createModel(String name, String description, String tablename, Component father){
         if (name != null && name.length() <= 50 && description != null && description.length() <= 200){
             return this.db.createModel(name,description,tablename);

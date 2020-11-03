@@ -31,10 +31,6 @@ public class MainMenu extends JFrame {
         options = createOptions();
         this.parent = parent;
         this.name.setText(username);
-        initRolesTable();
-        initRolesDashboard();
-        initUserTable();
-        initUserDashboard();
     }
 
     private Option[] createOptions(){
@@ -110,7 +106,7 @@ public class MainMenu extends JFrame {
                 int colIndex = columnAtPoint(p);
                 int realColumnIndex = convertColumnIndexToModel(colIndex);
 
-                if (realColumnIndex == 1) { //Sport column
+                if (realColumnIndex == 2) { //Sport column
                     tip = getValueAt(rowIndex, colIndex).toString();
                 }
                 return tip;
@@ -118,15 +114,65 @@ public class MainMenu extends JFrame {
         };
         UserTable.setModel(new DefaultTableModel(
                 user_info,
-                new String[] {"ID","Nombre Usuario", "CI", " ", " "}));
+                new String[] {"ID user","Nombre", "CI", " ", " "})
+        {   @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+        });
         UserTable.setRowHeight(35);
-        UserTable.getColumnModel().getColumn(2).setMaxWidth(32);
+        UserTable.getColumnModel().getColumn(0).setMaxWidth(50);
         UserTable.getColumnModel().getColumn(3).setMaxWidth(32);
+        UserTable.getColumnModel().getColumn(4).setMaxWidth(32);
         UserTable.setShowGrid(false);
         TableCellRenderer baseRenderer = UserTable.getTableHeader().getDefaultRenderer();
         UserTable.getTableHeader().setDefaultRenderer(new TableHeaderRender(baseRenderer));
-        scrollTable.setBorder(new LineBorder(new Color(0,0,0,0)));
-        scrollTable.setViewportView(UserTable);
+        UserTable.setCellSelectionEnabled(false);
+        scrollTable2.setBorder(new LineBorder(new Color(0,0,0,0)));
+        scrollTable2.setViewportView(UserTable);
+    }
+
+    private void initPersonDashboard(){
+        this.TotalPersons.setText(String.valueOf(controller.totalPersons()));
+    }
+
+    private void initPersonTable() {
+        String[][] person_info = this.controller.getPersonas();
+        PersonTable = new JTable(){
+            public TableCellRenderer getCellRenderer( int row, int column ) {
+                return new TableButtonRender();
+            }
+            public String getToolTipText(MouseEvent e) {
+                String tip = null;
+                java.awt.Point p = e.getPoint();
+                int rowIndex = rowAtPoint(p);
+                int colIndex = columnAtPoint(p);
+                int realColumnIndex = convertColumnIndexToModel(colIndex);
+
+                if (realColumnIndex == 2) { //Sport column
+                    tip = getValueAt(rowIndex, colIndex).toString();
+                }
+                return tip;
+            }
+        };
+        PersonTable.setModel(new DefaultTableModel(
+                person_info,
+                new String[] {"CI","Nombre", "Direccion", " ", " "})
+        {   @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+        });
+        PersonTable.setRowHeight(35);
+        PersonTable.getColumnModel().getColumn(0).setMaxWidth(50);
+        PersonTable.getColumnModel().getColumn(3).setMaxWidth(32);
+        PersonTable.getColumnModel().getColumn(4).setMaxWidth(32);
+        PersonTable.setShowGrid(false);
+        TableCellRenderer baseRenderer = PersonTable.getTableHeader().getDefaultRenderer();
+        PersonTable.getTableHeader().setDefaultRenderer(new TableHeaderRender(baseRenderer));
+        PersonTable.setCellSelectionEnabled(false);
+        scrollTable3.setBorder(new LineBorder(new Color(0,0,0,0)));
+        scrollTable3.setViewportView(PersonTable);
     }
 
     private void exitMouseClicked(MouseEvent e) {
@@ -187,6 +233,8 @@ public class MainMenu extends JFrame {
         resetOptions();
         options[1].select();
         changeCard("roles");
+        initRolesTable();
+        initRolesDashboard();
         selected_option_button = Roles_Button;
     }
 
@@ -194,12 +242,17 @@ public class MainMenu extends JFrame {
         resetOptions();
         options[0].select();
         changeCard("usuarios");
+        initUserTable();
+        initUserDashboard();
         selected_option_button = Usuarios_Button;
     }
 
     private void optionBack_3MouseClicked(MouseEvent e) {
         resetOptions();
         options[2].select();
+        changeCard("personas");
+        initPersonTable();
+        initPersonDashboard();
         selected_option_button = Personas_Button;
     }
 
@@ -270,6 +323,19 @@ public class MainMenu extends JFrame {
     private JScrollPane scrollTable2;
     private JTable UserTable;
     private JLabel roles_list_back2;
+    private JPanel Personas;
+    private JLabel PersonTitle;
+    private JLabel PersonDesc;
+    private JLayeredPane layeredPane5;
+    private JLabel TotalPersons;
+    private JLabel total_title3;
+    private JLabel dashboard_back3;
+    private JLayeredPane layeredPane6;
+    private JLabel add_button3;
+    private JLabel label3;
+    private JScrollPane scrollTable3;
+    private JTable PersonTable;
+    private JLabel roles_list_back3;
     private JLayeredPane Nav;
     private JLabel iconUser;
     private JLabel name;
@@ -331,6 +397,19 @@ public class MainMenu extends JFrame {
         scrollTable2 = new JScrollPane();
         UserTable = new JTable();
         roles_list_back2 = new JLabel();
+        Personas = new JPanel();
+        PersonTitle = new JLabel();
+        PersonDesc = new JLabel();
+        layeredPane5 = new JLayeredPane();
+        TotalPersons = new JLabel();
+        total_title3 = new JLabel();
+        dashboard_back3 = new JLabel();
+        layeredPane6 = new JLayeredPane();
+        add_button3 = new JLabel();
+        label3 = new JLabel();
+        scrollTable3 = new JScrollPane();
+        PersonTable = new JTable();
+        roles_list_back3 = new JLabel();
         Nav = new JLayeredPane();
         iconUser = new JLabel();
         name = new JLabel();
@@ -362,13 +441,11 @@ public class MainMenu extends JFrame {
         //======== Header ========
         {
             Header.setBackground(Color.white);
-            Header.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax
-            . swing. border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmDesi\u0067ner Ev\u0061luatio\u006e", javax. swing
-            . border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM, new java .awt .
-            Font ("Dialo\u0067" ,java .awt .Font .BOLD ,12 ), java. awt. Color. red
-            ) ,Header. getBorder( )) ); Header. addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override
-            public void propertyChange (java .beans .PropertyChangeEvent e) {if ("borde\u0072" .equals (e .getPropertyName (
-            ) )) throw new RuntimeException( ); }} );
+            Header.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing. border. EmptyBorder( 0
+            , 0, 0, 0) , "JFor\u006dDesi\u0067ner \u0045valu\u0061tion", javax. swing. border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM
+            , new java .awt .Font ("Dia\u006cog" ,java .awt .Font .BOLD ,12 ), java. awt. Color. red) ,
+            Header. getBorder( )) ); Header. addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e
+            ) {if ("bord\u0065r" .equals (e .getPropertyName () )) throw new RuntimeException( ); }} );
 
             //---- exit ----
             exit.setIcon(new ImageIcon(getClass().getResource("/img/logout-edit.png")));
@@ -380,10 +457,6 @@ public class MainMenu extends JFrame {
                 @Override
                 public void mouseEntered(MouseEvent e) {
                     exitMouseEntered(e);
-                }
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    exitMouseExited(e);
                 }
             });
 
@@ -398,7 +471,7 @@ public class MainMenu extends JFrame {
             );
             HeaderLayout.setVerticalGroup(
                 HeaderLayout.createParallelGroup()
-                    .addComponent(exit, GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                    .addComponent(exit, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
             );
         }
 
@@ -516,9 +589,9 @@ public class MainMenu extends JFrame {
                                 return columnTypes[columnIndex];
                             }
                         });
+                        RolesTable.setCellSelectionEnabled(true);
                         RolesTable.setFillsViewportHeight(true);
                         RolesTable.setGridColor(Color.white);
-                        RolesTable.setEnabled(false);
                         scrollTable.setViewportView(RolesTable);
                     }
                     layeredPane2.add(scrollTable, JLayeredPane.DEFAULT_LAYER);
@@ -725,6 +798,134 @@ public class MainMenu extends JFrame {
                 );
             }
             main.add(Usuarios, "usuarios");
+
+            //======== Personas ========
+            {
+                Personas.setBackground(new Color(245, 245, 245));
+                Personas.setForeground(new Color(185, 185, 185));
+
+                //---- PersonTitle ----
+                PersonTitle.setText("Personas");
+                PersonTitle.setFont(new Font("Segoe UI", Font.BOLD, 36));
+                PersonTitle.setBackground(new Color(64, 65, 65));
+                PersonTitle.setForeground(new Color(64, 65, 65));
+
+                //---- PersonDesc ----
+                PersonDesc.setText("Crea y administra los personas de tu aplicaci\u00f3n.");
+                PersonDesc.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
+                PersonDesc.setForeground(new Color(126, 126, 126));
+
+                //======== layeredPane5 ========
+                {
+
+                    //---- TotalPersons ----
+                    TotalPersons.setText("24");
+                    TotalPersons.setFont(new Font("Segoe UI", Font.BOLD, 32));
+                    TotalPersons.setHorizontalAlignment(SwingConstants.CENTER);
+                    TotalPersons.setForeground(new Color(52, 154, 162));
+                    layeredPane5.add(TotalPersons, JLayeredPane.DEFAULT_LAYER);
+                    TotalPersons.setBounds(140, 20, 70, 35);
+
+                    //---- total_title3 ----
+                    total_title3.setText("Personas creadas");
+                    total_title3.setHorizontalAlignment(SwingConstants.CENTER);
+                    total_title3.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
+                    total_title3.setForeground(new Color(153, 153, 153));
+                    layeredPane5.add(total_title3, JLayeredPane.DEFAULT_LAYER);
+                    total_title3.setBounds(120, 65, 115, 16);
+
+                    //---- dashboard_back3 ----
+                    dashboard_back3.setIcon(new ImageIcon(getClass().getResource("/img/rolesHeader.png")));
+                    layeredPane5.add(dashboard_back3, JLayeredPane.DEFAULT_LAYER);
+                    dashboard_back3.setBounds(0, 0, 348, 105);
+                }
+
+                //======== layeredPane6 ========
+                {
+
+                    //---- add_button3 ----
+                    add_button3.setIcon(new ImageIcon(getClass().getResource("/img/add_button.png")));
+                    layeredPane6.add(add_button3, JLayeredPane.DEFAULT_LAYER);
+                    add_button3.setBounds(220, 10, 105, 35);
+
+                    //---- label3 ----
+                    label3.setText("Lista de Personas");
+                    label3.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 18));
+                    label3.setForeground(new Color(102, 102, 102));
+                    layeredPane6.add(label3, JLayeredPane.DEFAULT_LAYER);
+                    label3.setBounds(30, 12, 150, 31);
+
+                    //======== scrollTable3 ========
+                    {
+                        scrollTable3.setBorder(null);
+
+                        //---- PersonTable ----
+                        PersonTable.setBackground(Color.white);
+                        PersonTable.setModel(new DefaultTableModel(
+                            new Object[][] {
+                                {null, "", null},
+                                {null, null, null},
+                            },
+                            new String[] {
+                                "Nombre", "Descripci\u00f3n", " "
+                            }
+                        ) {
+                            Class<?>[] columnTypes = new Class<?>[] {
+                                String.class, String.class, Object.class
+                            };
+                            @Override
+                            public Class<?> getColumnClass(int columnIndex) {
+                                return columnTypes[columnIndex];
+                            }
+                        });
+                        PersonTable.setCellSelectionEnabled(true);
+                        PersonTable.setFillsViewportHeight(true);
+                        PersonTable.setGridColor(Color.white);
+                        scrollTable3.setViewportView(PersonTable);
+                    }
+                    layeredPane6.add(scrollTable3, JLayeredPane.DEFAULT_LAYER);
+                    scrollTable3.setBounds(0, 55, 348, 175);
+
+                    //---- roles_list_back3 ----
+                    roles_list_back3.setIcon(new ImageIcon(getClass().getResource("/img/rolesHeader.png")));
+                    roles_list_back3.setBackground(Color.white);
+                    layeredPane6.add(roles_list_back3, JLayeredPane.DEFAULT_LAYER);
+                    roles_list_back3.setBounds(0, 0, 355, 55);
+                }
+
+                GroupLayout PersonasLayout = new GroupLayout(Personas);
+                Personas.setLayout(PersonasLayout);
+                PersonasLayout.setHorizontalGroup(
+                    PersonasLayout.createParallelGroup()
+                        .addGroup(PersonasLayout.createSequentialGroup()
+                            .addGroup(PersonasLayout.createParallelGroup()
+                                .addGroup(PersonasLayout.createSequentialGroup()
+                                    .addGap(88, 88, 88)
+                                    .addGroup(PersonasLayout.createParallelGroup()
+                                        .addComponent(PersonTitle)
+                                        .addComponent(PersonDesc, GroupLayout.PREFERRED_SIZE, 369, GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(PersonasLayout.createSequentialGroup()
+                                    .addGap(77, 77, 77)
+                                    .addGroup(PersonasLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(layeredPane5, GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE)
+                                        .addComponent(layeredPane6, GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE))))
+                            .addContainerGap(363, Short.MAX_VALUE))
+                );
+                PersonasLayout.setVerticalGroup(
+                    PersonasLayout.createParallelGroup()
+                        .addGroup(PersonasLayout.createSequentialGroup()
+                            .addGap(49, 49, 49)
+                            .addComponent(PersonTitle)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(PersonDesc)
+                            .addGap(18, 18, 18)
+                            .addComponent(layeredPane5, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(layeredPane6, GroupLayout.PREFERRED_SIZE, 235, GroupLayout.PREFERRED_SIZE)
+                            .addContainerGap(48, Short.MAX_VALUE))
+                );
+            }
+            main.add(Personas, "personas");
         }
 
         //======== Nav ========
