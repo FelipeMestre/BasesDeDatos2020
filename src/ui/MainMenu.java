@@ -44,9 +44,33 @@ public class MainMenu extends JFrame {
         return new Option[]{option1, option2, option3, option4};
     }
 
+    //Metodos de Rol
+
     private void initRolesDashboard(){
         this.TotalRoles.setText(String.valueOf(controller.totalRoles()));
         this.ActiveRoles.setText(String.valueOf(controller.activeRoles()));
+    }
+
+    private void initRolesTable() {
+        RolesTable = new JTable(){
+            public String getToolTipText(MouseEvent e) {
+                String tip = null;
+                java.awt.Point p = e.getPoint();
+                int rowIndex = rowAtPoint(p);
+                int colIndex = columnAtPoint(p);
+                int realColumnIndex = convertColumnIndexToModel(colIndex);
+
+                if (realColumnIndex == 2) { //Sport column
+                    tip = getValueAt(rowIndex, colIndex).toString();
+                }
+                return tip;
+            }
+        };
+        fetchRoles();
+    }
+
+    public void fetchRoles(){
+        updateRolesTable(this.controller.getRoles());
     }
 
     private void updateRolesTable(String[][] newData){
@@ -74,33 +98,26 @@ public class MainMenu extends JFrame {
         scrollTable.setViewportView(RolesTable);
     }
 
-    private void initRolesTable() {
-        RolesTable = new JTable(){
-            public String getToolTipText(MouseEvent e) {
-                String tip = null;
-                java.awt.Point p = e.getPoint();
-                int rowIndex = rowAtPoint(p);
-                int colIndex = columnAtPoint(p);
-                int realColumnIndex = convertColumnIndexToModel(colIndex);
+    public void editRole(int row){
+        String id_edit = String.valueOf(RolesTable.getValueAt(row, 0));
+        String role_name = String.valueOf(RolesTable.getValueAt(row, 1));
+        String role_desc = String.valueOf(RolesTable.getValueAt(row,2));
+        this.disable();
+        EditRolForm edit_screen = new EditRolForm(this, controller, id_edit, role_name, role_desc);
+        edit_screen.setVisible(true);
+    }
 
-                if (realColumnIndex == 2) { //Sport column
-                    tip = getValueAt(rowIndex, colIndex).toString();
-                }
-                return tip;
-            }
-        };
+    public void deleteRole(int row){
+        String id_edit = String.valueOf(RolesTable.getValueAt(row, 0));
+        controller.deleteModel(id_edit,"Rol");
         fetchRoles();
     }
 
-    public void fetchRoles(){
-        updateRolesTable(this.controller.getRoles());
-    }
+    //Metodos de Person
 
     private void initPersonDashboard(){
         this.TotalPersons.setText(String.valueOf(controller.totalPersons()));
     }
-
-    //Metodos de Person
 
     private void initPersonTable() {
         String[][] person_info = this.controller.getPersonas();
@@ -150,7 +167,7 @@ public class MainMenu extends JFrame {
         String id_edit = String.valueOf(PersonTable.getValueAt(row, 0));
         String person_name = String.valueOf(PersonTable.getValueAt(row, 1));
         String person_direccion = String.valueOf(PersonTable.getValueAt(row,2));
-        String telefono = "123456";
+        String telefono = String.valueOf(PersonTable.getValueAt(row,3));
         this.disable();
         EditPersonForm edit_screen = new EditPersonForm(this, controller,person_name,telefono,person_direccion,id_edit);
         edit_screen.setVisible(true);
@@ -187,20 +204,7 @@ public class MainMenu extends JFrame {
         scrollTable3.setViewportView(PersonTable);
     }
 
-    public void editRole(int row){
-        String id_edit = String.valueOf(RolesTable.getValueAt(row, 0));
-        String role_name = String.valueOf(RolesTable.getValueAt(row, 1));
-        String role_desc = String.valueOf(RolesTable.getValueAt(row,2));
-        this.disable();
-        EditRolForm edit_screen = new EditRolForm(this, controller, id_edit, role_name, role_desc);
-        edit_screen.setVisible(true);
-    }
-
-    public void deleteRole(int row){
-        String id_edit = String.valueOf(RolesTable.getValueAt(row, 0));
-        controller.deleteModel(id_edit,"Rol");
-        fetchRoles();
-    }
+    //Metodos de User
 
     private void initUserDashboard(){
         this.TotalUsuarios.setText(String.valueOf(controller.totalUsers()));
@@ -242,8 +246,6 @@ public class MainMenu extends JFrame {
         scrollTable2.setBorder(new LineBorder(new Color(0,0,0,0)));
         scrollTable2.setViewportView(UserTable);
     }
-
-
 
     private void exitMouseClicked(MouseEvent e) {
         this.dispose();
