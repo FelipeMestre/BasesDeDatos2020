@@ -1,0 +1,105 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {comp panel2::l:::x, comp panel3::l:::x, comp panel1::l:::x}"
+			"$verticalGroup": "par l {seq l {comp panel2:::p::p, space :::p, comp panel1:::p::p, space :::x, comp panel3:::p::p}}"
+		} ) {
+			name: "this"
+			"resizable": false
+			"undecorated": true
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq l {space :p:44:p, par l {comp Direccion_label:::p::p, comp Documento:::p:215:p, comp Documento_label:::p:214:p, seq {par l {comp NameTitle:::p::p, comp Nombre:::p:215:p}, space :p:44:p, par l {comp Telefono_Label:::p:134:p, comp Telefono:::p:215:p}}, comp Direccion::l:p:215:p}, space ::60:x}}"
+				"$verticalGroup": "par l {seq l {space :p:20:p, par l {seq t {comp NameTitle:::p::p, space :::p}, seq t {comp Telefono_Label:::p::p, space :p:3:p}}, par l {comp Nombre:::p:30:p, comp Telefono::l:p:30:p}, space s:::p, comp Documento_label:::p:28:p, space :::p, comp Documento:::p:30:p, space s:::p, comp Direccion_label:::p::p, space :::p, comp Direccion:::p:30:p, space ::15:x}}"
+			} ) {
+				name: "panel1"
+				"background": new java.awt.Color( 244, 244, 244, 255 )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "NameTitle"
+					"text": "Nombre del rol"
+					"font": new java.awt.Font( "Segoe UI Semibold", 0, 16 )
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "Telefono_Label"
+					"text": "Telefono"
+					"font": new java.awt.Font( "Segoe UI Semibold", 0, 16 )
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "Nombre"
+					"background": new java.awt.Color( 255, 255, 255, 255 )
+					"foreground": sfield java.awt.Color darkGray
+					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "Telefono"
+					"background": new java.awt.Color( 255, 255, 255, 255 )
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "Documento_label"
+					"text": "Documento (solo numeros)"
+					"font": new java.awt.Font( "Segoe UI Semibold", 0, 16 )
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "Documento"
+					"font": new java.awt.Font( "Segoe UI", 0, 12 )
+					"background": new java.awt.Color( 255, 255, 255, 255 )
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "Direccion_label"
+					"text": "Direccion"
+					"font": new java.awt.Font( "Segoe UI Semibold", 0, 16 )
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "Direccion"
+					"background": new java.awt.Color( 255, 255, 255, 255 )
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {comp Title::l::578:x}"
+				"$verticalGroup": "par l {seq t {space :::x, comp Title:::p::p, space :::p}}"
+			} ) {
+				name: "panel2"
+				"background": new java.awt.Color( 42, 58, 64, 255 )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "Title"
+					"text": "Edición de rol "
+					"font": new java.awt.Font( "Segoe UI Semibold", 0, 22 )
+					"foreground": sfield java.awt.Color white
+					"horizontalAlignment": 0
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq {space ::339:x, comp Cancel:::p:103:p, space u:::p, comp Submit:::p:103:p, space :p:21:p}}"
+				"$verticalGroup": "par l {seq l {par b {comp Cancel::b:p:30:p, comp Submit::b:p:30:p}, space :0:77:x}}"
+			} ) {
+				name: "panel3"
+				"background": new java.awt.Color( 203, 203, 203, 255 )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "Cancel"
+					"text": "Cancelar"
+					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"background": new java.awt.Color( 181, 181, 181, 255 )
+					"foreground": &Color0 new java.awt.Color( 255, 255, 255, 255 )
+					"font": &Font0 new java.awt.Font( "Segoe UI Semibold", 0, 14 )
+					"borderPainted": false
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "CancelActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "Submit"
+					"text": "Modificar"
+					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"background": new java.awt.Color( 42, 58, 64, 255 )
+					"foreground": #Color0
+					"font": #Font0
+					"borderPainted": false
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "SubmitActionPerformed", false ) )
+				} )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 580, 370 )
+		} )
+	}
+}
