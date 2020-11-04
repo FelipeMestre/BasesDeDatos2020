@@ -401,6 +401,14 @@ public class MainMenu extends JFrame {
     private JPanel Header;
     private JLabel exit;
     private JPanel main;
+    private JPanel Welcome;
+    private JLabel label4;
+    private JLabel label5;
+    private JLabel label6;
+    private JLabel label7;
+    private JLabel label8;
+    private JLabel label9;
+    private JLabel label10;
     private JPanel Roles;
     private JLabel RolesTitle;
     private JLabel RolesDesc;
@@ -475,6 +483,14 @@ public class MainMenu extends JFrame {
         Header = new JPanel();
         exit = new JLabel();
         main = new JPanel();
+        Welcome = new JPanel();
+        label4 = new JLabel();
+        label5 = new JLabel();
+        label6 = new JLabel();
+        label7 = new JLabel();
+        label8 = new JLabel();
+        label9 = new JLabel();
+        label10 = new JLabel();
         Roles = new JPanel();
         RolesTitle = new JLabel();
         RolesDesc = new JLabel();
@@ -550,14 +566,6 @@ public class MainMenu extends JFrame {
         //======== Header ========
         {
             Header.setBackground(Color.white);
-            Header.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (
-            new javax. swing. border. EmptyBorder( 0, 0, 0, 0) , "JFor\u006dDesi\u0067ner \u0045valu\u0061tion"
-            , javax. swing. border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM
-            , new java .awt .Font ("Dia\u006cog" ,java .awt .Font .BOLD ,12 )
-            , java. awt. Color. red) ,Header. getBorder( )) ); Header. addPropertyChangeListener (
-            new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e
-            ) {if ("bord\u0065r" .equals (e .getPropertyName () )) throw new RuntimeException( )
-            ; }} );
 
             //---- exit ----
             exit.setIcon(new ImageIcon(getClass().getResource("/img/logout-edit.png")));
@@ -591,6 +599,92 @@ public class MainMenu extends JFrame {
         {
             main.setBackground(new Color(244, 244, 244));
             main.setLayout(new CardLayout());
+
+            //======== Welcome ========
+            {
+                Welcome.setBackground(Color.white);
+
+                //---- label4 ----
+                label4.setText("Bienvenido!");
+                label4.setForeground(Color.gray);
+                label4.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 40));
+                label4.setHorizontalAlignment(SwingConstants.CENTER);
+
+                //---- label5 ----
+                label5.setText("Esta es la aplicaci\u00f3n oficial");
+                label5.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+                label5.setForeground(Color.gray);
+
+                //---- label6 ----
+                label6.setText("Es");
+                label6.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+                label6.setForeground(Color.gray);
+
+                //---- label7 ----
+                label7.setText("r\u00e1pida");
+                label7.setFont(new Font("Segoe UI", Font.BOLD, 15));
+                label7.setForeground(Color.gray);
+
+                //---- label8 ----
+                label8.setText("y");
+                label8.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+                label8.setForeground(Color.gray);
+
+                //---- label9 ----
+                label9.setText("segura");
+                label9.setFont(new Font("Segoe UI", Font.BOLD, 16));
+                label9.setForeground(Color.gray);
+
+                //---- label10 ----
+                label10.setText("Wise Admin");
+                label10.setFont(new Font("Segoe UI Semibold", Font.BOLD, 18));
+                label10.setForeground(new Color(50, 182, 195));
+
+                GroupLayout WelcomeLayout = new GroupLayout(Welcome);
+                Welcome.setLayout(WelcomeLayout);
+                WelcomeLayout.setHorizontalGroup(
+                    WelcomeLayout.createParallelGroup()
+                        .addGroup(WelcomeLayout.createSequentialGroup()
+                            .addContainerGap()
+                            .addGroup(WelcomeLayout.createParallelGroup()
+                                .addComponent(label4, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(WelcomeLayout.createSequentialGroup()
+                                    .addGap(261, 261, 261)
+                                    .addComponent(label5)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(label10)
+                                    .addGap(0, 0, Short.MAX_VALUE))
+                                .addGroup(GroupLayout.Alignment.TRAILING, WelcomeLayout.createSequentialGroup()
+                                    .addGap(338, 338, 338)
+                                    .addComponent(label6)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(label7)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(label8)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(label9)
+                                    .addGap(334, 334, 334)))
+                            .addContainerGap())
+                );
+                WelcomeLayout.setVerticalGroup(
+                    WelcomeLayout.createParallelGroup()
+                        .addGroup(WelcomeLayout.createSequentialGroup()
+                            .addGap(168, 168, 168)
+                            .addComponent(label4, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(WelcomeLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addComponent(label5, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(label10, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE))
+                            .addGap(0, 0, 0)
+                            .addGroup(WelcomeLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addComponent(label7)
+                                .addComponent(label6)
+                                .addComponent(label8)
+                                .addComponent(label9))
+                            .addContainerGap(255, Short.MAX_VALUE))
+                );
+            }
+            main.add(Welcome, "welcome");
 
             //======== Roles ========
             {

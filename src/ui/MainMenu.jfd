@@ -27,6 +27,58 @@ new FormModel {
 				name: "main"
 				"background": new java.awt.Color( 244, 244, 244, 255 )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {seq l {space :::p, par l {comp label4::l:::x, seq l {space :p:261:p, comp label5:::p::p, space :::p, comp label10:::p::p, space :0:0:x}, seq t {space :p:338:p, comp label6:::p::p, space :::p, comp label7:::p::p, space :::p, comp label8:::p::p, space :::p, comp label9:::p::p, space :p:334:p}}, space :::p}}"
+					"$verticalGroup": "par l {seq l {space :p:168:p, comp label4:::p:48:p, space u:::p, par b {comp label5::b:p:29:p, comp label10::b:p:32:p}, space :0:0:p, par b {comp label7::b:p::p, comp label6::b:p::p, comp label8::b:p::p, comp label9::b:p::p}, space ::255:x}}"
+				} ) {
+					name: "Welcome"
+					"background": new java.awt.Color( 255, 255, 255, 255 )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "label4"
+						"text": "Bienvenido!"
+						"foreground": sfield java.awt.Color gray
+						"font": new java.awt.Font( "Segoe UI Semibold", 0, 40 )
+						"horizontalAlignment": 0
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "label5"
+						"text": "Esta es la aplicación oficial"
+						"font": new java.awt.Font( "Segoe UI", 0, 16 )
+						"foreground": sfield java.awt.Color gray
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "label6"
+						"text": "Es"
+						"font": new java.awt.Font( "Segoe UI", 0, 16 )
+						"foreground": sfield java.awt.Color gray
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "label7"
+						"text": "rápida"
+						"font": new java.awt.Font( "Segoe UI", 1, 15 )
+						"foreground": sfield java.awt.Color gray
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "label8"
+						"text": "y"
+						"font": new java.awt.Font( "Segoe UI", 0, 16 )
+						"foreground": sfield java.awt.Color gray
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "label9"
+						"text": "segura"
+						"font": new java.awt.Font( "Segoe UI", 1, 16 )
+						"foreground": sfield java.awt.Color gray
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "label10"
+						"text": "Wise Admin"
+						"font": new java.awt.Font( "Segoe UI Semibold", 1, 18 )
+						"foreground": new java.awt.Color( 50, 182, 195, 255 )
+					} )
+				}, new FormLayoutConstraints( class java.lang.String ) {
+					"value": "welcome"
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 					"$horizontalGroup": "par l {seq {par l {seq {space :p:88:p, par l {comp RolesTitle:::p::p, comp RolesDesc:::p:369:p}}, seq l {space :p:77:p, par l:::p {comp layeredPane1::::353:x, comp layeredPane2::::353:x}}}, space ::363:x}}"
 					"$verticalGroup": "par l {seq l {space :p:49:p, comp RolesTitle:::p::p, space :::p, comp RolesDesc:::p::p, space s:::p, comp layeredPane1:::p:103:p, space u:::p, comp layeredPane2:::p:235:p, space ::48:x}}"
 				} ) {
