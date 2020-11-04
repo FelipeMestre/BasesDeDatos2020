@@ -78,11 +78,19 @@ public class ModelConstructor {
     }
 
     public void updateRole(String role_id, String newName, String newDesc){
-        db.updateRole(role_id, newName, newDesc);
+        db.updateModel(role_id, newName, newDesc,"Rol");
     }
 
-    public void deleteRole(String role_id){
-        db.deleteRow("rol", role_id, "id_rol");
+    public void updatePerson(String id, String newName, String newAdres,String newPhone){
+        db.updatePerson(id, newName, newAdres,newPhone);
+    }
+
+    public void deleteModel(String id, String tablename){
+        if (tablename.equals("persona")){
+            db.deleteRow(tablename,id,"cedula");
+        } else {
+            db.deleteRow(tablename, id, "id_" + tablename);
+        }
     }
 
 

@@ -228,11 +228,26 @@ public class Database {
         return null;
     }
 
-    public void updateRole(String row_id, String new_name, String new_desc){
+
+    //Updates
+    public void updateModel(String row_id, String new_name, String new_desc,String tablename){
         if(isConnected()) {
             try {
                 stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
-                stmt.executeUpdate(String.format("UPDATE rol SET nombre_rol = \'%s\',descripcion = \'%s\' WHERE id_rol = %d",new_name,new_desc,Integer.parseInt(row_id)));
+                stmt.executeUpdate(String.format("UPDATE "+ tablename + " SET nombre_"+tablename+ "= \'%s\',descripcion = \'%s\' WHERE id_"+tablename+" = %d",new_name,new_desc,Integer.parseInt(row_id)));
+            }
+            catch (SQLException ex) {
+                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    public void updatePerson(String id, String newName, String newAdres, String newPhone){
+        if(isConnected()) {
+            try {
+                stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
+                stmt.executeUpdate(String.format("UPDATE persona SET nombre = \'%s\',direccion = \'%s\' " +
+                        ", telefono = \'%s\' WHERE cedula = %d",newName,newAdres,newPhone,Integer.parseInt(id)));
             }
             catch (SQLException ex) {
                 Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
@@ -255,6 +270,4 @@ public class Database {
         }
         return null;
     }
-
-
 }
