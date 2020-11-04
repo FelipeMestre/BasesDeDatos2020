@@ -2,7 +2,7 @@
  * Created by JFormDesigner on Sun Nov 01 19:25:33 UYT 2020
  */
 
-package ui;
+package ui.creation;
 
 import org.ucu.bd.ModelConstructor;
 

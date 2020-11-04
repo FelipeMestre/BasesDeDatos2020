@@ -7,7 +7,15 @@ package ui;
 import javax.swing.border.LineBorder;
 import javax.swing.table.*;
 
+import actions.DeletePersonAction;
+import actions.DeleteRoleAction;
+import actions.EditPersonAction;
+import actions.EditRoleAction;
 import org.ucu.bd.*;
+import ui.creation.CreatePersonForm;
+import ui.creation.CreateRolForm;
+import ui.edit.EditPersonForm;
+import ui.edit.EditRolForm;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -246,6 +254,7 @@ public class MainMenu extends JFrame {
         scrollTable2.setBorder(new LineBorder(new Color(0,0,0,0)));
         scrollTable2.setViewportView(UserTable);
     }
+
 
     private void exitMouseClicked(MouseEvent e) {
         this.dispose();

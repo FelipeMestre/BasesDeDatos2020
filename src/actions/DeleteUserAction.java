@@ -1,12 +1,14 @@
-package org.ucu.bd;
+package actions;
 
+import actions.ChangeAction;
 import ui.MainMenu;
+
 import java.awt.event.ActionEvent;
 
-public class DeleteRoleAction extends ChangeAction {
+public class DeleteUserAction extends ChangeAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         MainMenu frame = (MainMenu) (e.getSource());
-        frame.deleteRole(Integer.parseInt(e.getActionCommand()));
+        frame.deletePerson(Integer.parseInt(e.getActionCommand()));
     }
 }

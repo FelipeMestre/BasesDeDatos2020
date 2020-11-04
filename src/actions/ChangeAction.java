@@ -1,4 +1,4 @@
-package org.ucu.bd;
+package actions;
 
 import javax.swing.*;
 import java.beans.PropertyChangeListener;

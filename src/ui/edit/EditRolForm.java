@@ -2,9 +2,10 @@
  * Created by JFormDesigner on Tue Nov 03 14:04:54 UYT 2020
  */
 
-package ui;
+package ui.edit;
 
 import org.ucu.bd.ModelConstructor;
+import ui.MainMenu;
 
 import java.awt.*;
 import java.awt.event.*;
