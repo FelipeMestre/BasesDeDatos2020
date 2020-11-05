@@ -202,8 +202,7 @@ public class Database {
                 if ( rs.next() ) {
                     int modelKey = rs.getInt(1);
                     java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-                   int eventKey = createEvento(tablename,date);
-                    String query = new StringBuilder().append("INSERT INTO log_").append(tablename).append(" (id_").append(tablename).append(", fecha_registro, id_usuario, id_evento) VALUES ('").append(String.valueOf(modelKey)).append("','").append(date).append("','").append(currentUser.getCurrentUser().get_userId()).append("','").append(eventKey).append("')").toString();
+                    String query = new StringBuilder().append("INSERT INTO log_").append(tablename).append(" (id_").append(tablename).append(", fecha_registro, id_usuario, id_evento) VALUES ('").append(String.valueOf(modelKey)).append("','").append(date).append("','").append(currentUser.getCurrentUser().get_userId()).append("','").append(1).append("')").toString();
                     stmt.executeUpdate(query);
                     return true;
                 }
@@ -213,6 +212,19 @@ public class Database {
             }
         }
         return false;
+    }
+
+    private void logActivity(ResultSet rs, String tablename, int event_type){
+        try {
+            if (rs.next()) {
+                int modelKey = rs.getInt(1);
+                java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+                String query = new StringBuilder().append("INSERT INTO log_").append(tablename).append(" (id_").append(tablename).append(", fecha_registro, id_usuario, id_evento) VALUES ('").append(String.valueOf(modelKey)).append("','").append(date).append("','").append(currentUser.getCurrentUser().get_userId()).append("','").append(event_type).append("')").toString();
+                stmt.executeUpdate(query);
+            }
+        }   catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public ResultSet deleteRow(String table_name, String row_id, String col_name) {
@@ -234,7 +246,8 @@ public class Database {
         if(isConnected()) {
             try {
                 stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
-                stmt.executeUpdate(String.format("UPDATE "+ tablename + " SET nombre_"+tablename+ "= \'%s\',descripcion = \'%s\' WHERE id_"+tablename+" = %d",new_name,new_desc,Integer.parseInt(row_id)));
+                stmt.executeUpdate(String.format("UPDATE "+ tablename + " SET nombre_"+tablename+ "= \'%s\',descripcion = \'%s\' WHERE id_"+tablename+" = %d",new_name,new_desc,Integer.parseInt(row_id)),Statement.RETURN_GENERATED_KEYS);
+                logActivity(stmt.getGeneratedKeys(), tablename,3);
             }
             catch (SQLException ex) {
                 Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);

@@ -79,8 +79,8 @@ new FormModel {
 					"value": "welcome"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {seq {par l {seq {space :p:88:p, par l {comp RolesTitle:::p::p, comp RolesDesc:::p:369:p}}, seq l {space :p:77:p, par l:::p {comp layeredPane1::::353:x, comp layeredPane2::::353:x}}}, space ::363:x}}"
-					"$verticalGroup": "par l {seq l {space :p:49:p, comp RolesTitle:::p::p, space :::p, comp RolesDesc:::p::p, space s:::p, comp layeredPane1:::p:103:p, space u:::p, comp layeredPane2:::p:235:p, space ::48:x}}"
+					"$horizontalGroup": "par l {seq {par l {seq {space :p:88:p, par l {comp RolesTitle:::p::p, seq {comp RolesDesc:::p:369:p, space :::p, comp layeredPane7:::p:295:p}}}, seq l {space :p:77:p, par l:::p {comp layeredPane1::::353:x, comp layeredPane2::::353:x}}}, space ::62:x}}"
+					"$verticalGroup": "par l {seq l {space :p:49:p, comp RolesTitle:::p::p, space :::p, par l {seq {comp RolesDesc:::p::p, space s:::p, comp layeredPane1:::p:103:p, space u:::p, comp layeredPane2:::p:235:p}, comp layeredPane7:::p:368:p}, space ::48:x}}"
 				} ) {
 					name: "Roles"
 					"background": &Color0 new java.awt.Color( 245, 245, 245, 255 )
@@ -238,17 +238,47 @@ new FormModel {
 							"height": 55
 						} )
 					} )
+					add( new FormContainer( "javax.swing.JLayeredPane", new FormLayoutManager( class javax.swing.JLayeredPane ) ) {
+						name: "layeredPane7"
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label11"
+							"text": "Historial de cambios"
+							"font": #Font5
+							"foreground": #Color9
+						}, new FormLayoutConstraints( null ) {
+							"width": 175
+							"height": 31
+							"x": 30
+							"y": 10
+						} )
+						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+							name: "scrollPane1"
+							"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							add( new FormComponent( "javax.swing.JList" ) {
+								name: "roles_history"
+								"background": sfield java.awt.Color white
+								"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"selectionMode": 0
+								"visibleRowCount": 10
+							} )
+						}, new FormLayoutConstraints( null ) {
+							"x": 10
+							"y": 55
+							"width": 275
+							"height": 285
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "log_back"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/img/Log-back.png" )
+						}, new FormLayoutConstraints( null ) {
+							"width": 295
+							"height": 350
+							"x": 0
+							"y": 0
+						} )
+					} )
 				}, new FormLayoutConstraints( class java.lang.String ) {
 					"value": "roles"
-				} )
-				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {space :0:820:x}"
-					"$verticalGroup": "par l {space :0:537:x}"
-				} ) {
-					name: "Default"
-					"background": new java.awt.Color( 245, 245, 245, 255 )
-				}, new FormLayoutConstraints( class java.lang.String ) {
-					"value": "card2"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
 					"$horizontalGroup": "par l {seq {par l {seq {space :p:88:p, par l {comp UserTitle:::p::p, comp UserDesc:::p:369:p}}, seq l {space :p:77:p, par l:::p {comp layeredPane3::::353:x, comp layeredPane4::::353:x}}}, space ::363:x}}"

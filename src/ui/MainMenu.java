@@ -40,6 +40,7 @@ public class MainMenu extends JFrame {
         this.name.setText(username);
     }
 
+
     private Option[] createOptions(){
         Option option1 = new Option(Usuarios_Button, usersLabel, icon_user, "/img/option.png",
                 "/img/usability-edit.png", "/img/usability-edit-selected.png");
@@ -104,6 +105,8 @@ public class MainMenu extends JFrame {
         RolesTable.getTableHeader().setDefaultRenderer(new TableHeaderRender(baseRenderer));
         scrollTable.setBorder(new LineBorder(new Color(0,0,0,0)));
         scrollTable.setViewportView(RolesTable);
+        roles_history.setListData(controller.getRoleLog());
+        roles_history.setCellRenderer(new RolesHistoryListRenderer());
     }
 
     public void editRole(int row){
@@ -424,7 +427,11 @@ public class MainMenu extends JFrame {
     private JScrollPane scrollTable;
     private JTable RolesTable;
     private JLabel roles_list_back;
-    private JPanel Default;
+    private JLayeredPane layeredPane7;
+    private JLabel label11;
+    private JScrollPane scrollPane1;
+    private JList roles_history;
+    private JLabel log_back;
     private JPanel Usuarios;
     private JLabel UserTitle;
     private JLabel UserDesc;
@@ -506,7 +513,11 @@ public class MainMenu extends JFrame {
         scrollTable = new JScrollPane();
         RolesTable = new JTable();
         roles_list_back = new JLabel();
-        Default = new JPanel();
+        layeredPane7 = new JLayeredPane();
+        label11 = new JLabel();
+        scrollPane1 = new JScrollPane();
+        roles_history = new JList();
+        log_back = new JLabel();
         Usuarios = new JPanel();
         UserTitle = new JLabel();
         UserDesc = new JLabel();
@@ -810,6 +821,36 @@ public class MainMenu extends JFrame {
                     roles_list_back.setBounds(0, 0, 355, 55);
                 }
 
+                //======== layeredPane7 ========
+                {
+
+                    //---- label11 ----
+                    label11.setText("Historial de cambios");
+                    label11.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 18));
+                    label11.setForeground(new Color(102, 102, 102));
+                    layeredPane7.add(label11, JLayeredPane.DEFAULT_LAYER);
+                    label11.setBounds(30, 10, 175, 31);
+
+                    //======== scrollPane1 ========
+                    {
+                        scrollPane1.setBorder(null);
+
+                        //---- roles_history ----
+                        roles_history.setBackground(Color.white);
+                        roles_history.setBorder(null);
+                        roles_history.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                        roles_history.setVisibleRowCount(10);
+                        scrollPane1.setViewportView(roles_history);
+                    }
+                    layeredPane7.add(scrollPane1, JLayeredPane.DEFAULT_LAYER);
+                    scrollPane1.setBounds(10, 55, 275, 285);
+
+                    //---- log_back ----
+                    log_back.setIcon(new ImageIcon(getClass().getResource("/img/Log-back.png")));
+                    layeredPane7.add(log_back, JLayeredPane.DEFAULT_LAYER);
+                    log_back.setBounds(0, 0, 295, 350);
+                }
+
                 GroupLayout RolesLayout = new GroupLayout(Roles);
                 Roles.setLayout(RolesLayout);
                 RolesLayout.setHorizontalGroup(
@@ -820,13 +861,16 @@ public class MainMenu extends JFrame {
                                     .addGap(88, 88, 88)
                                     .addGroup(RolesLayout.createParallelGroup()
                                         .addComponent(RolesTitle)
-                                        .addComponent(RolesDesc, GroupLayout.PREFERRED_SIZE, 369, GroupLayout.PREFERRED_SIZE)))
+                                        .addGroup(RolesLayout.createSequentialGroup()
+                                            .addComponent(RolesDesc, GroupLayout.PREFERRED_SIZE, 369, GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(layeredPane7, GroupLayout.PREFERRED_SIZE, 295, GroupLayout.PREFERRED_SIZE))))
                                 .addGroup(RolesLayout.createSequentialGroup()
                                     .addGap(77, 77, 77)
                                     .addGroup(RolesLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
                                         .addComponent(layeredPane1, GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE)
                                         .addComponent(layeredPane2, GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE))))
-                            .addContainerGap(363, Short.MAX_VALUE))
+                            .addContainerGap(62, Short.MAX_VALUE))
                 );
                 RolesLayout.setVerticalGroup(
                     RolesLayout.createParallelGroup()
@@ -834,32 +878,18 @@ public class MainMenu extends JFrame {
                             .addGap(49, 49, 49)
                             .addComponent(RolesTitle)
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(RolesDesc)
-                            .addGap(18, 18, 18)
-                            .addComponent(layeredPane1, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(layeredPane2, GroupLayout.PREFERRED_SIZE, 235, GroupLayout.PREFERRED_SIZE)
+                            .addGroup(RolesLayout.createParallelGroup()
+                                .addGroup(RolesLayout.createSequentialGroup()
+                                    .addComponent(RolesDesc)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(layeredPane1, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(layeredPane2, GroupLayout.PREFERRED_SIZE, 235, GroupLayout.PREFERRED_SIZE))
+                                .addComponent(layeredPane7, GroupLayout.PREFERRED_SIZE, 368, GroupLayout.PREFERRED_SIZE))
                             .addContainerGap(48, Short.MAX_VALUE))
                 );
             }
             main.add(Roles, "roles");
-
-            //======== Default ========
-            {
-                Default.setBackground(new Color(245, 245, 245));
-
-                GroupLayout DefaultLayout = new GroupLayout(Default);
-                Default.setLayout(DefaultLayout);
-                DefaultLayout.setHorizontalGroup(
-                    DefaultLayout.createParallelGroup()
-                        .addGap(0, 820, Short.MAX_VALUE)
-                );
-                DefaultLayout.setVerticalGroup(
-                    DefaultLayout.createParallelGroup()
-                        .addGap(0, 537, Short.MAX_VALUE)
-                );
-            }
-            main.add(Default, "card2");
 
             //======== Usuarios ========
             {

@@ -1,5 +1,8 @@
 package org.ucu.bd;
 
+import model.Log;
+import model.Log_Role;
+
 import javax.swing.*;
 import java.awt.*;
 import java.sql.ResultSet;
@@ -74,13 +77,36 @@ public class ModelConstructor {
             }
             return false;
         }
-
     }
 
     public void updateRole(String role_id, String newName, String newDesc){
         db.updateModel(role_id, newName, newDesc,"Rol");
     }
 
+    public Log_Role[] getRoleLog() {
+        ResultSet rs = retrieveRoleLog();
+        Log_Role[] result = new Log_Role[0];
+        try {
+            rs.last();
+            int size = rs.getRow();
+            if (size > 0) {
+                result = new Log_Role[size];
+                rs.first();
+                int rowNumber = 0;
+                do {
+                    result[rowNumber] = new Log_Role(rs.getString(1), rs.getString(2), rs.getString(4), rs.getString(3), rs.getString(5));
+                    rowNumber++;
+                } while (rs.next());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    private ResultSet retrieveRoleLog(){
+        return db.getAllElements("vista_cambios_roles");
+    }
     public void updatePerson(String id, String newName, String newAdres,String newPhone){
         db.updatePerson(id, newName, newAdres,newPhone);
     }
