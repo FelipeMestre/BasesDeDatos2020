@@ -281,8 +281,8 @@ new FormModel {
 					"value": "roles"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {seq {par l {seq {space :p:88:p, par l {comp UserTitle:::p::p, comp UserDesc:::p:369:p}}, seq l {space :p:77:p, par l:::p {comp layeredPane3::::353:x, comp layeredPane4::::353:x}}}, space ::363:x}}"
-					"$verticalGroup": "par l {seq l {space :p:49:p, comp UserTitle:::p::p, space :::p, comp UserDesc:::p::p, space s:::p, comp layeredPane3:::p:103:p, space u:::p, comp layeredPane4:::p:235:p, space ::48:x}}"
+					"$horizontalGroup": "par l {seq {par l {seq {space :p:88:p, par l {comp UserTitle:::p::p, comp UserDesc:::p:369:p}}, seq l {space :p:77:p, par l:::p {comp layeredPane3::::353:x, comp layeredPane4::::353:x}}}, space :::p, comp layeredPane9:::p:295:p, space ::62:x}}"
+					"$verticalGroup": "par l {seq l {space :p:49:p, comp UserTitle:::p::p, space :::p, par l {seq {comp UserDesc:::p::p, space s:::p, comp layeredPane3:::p:103:p, space u:::p, comp layeredPane4:::p:235:p}, comp layeredPane9:::p:368:p}, space ::48:x}}"
 				} ) {
 					name: "Usuarios"
 					"background": #Color0
@@ -411,6 +411,45 @@ new FormModel {
 							"y": 0
 							"width": 355
 							"height": 55
+						} )
+					} )
+					add( new FormContainer( "javax.swing.JLayeredPane", new FormLayoutManager( class javax.swing.JLayeredPane ) ) {
+						name: "layeredPane9"
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "historial_title3"
+							"text": "Historial de cambios"
+							"font": #Font5
+							"foreground": #Color9
+						}, new FormLayoutConstraints( null ) {
+							"width": 175
+							"height": 31
+							"x": 30
+							"y": 10
+						} )
+						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+							name: "scrollHistoryUser"
+							"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							add( new FormComponent( "javax.swing.JList" ) {
+								name: "user_history"
+								"background": sfield java.awt.Color white
+								"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"selectionMode": 0
+								"visibleRowCount": 10
+							} )
+						}, new FormLayoutConstraints( null ) {
+							"x": 10
+							"y": 55
+							"width": 275
+							"height": 285
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "log_back_role2"
+							"icon": #SwingIcon3
+						}, new FormLayoutConstraints( null ) {
+							"width": 295
+							"height": 350
+							"x": 0
+							"y": 0
 						} )
 					} )
 				}, new FormLayoutConstraints( class java.lang.String ) {

@@ -140,6 +140,8 @@ public class Database {
         return false;
     }
 
+
+    //Create Methods
     public boolean createPerson(int ci, String name, String direction, int phone, int event_type) {
         if(isConnected()) {
             try {
@@ -158,22 +160,7 @@ public class Database {
         return false;
     }
 
-    private int createEvento(String tablename,java.sql.Date date ) throws SQLException {
-        String nombre_rol = CurrentUser.getCurrentUser().getUserName(); //Se puede actualizar a que sea nombre rol. no se
-        String eventDescription =  tablename + " creado el " + date + " por " + nombre_rol;
-        stmt.executeUpdate(new StringBuilder().append("INSERT INTO evento (nombre_rol, descripcion) ").
-                append("VALUES ('").append(nombre_rol).append("','").append(eventDescription).
-                append("')").toString(),Statement.RETURN_GENERATED_KEYS);
-        ResultSet rs = stmt.getGeneratedKeys();
-        if ( rs.next() ) {
-            int eventKey = rs.getInt(1);
-            return eventKey;
-        }
-        rs.close();
-        return 0;
-    }
-
-    public boolean createUser(String name, String password, int ci, boolean admin, int creator, boolean blocked) {
+    public boolean createUser(String name, String password, int ci, boolean admin, int creator, boolean blocked, int eventType) {
         if(isConnected()) {
             try {
                 stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
@@ -184,12 +171,17 @@ public class Database {
                         Statement.RETURN_GENERATED_KEYS);
                 ResultSet rs = stmt.getGeneratedKeys();
                 int id_usuario = 0;
+                //Se crea el usuario y se genera la contraseña segun el id
                 if(rs.first()){
                     id_usuario = rs.getInt(1);
                     String newPassword = PasswordManager.getInstance().generatePassword(password,id_usuario);
                     stmt.executeUpdate(
                             "update usuario set contraseña ='" + newPassword + "' where id_usuario = " + id_usuario);
-                    stmt.close();
+                    Date date = new Date(Calendar.getInstance().getTime().getTime());
+                    stmt.executeUpdate("INSERT INTO log_usuario (id_usuario,fecha_registro,id_evento,usuario_" +
+                            "modificado) VALUES ("+CurrentUser.getCurrentUser().get_userId()+",'" + date +"',"
+                            + eventType +"," + id_usuario + ")");
+
                     return true;
                 }
                 return false;
@@ -201,6 +193,43 @@ public class Database {
         return false;
     }
 
+    public boolean createModel(String name, String description, String tablename, int event_type) {
+        if(isConnected()) {
+            try {
+                stmt = db_connection.createStatement();
+                stmt.executeUpdate("INSERT INTO "+ tablename +" (nombre_"+ tablename +
+                        ", descripcion) VALUES ('" + name + "',"+"'" + description + "')",Statement.RETURN_GENERATED_KEYS);
+
+                //Agarramos la key del model creado
+                ResultSet rs = stmt.getGeneratedKeys();
+                if ( rs.next() ) {
+                    int modelKey = rs.getInt(1);
+                    Date date = new Date(Calendar.getInstance().getTime().getTime());
+                    StringBuilder stringBuilder = new StringBuilder();
+                    stringBuilder.append("INSERT INTO log_");
+                    stringBuilder.append(tablename);
+                    stringBuilder.append(" (id_");
+                    stringBuilder.append(tablename);
+                    stringBuilder.append(", fecha_registro, id_usuario, id_evento) VALUES ('");
+                    stringBuilder.append(String.valueOf(modelKey));
+                    stringBuilder.append("','");
+                    stringBuilder.append(date);
+                    stringBuilder.append("','");
+                    stringBuilder.append(CurrentUser.getCurrentUser().get_userId());
+                    stringBuilder.append("','");
+                    stringBuilder.append(event_type);
+                    stringBuilder.append("')");
+                    String query = stringBuilder.toString();
+                    stmt.executeUpdate(query);
+                    return true;
+                }
+            }
+            catch (SQLException ex) {
+                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return false;
+    }
 
     //Generic table treatment
     public ResultSet search(String tableName, String column, String value) {
@@ -246,36 +275,30 @@ public class Database {
         return 0;
     }
 
-    public boolean createModel(String name, String description, String tablename, int event_type) {
-        if(isConnected()) {
-            try {
-                stmt = db_connection.createStatement();
-                stmt.executeUpdate("INSERT INTO "+ tablename +" (nombre_"+ tablename +
-                        ", descripcion) VALUES ('" + name + "',"+"'" + description + "')",Statement.RETURN_GENERATED_KEYS);
-
-                //Agarramos la key del model creado
-                ResultSet rs = stmt.getGeneratedKeys();
-                if ( rs.next() ) {
-                    int modelKey = rs.getInt(1);
-                    java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-                    String query = new StringBuilder().append("INSERT INTO log_").append(tablename).append(" (id_").append(tablename).append(", fecha_registro, id_usuario, id_evento) VALUES ('").append(String.valueOf(modelKey)).append("','").append(date).append("','").append(currentUser.getCurrentUser().get_userId()).append("','").append(event_type).append("')").toString();
-                    stmt.executeUpdate(query);
-                    return true;
-                }
-            }
-            catch (SQLException ex) {
-                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        return false;
-    }
-
     private void logActivity(ResultSet rs, String tablename, int event_type){
         try {
             if (rs.next()) {
                 int modelKey = rs.getInt(1);
-                java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-                String query = new StringBuilder().append("INSERT INTO log_").append(tablename).append(" (id_").append(tablename).append(", fecha_registro, id_usuario, id_evento) VALUES ('").append(String.valueOf(modelKey)).append("','").append(date).append("','").append(currentUser.getCurrentUser().get_userId()).append("','").append(event_type).append("')").toString();
+                Date date = new Date(Calendar.getInstance().getTime().getTime());
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append("INSERT INTO log_");
+                stringBuilder.append(tablename);
+                if(tablename.equals("usuario")){
+                    stringBuilder.append(" (usuario_modificado");
+                } else {
+                    stringBuilder.append(" (id_");
+                    stringBuilder.append(tablename);
+                }
+                stringBuilder.append(", fecha_registro, id_usuario, id_evento) VALUES ('");
+                stringBuilder.append(String.valueOf(modelKey));
+                stringBuilder.append("','");
+                stringBuilder.append(date);
+                stringBuilder.append("','");
+                stringBuilder.append(CurrentUser.getCurrentUser().get_userId());
+                stringBuilder.append("','");
+                stringBuilder.append(event_type);
+                stringBuilder.append("')");
+                String query = stringBuilder.toString();
                 stmt.executeUpdate(query);
             }
         }   catch (SQLException ex) {
@@ -322,23 +345,26 @@ public class Database {
 
     public void updatePerson(String id, String newName, String newAdres, String newPhone){
         this.deleteRowPersona("persona", id);
-        this.createPerson(Integer.parseInt(id), newName, newAdres, Integer.parseInt(newPhone));
+        this.createPerson(Integer.parseInt(id), newName, newAdres, Integer.parseInt(newPhone),1);
     }
 
-    public void updateUser(String id, String username, String password, boolean blocked, boolean withPassword){
+    public void updateUser(String id, String username, String password, boolean blocked, boolean withPassword,int eventType){
         if(isConnected()) {
             String newPassword = PasswordManager.getInstance().generatePassword(password,Integer.valueOf(id));
             try {
                 stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
 
+
                 if (withPassword){
                     stmt.executeUpdate(String.format("UPDATE usuario SET nombre_usuario = \'%s\', contraseña = " +
                             "\'%s\' " + ", bloqueado = \'%s\' WHERE id_usuario = " +
-                            "%d",username,newPassword,blocked,Integer.parseInt(id)));
+                            "%d",username,newPassword,blocked,Integer.parseInt(id)),Statement.RETURN_GENERATED_KEYS);
                 } else {
                     stmt.executeUpdate(String.format("UPDATE usuario SET nombre_usuario = \'%s\', bloqueado = \'%s\' " +
-                            "WHERE id_usuario = " + "%d",username,blocked,Integer.parseInt(id)));
+                            "WHERE id_usuario = " + "%d",username,blocked,Integer.parseInt(id)),Statement.RETURN_GENERATED_KEYS);
                 }
+                ResultSet rs = stmt.getGeneratedKeys();
+                logActivity(rs,"usuario",3);
             }
             catch (SQLException ex) {
                 Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
