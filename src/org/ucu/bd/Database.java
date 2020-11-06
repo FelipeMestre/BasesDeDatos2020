@@ -140,8 +140,7 @@ public class Database {
         return false;
     }
 
-    //Creation of things
-    public boolean createPerson(int ci, String name, String direction, int phone) {
+    public boolean createPerson(int ci, String name, String direction, int phone, int event_type) {
         if(isConnected()) {
             try {
                 stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
@@ -149,15 +148,8 @@ public class Database {
 
                 //Agarramos la key de la persona creada
                 ResultSet rs = stmt.getGeneratedKeys();
-                if ( rs.next() ) {
-                    int personKey = rs.getInt(1);
-                    java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-                    int eventKey = createEvento("Persona",date);
-                    String query = new StringBuilder().append("INSERT INTO log_").append("Persona").append(" (id_").append("Persona").append(", fecha_registro, id_usuario, id_evento) VALUES ('").append(String.valueOf(personKey)).append("','").append(date).append("','").append(CurrentUser.getCurrentUser().get_userId()).append("','").append(eventKey).append("')").toString();
-                    stmt.executeUpdate(query);
-                    rs.close();
-                    return true;
-                }
+                logActivity(rs, "persona", event_type);
+                return true;
             }
             catch (SQLException ex) {
                 Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
@@ -254,7 +246,7 @@ public class Database {
         return 0;
     }
 
-    public boolean createModel(String name, String description, String tablename) {
+    public boolean createModel(String name, String description, String tablename, int event_type) {
         if(isConnected()) {
             try {
                 stmt = db_connection.createStatement();
@@ -266,8 +258,7 @@ public class Database {
                 if ( rs.next() ) {
                     int modelKey = rs.getInt(1);
                     java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-                   int eventKey = createEvento(tablename,date);
-                    String query = new StringBuilder().append("INSERT INTO log_").append(tablename).append(" (id_").append(tablename).append(", fecha_registro, id_usuario, id_evento) VALUES ('").append(String.valueOf(modelKey)).append("','").append(date).append("','").append(CurrentUser.getCurrentUser().get_userId()).append("','").append(eventKey).append("')").toString();
+                    String query = new StringBuilder().append("INSERT INTO log_").append(tablename).append(" (id_").append(tablename).append(", fecha_registro, id_usuario, id_evento) VALUES ('").append(String.valueOf(modelKey)).append("','").append(date).append("','").append(currentUser.getCurrentUser().get_userId()).append("','").append(event_type).append("')").toString();
                     stmt.executeUpdate(query);
                     return true;
                 }
@@ -279,11 +270,41 @@ public class Database {
         return false;
     }
 
-    public ResultSet deleteRow(String table_name, String row_id, String col_name) {
+    private void logActivity(ResultSet rs, String tablename, int event_type){
+        try {
+            if (rs.next()) {
+                int modelKey = rs.getInt(1);
+                java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+                String query = new StringBuilder().append("INSERT INTO log_").append(tablename).append(" (id_").append(tablename).append(", fecha_registro, id_usuario, id_evento) VALUES ('").append(String.valueOf(modelKey)).append("','").append(date).append("','").append(currentUser.getCurrentUser().get_userId()).append("','").append(event_type).append("')").toString();
+                stmt.executeUpdate(query);
+            }
+        }   catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public ResultSet deleteRow(String table_name, String row_id) {
         if(isConnected()) {
             try {
                 stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
-                stmt.executeUpdate("DELETE FROM " + table_name + " WHERE " + col_name + " = " + row_id);
+                stmt.executeUpdate("UPDATE " + table_name + " SET activo = false WHERE  id_" + table_name  + " = " + row_id, Statement.RETURN_GENERATED_KEYS);
+                ResultSet rs = stmt.getGeneratedKeys();
+                logActivity(rs, table_name, 2);
+            }
+            catch (SQLException ex) {
+                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return null;
+    }
+
+    public ResultSet deleteRowPersona(String table_name, String row_id) {
+        if(isConnected()) {
+            try {
+                stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
+                stmt.executeUpdate("UPDATE " + table_name + " SET activo = false WHERE cedula = " + row_id,  Statement.RETURN_GENERATED_KEYS);
+                ResultSet rs = stmt.getGeneratedKeys();
+                logActivity(rs, table_name, 2);
             }
             catch (SQLException ex) {
                 Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
@@ -295,28 +316,13 @@ public class Database {
 
     //Updates
     public void updateModel(String row_id, String new_name, String new_desc,String tablename){
-        if(isConnected()) {
-            try {
-                stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
-                stmt.executeUpdate(String.format("UPDATE "+ tablename + " SET nombre_"+tablename+ "= \'%s\',descripcion = \'%s\' WHERE id_"+tablename+" = %d",new_name,new_desc,Integer.parseInt(row_id)));
-            }
-            catch (SQLException ex) {
-                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        this.deleteRow(tablename, row_id);
+        this.createModel(new_name, new_desc, tablename,3);
     }
 
     public void updatePerson(String id, String newName, String newAdres, String newPhone){
-        if(isConnected()) {
-            try {
-                stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
-                stmt.executeUpdate(String.format("UPDATE persona SET nombre = \'%s\',direccion = \'%s\' " +
-                        ", telefono = \'%s\' WHERE cedula = %d",newName,newAdres,newPhone,Integer.parseInt(id)));
-            }
-            catch (SQLException ex) {
-                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        this.deleteRowPersona("persona", id);
+        this.createPerson(Integer.parseInt(id), newName, newAdres, Integer.parseInt(newPhone));
     }
 
     public void updateUser(String id, String username, String password, boolean blocked, boolean withPassword){

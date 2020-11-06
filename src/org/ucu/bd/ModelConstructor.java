@@ -1,6 +1,8 @@
 package org.ucu.bd;
 
 import Utils.PasswordManager;
+import model.Log;
+import model.Log_Role;
 
 import javax.swing.*;
 import java.awt.*;
@@ -44,15 +46,18 @@ public class ModelConstructor {
         try {
             int columnsNumber = rs.getMetaData().getColumnCount();
             rs.last();
-            result = new String[rs.getRow()][columnsNumber];
-            if (rs.first()){
+            int rowsNumber = rs.getRow();
+            if (rowsNumber > 0) {
+                result = new String[rs.getRow()][columnsNumber];
+                rs.first();
+
                 int rowNumber = 0;
                 do {
                     for (int i = 1; i <= columnsNumber; i++) {
                         result[rowNumber][i - 1] = rs.getString(i);
                     }
                     rowNumber++;
-                } while(rs.next());
+                } while (rs.next());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -61,7 +66,7 @@ public class ModelConstructor {
     }
 
     public String[][] getRoles() {
-        return this.getStringArray(db.getAllElements("vista_roles"));
+        return this.getStringArray(db.getAllElements("vista_roles_activos"));
     }
 
     public String[][] getUsuarios() {
@@ -86,7 +91,7 @@ public class ModelConstructor {
 
     public boolean createModel(String name, String description, String tablename, Component father){
         if (name != null && name.length() <= 50 && description != null && description.length() <= 200){
-            return this.db.createModel(name,description,tablename);
+            return this.db.createModel(name,description,tablename,1);
         } else {
             if(name == null){
                 JOptionPane.showMessageDialog(father,"Ingrese Nombre");
@@ -99,14 +104,45 @@ public class ModelConstructor {
             }
             return false;
         }
+    }
 
+    public void updateRole(String role_id, String newName, String newDesc){
+        db.updateModel(role_id, newName, newDesc,"Rol");
+    }
+
+    public Log_Role[] getRoleLog() {
+        ResultSet rs = retrieveRoleLog();
+        Log_Role[] result = new Log_Role[0];
+        try {
+            rs.last();
+            int size = rs.getRow();
+            if (size > 0) {
+                result = new Log_Role[size];
+                rs.first();
+                int rowNumber = 0;
+                do {
+                    result[rowNumber] = new Log_Role(rs.getString(1), rs.getString(2), rs.getString(4), rs.getString(3), rs.getString(5));
+                    rowNumber++;
+                } while (rs.next());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    private ResultSet retrieveRoleLog(){
+        return db.getAllElements("vista_cambios_roles");
+    }
+    public void updatePerson(String id, String newName, String newAdres,String newPhone){
+        db.updatePerson(id, newName, newAdres,newPhone);
     }
 
     public void deleteModel(String id, String tablename){
         if (tablename.equals("persona")){
-            db.deleteRow(tablename,id,"cedula");
+            db.deleteRowPersona(tablename,id);
         } else {
-            db.deleteRow(tablename, id, "id_" + tablename);
+            db.deleteRow(tablename, id);
         }
     }
 
@@ -119,6 +155,9 @@ public class ModelConstructor {
 
     public int activeRoles() {
         return this.db.getTableCount("vista_roles_activos");
+    }
+    public boolean createPersona(int ci, String name, String direction, int phone){
+        return this.db.createPerson(ci,name,direction,phone, 1);
     }
 
     public boolean checkIfCorrectPassword(String userId,String userName, String password, String tablename,Container parent){

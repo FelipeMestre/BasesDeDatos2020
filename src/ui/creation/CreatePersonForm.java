@@ -5,6 +5,7 @@
 package ui.creation;
 
 import org.ucu.bd.ModelConstructor;
+import ui.MainMenu;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,10 +17,10 @@ import java.awt.event.ActionEvent;
 public class CreatePersonForm extends JFrame {
 
     private ModelConstructor constructor;
-    private JFrame parent;
+    private MainMenu parent;
 
 
-    public CreatePersonForm(ModelConstructor controller, JFrame parent) {
+    public CreatePersonForm(ModelConstructor controller, MainMenu parent) {
         this.constructor = controller;
         this.parent = parent;
         initComponents();;
@@ -55,6 +56,7 @@ public class CreatePersonForm extends JFrame {
         }
         if (constructor.createPersona(document,name,adres,phone)){
             parent.setEnabled(true);
+            parent.fetchPersons();
             this.dispose();
         }
     }
@@ -90,11 +92,13 @@ public class CreatePersonForm extends JFrame {
         //======== panel1 ========
         {
             panel1.setBackground(new Color(244, 244, 244));
-            panel1.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing. border. EmptyBorder(
-            0, 0, 0, 0) , "JF\u006frm\u0044es\u0069gn\u0065r \u0045va\u006cua\u0074io\u006e", javax. swing. border. TitledBorder. CENTER, javax. swing. border. TitledBorder
-            . BOTTOM, new java .awt .Font ("D\u0069al\u006fg" ,java .awt .Font .BOLD ,12 ), java. awt. Color.
-            red) ,panel1. getBorder( )) ); panel1. addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .
-            beans .PropertyChangeEvent e) {if ("\u0062or\u0064er" .equals (e .getPropertyName () )) throw new RuntimeException( ); }} );
+            panel1.setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.
+            swing.border.EmptyBorder(0,0,0,0), "JF\u006frmDesi\u0067ner Ev\u0061luatio\u006e",javax.swing.border
+            .TitledBorder.CENTER,javax.swing.border.TitledBorder.BOTTOM,new java.awt.Font("Dialo\u0067"
+            ,java.awt.Font.BOLD,12),java.awt.Color.red),panel1. getBorder
+            ()));panel1. addPropertyChangeListener(new java.beans.PropertyChangeListener(){@Override public void propertyChange(java
+            .beans.PropertyChangeEvent e){if("borde\u0072".equals(e.getPropertyName()))throw new RuntimeException
+            ();}});
 
             //---- Title ----
             Title.setText("Crear Una Persona");
@@ -129,10 +133,7 @@ public class CreatePersonForm extends JFrame {
             Cancel.setForeground(Color.white);
             Cancel.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
             Cancel.setBorderPainted(false);
-            Cancel.addActionListener(e -> {
-			SubmitActionPerformed();
-			CancelActionPerformed(e);
-		});
+            Cancel.addActionListener(e -> CancelActionPerformed(e));
 
             //---- label1 ----
             label1.setText("Documento (solo n\u00fameros)");
