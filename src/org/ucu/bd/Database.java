@@ -100,14 +100,8 @@ public class Database {
 
                 //Agarramos la key de la persona creada
                 ResultSet rs = stmt.getGeneratedKeys();
-                if ( rs.next() ) {
-                    int personKey = rs.getInt(1);
-                    java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-                    int eventKey = createEvento("Persona",date);
-                    String query = new StringBuilder().append("INSERT INTO log_").append("Persona").append(" (id_").append("Persona").append(", fecha_registro, id_usuario, id_evento) VALUES ('").append(String.valueOf(personKey)).append("','").append(date).append("','").append(currentUser.getCurrentUser().get_userId()).append("','").append(eventKey).append("')").toString();
-                    stmt.executeUpdate(query);
-                    return true;
-                }
+                logActivity(rs, "persona", 1);
+                return true;
             }
             catch (SQLException ex) {
                 Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);

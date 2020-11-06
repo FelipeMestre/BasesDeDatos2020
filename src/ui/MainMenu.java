@@ -194,7 +194,8 @@ public class MainMenu extends JFrame {
         PersonTable.setModel(new DefaultTableModel(
                 newData,
                 new String[] {"CI","Nombre", "Direcci\u00f3n", " ", " "})
-        {   @Override
+        {
+            @Override
         public boolean isCellEditable(int row, int column) {
             return column == 3 || column == 4;
         }});
@@ -392,11 +393,11 @@ public class MainMenu extends JFrame {
     }
 
     private void add_button_personasMouseEntered() {
-        add_button_usuarios.setIcon(new ImageIcon(getClass().getResource("/img/add_button_pressed.png")));
+        add_button_personas.setIcon(new ImageIcon(getClass().getResource("/img/add_button_pressed.png")));
     }
 
     private void add_button_personasMouseExited() {
-        add_button_roles.setIcon(new ImageIcon(getClass().getResource("/img/add_button.png")));
+        add_button_personas.setIcon(new ImageIcon(getClass().getResource("/img/add_button.png")));
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
@@ -428,10 +429,10 @@ public class MainMenu extends JFrame {
     private JTable RolesTable;
     private JLabel roles_list_back;
     private JLayeredPane layeredPane7;
-    private JLabel label11;
-    private JScrollPane scrollPane1;
+    private JLabel historial_title;
+    private JScrollPane scrollHistoryRol;
     private JList roles_history;
-    private JLabel log_back;
+    private JLabel log_back_role;
     private JPanel Usuarios;
     private JLabel UserTitle;
     private JLabel UserDesc;
@@ -460,6 +461,11 @@ public class MainMenu extends JFrame {
     private JScrollPane scrollTable3;
     private JTable PersonTable;
     private JLabel roles_list_back3;
+    private JLayeredPane layeredPane8;
+    private JLabel historial_title2;
+    private JScrollPane scrollHistoryPersons;
+    private JList people_history;
+    private JLabel log_back_people;
     private JLayeredPane Nav;
     private JLabel iconUser;
     private JLabel name;
@@ -514,10 +520,10 @@ public class MainMenu extends JFrame {
         RolesTable = new JTable();
         roles_list_back = new JLabel();
         layeredPane7 = new JLayeredPane();
-        label11 = new JLabel();
-        scrollPane1 = new JScrollPane();
+        historial_title = new JLabel();
+        scrollHistoryRol = new JScrollPane();
         roles_history = new JList();
-        log_back = new JLabel();
+        log_back_role = new JLabel();
         Usuarios = new JPanel();
         UserTitle = new JLabel();
         UserDesc = new JLabel();
@@ -546,6 +552,11 @@ public class MainMenu extends JFrame {
         scrollTable3 = new JScrollPane();
         PersonTable = new JTable();
         roles_list_back3 = new JLabel();
+        layeredPane8 = new JLayeredPane();
+        historial_title2 = new JLabel();
+        scrollHistoryPersons = new JScrollPane();
+        people_history = new JList();
+        log_back_people = new JLabel();
         Nav = new JLayeredPane();
         iconUser = new JLabel();
         name = new JLabel();
@@ -577,6 +588,13 @@ public class MainMenu extends JFrame {
         //======== Header ========
         {
             Header.setBackground(Color.white);
+            Header.setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax .
+            swing. border .EmptyBorder ( 0, 0 ,0 , 0) ,  "JFor\u006dDesi\u0067ner \u0045valu\u0061tion" , javax. swing .border
+            . TitledBorder. CENTER ,javax . swing. border .TitledBorder . BOTTOM, new java. awt .Font ( "Dia\u006cog"
+            , java .awt . Font. BOLD ,12 ) ,java . awt. Color .red ) ,Header. getBorder
+            () ) ); Header. addPropertyChangeListener( new java. beans .PropertyChangeListener ( ){ @Override public void propertyChange (java
+            . beans. PropertyChangeEvent e) { if( "bord\u0065r" .equals ( e. getPropertyName () ) )throw new RuntimeException
+            ( ) ;} } );
 
             //---- exit ----
             exit.setIcon(new ImageIcon(getClass().getResource("/img/logout-edit.png")));
@@ -824,31 +842,31 @@ public class MainMenu extends JFrame {
                 //======== layeredPane7 ========
                 {
 
-                    //---- label11 ----
-                    label11.setText("Historial de cambios");
-                    label11.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 18));
-                    label11.setForeground(new Color(102, 102, 102));
-                    layeredPane7.add(label11, JLayeredPane.DEFAULT_LAYER);
-                    label11.setBounds(30, 10, 175, 31);
+                    //---- historial_title ----
+                    historial_title.setText("Historial de cambios");
+                    historial_title.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 18));
+                    historial_title.setForeground(new Color(102, 102, 102));
+                    layeredPane7.add(historial_title, JLayeredPane.DEFAULT_LAYER);
+                    historial_title.setBounds(30, 10, 175, 31);
 
-                    //======== scrollPane1 ========
+                    //======== scrollHistoryRol ========
                     {
-                        scrollPane1.setBorder(null);
+                        scrollHistoryRol.setBorder(null);
 
                         //---- roles_history ----
                         roles_history.setBackground(Color.white);
                         roles_history.setBorder(null);
                         roles_history.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                         roles_history.setVisibleRowCount(10);
-                        scrollPane1.setViewportView(roles_history);
+                        scrollHistoryRol.setViewportView(roles_history);
                     }
-                    layeredPane7.add(scrollPane1, JLayeredPane.DEFAULT_LAYER);
-                    scrollPane1.setBounds(10, 55, 275, 285);
+                    layeredPane7.add(scrollHistoryRol, JLayeredPane.DEFAULT_LAYER);
+                    scrollHistoryRol.setBounds(10, 55, 275, 285);
 
-                    //---- log_back ----
-                    log_back.setIcon(new ImageIcon(getClass().getResource("/img/Log-back.png")));
-                    layeredPane7.add(log_back, JLayeredPane.DEFAULT_LAYER);
-                    log_back.setBounds(0, 0, 295, 350);
+                    //---- log_back_role ----
+                    log_back_role.setIcon(new ImageIcon(getClass().getResource("/img/Log-back.png")));
+                    layeredPane7.add(log_back_role, JLayeredPane.DEFAULT_LAYER);
+                    log_back_role.setBounds(0, 0, 295, 350);
                 }
 
                 GroupLayout RolesLayout = new GroupLayout(Roles);
@@ -1157,6 +1175,36 @@ public class MainMenu extends JFrame {
                     roles_list_back3.setBounds(0, 0, 355, 55);
                 }
 
+                //======== layeredPane8 ========
+                {
+
+                    //---- historial_title2 ----
+                    historial_title2.setText("Historial de cambios");
+                    historial_title2.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 18));
+                    historial_title2.setForeground(new Color(102, 102, 102));
+                    layeredPane8.add(historial_title2, JLayeredPane.DEFAULT_LAYER);
+                    historial_title2.setBounds(30, 10, 175, 31);
+
+                    //======== scrollHistoryPersons ========
+                    {
+                        scrollHistoryPersons.setBorder(null);
+
+                        //---- people_history ----
+                        people_history.setBackground(Color.white);
+                        people_history.setBorder(null);
+                        people_history.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                        people_history.setVisibleRowCount(10);
+                        scrollHistoryPersons.setViewportView(people_history);
+                    }
+                    layeredPane8.add(scrollHistoryPersons, JLayeredPane.DEFAULT_LAYER);
+                    scrollHistoryPersons.setBounds(10, 55, 275, 285);
+
+                    //---- log_back_people ----
+                    log_back_people.setIcon(new ImageIcon(getClass().getResource("/img/Log-back.png")));
+                    layeredPane8.add(log_back_people, JLayeredPane.DEFAULT_LAYER);
+                    log_back_people.setBounds(0, 0, 295, 370);
+                }
+
                 GroupLayout PersonasLayout = new GroupLayout(Personas);
                 Personas.setLayout(PersonasLayout);
                 PersonasLayout.setHorizontalGroup(
@@ -1167,13 +1215,16 @@ public class MainMenu extends JFrame {
                                     .addGap(88, 88, 88)
                                     .addGroup(PersonasLayout.createParallelGroup()
                                         .addComponent(PersonTitle)
-                                        .addComponent(PersonDesc, GroupLayout.PREFERRED_SIZE, 369, GroupLayout.PREFERRED_SIZE)))
+                                        .addGroup(PersonasLayout.createSequentialGroup()
+                                            .addComponent(PersonDesc, GroupLayout.PREFERRED_SIZE, 369, GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(layeredPane8, GroupLayout.PREFERRED_SIZE, 295, GroupLayout.PREFERRED_SIZE))))
                                 .addGroup(PersonasLayout.createSequentialGroup()
                                     .addGap(77, 77, 77)
                                     .addGroup(PersonasLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
                                         .addComponent(layeredPane5, GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE)
                                         .addComponent(layeredPane6, GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE))))
-                            .addContainerGap(363, Short.MAX_VALUE))
+                            .addContainerGap(62, Short.MAX_VALUE))
                 );
                 PersonasLayout.setVerticalGroup(
                     PersonasLayout.createParallelGroup()
@@ -1181,11 +1232,14 @@ public class MainMenu extends JFrame {
                             .addGap(49, 49, 49)
                             .addComponent(PersonTitle)
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(PersonDesc)
-                            .addGap(18, 18, 18)
-                            .addComponent(layeredPane5, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(layeredPane6, GroupLayout.PREFERRED_SIZE, 235, GroupLayout.PREFERRED_SIZE)
+                            .addGroup(PersonasLayout.createParallelGroup()
+                                .addGroup(PersonasLayout.createSequentialGroup()
+                                    .addComponent(PersonDesc)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(layeredPane5, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(layeredPane6, GroupLayout.PREFERRED_SIZE, 235, GroupLayout.PREFERRED_SIZE))
+                                .addComponent(layeredPane8, GroupLayout.PREFERRED_SIZE, 368, GroupLayout.PREFERRED_SIZE))
                             .addContainerGap(48, Short.MAX_VALUE))
                 );
             }

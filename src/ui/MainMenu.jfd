@@ -241,7 +241,7 @@ new FormModel {
 					add( new FormContainer( "javax.swing.JLayeredPane", new FormLayoutManager( class javax.swing.JLayeredPane ) ) {
 						name: "layeredPane7"
 						add( new FormComponent( "javax.swing.JLabel" ) {
-							name: "label11"
+							name: "historial_title"
 							"text": "Historial de cambios"
 							"font": #Font5
 							"foreground": #Color9
@@ -252,7 +252,7 @@ new FormModel {
 							"y": 10
 						} )
 						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
-							name: "scrollPane1"
+							name: "scrollHistoryRol"
 							"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
 							add( new FormComponent( "javax.swing.JList" ) {
 								name: "roles_history"
@@ -268,8 +268,8 @@ new FormModel {
 							"height": 285
 						} )
 						add( new FormComponent( "javax.swing.JLabel" ) {
-							name: "log_back"
-							"icon": new com.jformdesigner.model.SwingIcon( 0, "/img/Log-back.png" )
+							name: "log_back_role"
+							"icon": &SwingIcon3 new com.jformdesigner.model.SwingIcon( 0, "/img/Log-back.png" )
 						}, new FormLayoutConstraints( null ) {
 							"width": 295
 							"height": 350
@@ -417,8 +417,8 @@ new FormModel {
 					"value": "usuarios"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {seq {par l {seq {space :p:88:p, par l {comp PersonTitle:::p::p, comp PersonDesc:::p:369:p}}, seq l {space :p:77:p, par l:::p {comp layeredPane5::::353:x, comp layeredPane6::::353:x}}}, space ::363:x}}"
-					"$verticalGroup": "par l {seq l {space :p:49:p, comp PersonTitle:::p::p, space :::p, comp PersonDesc:::p::p, space s:::p, comp layeredPane5:::p:103:p, space u:::p, comp layeredPane6:::p:235:p, space ::48:x}}"
+					"$horizontalGroup": "par l {seq {par l {seq {space :p:88:p, par l {comp PersonTitle:::p::p, seq {comp PersonDesc:::p:369:p, space :::p, comp layeredPane8:::p:295:p}}}, seq l {space :p:77:p, par l:::p {comp layeredPane5::::353:x, comp layeredPane6::::353:x}}}, space ::62:x}}"
+					"$verticalGroup": "par l {seq l {space :p:49:p, comp PersonTitle:::p::p, space :::p, par l {seq {comp PersonDesc:::p::p, space s:::p, comp layeredPane5:::p:103:p, space u:::p, comp layeredPane6:::p:235:p}, comp layeredPane8:::p:368:p}, space ::48:x}}"
 				} ) {
 					name: "Personas"
 					"background": #Color0
@@ -525,6 +525,45 @@ new FormModel {
 							"height": 55
 						} )
 					} )
+					add( new FormContainer( "javax.swing.JLayeredPane", new FormLayoutManager( class javax.swing.JLayeredPane ) ) {
+						name: "layeredPane8"
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "historial_title2"
+							"text": "Historial de cambios"
+							"font": #Font5
+							"foreground": #Color9
+						}, new FormLayoutConstraints( null ) {
+							"width": 175
+							"height": 31
+							"x": 30
+							"y": 10
+						} )
+						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+							name: "scrollHistoryPersons"
+							"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							add( new FormComponent( "javax.swing.JList" ) {
+								name: "people_history"
+								"background": sfield java.awt.Color white
+								"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"selectionMode": 0
+								"visibleRowCount": 10
+							} )
+						}, new FormLayoutConstraints( null ) {
+							"x": 10
+							"y": 55
+							"width": 275
+							"height": 285
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "log_back_people"
+							"icon": #SwingIcon3
+						}, new FormLayoutConstraints( null ) {
+							"width": 295
+							"height": 370
+							"x": 0
+							"y": 0
+						} )
+					} )
 				}, new FormLayoutConstraints( class java.lang.String ) {
 					"value": "personas"
 				} )
@@ -573,7 +612,7 @@ new FormModel {
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "serparator_1"
-					"icon": &SwingIcon3 new com.jformdesigner.model.SwingIcon( 0, "/img/serparator.png" )
+					"icon": &SwingIcon4 new com.jformdesigner.model.SwingIcon( 0, "/img/serparator.png" )
 				}, new FormLayoutConstraints( null ) {
 					"x": 0
 					"y": 215
@@ -582,7 +621,7 @@ new FormModel {
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "serparator_2"
-					"icon": #SwingIcon3
+					"icon": #SwingIcon4
 				}, new FormLayoutConstraints( null ) {
 					"width": 205
 					"height": 1
@@ -591,7 +630,7 @@ new FormModel {
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "serparator_3"
-					"icon": #SwingIcon3
+					"icon": #SwingIcon4
 				}, new FormLayoutConstraints( null ) {
 					"width": 205
 					"height": 1
@@ -600,7 +639,7 @@ new FormModel {
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "serparator_4"
-					"icon": #SwingIcon3
+					"icon": #SwingIcon4
 				}, new FormLayoutConstraints( null ) {
 					"width": 205
 					"height": 1
@@ -609,7 +648,7 @@ new FormModel {
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "serparator_5"
-					"icon": #SwingIcon3
+					"icon": #SwingIcon4
 				}, new FormLayoutConstraints( null ) {
 					"width": 205
 					"height": 1
