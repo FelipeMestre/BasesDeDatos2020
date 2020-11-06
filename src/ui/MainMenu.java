@@ -9,6 +9,7 @@ import javax.swing.table.*;
 
 import actions.*;
 import org.ucu.bd.*;
+import ui.Renders.PersonsHistoryListRender;
 import ui.Renders.RolesHistoryListRenderer;
 import ui.Renders.UserHistoryListRender;
 import ui.creation.CreatePersonForm;
@@ -271,6 +272,9 @@ public class MainMenu extends JFrame {
         PersonTable.getTableHeader().setDefaultRenderer(new TableHeaderRender(baseRenderer));
         PersonTable.setBorder(new LineBorder(new Color(0,0,0,0)));
         scrollTable3.setViewportView(PersonTable);
+
+        people_history.setListData(controller.getPersonLog());
+        people_history.setCellRenderer(new PersonsHistoryListRender());
     }
 
     private void initPersonDashboard(){
@@ -635,12 +639,12 @@ public class MainMenu extends JFrame {
         //======== Header ========
         {
             Header.setBackground(Color.white);
-            Header.setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder
-            (0,0,0,0), "JFor\u006dDesi\u0067ner \u0045valu\u0061tion",javax.swing.border.TitledBorder.CENTER,javax.swing.border
-            .TitledBorder.BOTTOM,new java.awt.Font("Dia\u006cog",java.awt.Font.BOLD,12),java.awt
-            .Color.red),Header. getBorder()));Header. addPropertyChangeListener(new java.beans.PropertyChangeListener(){@Override public void
-            propertyChange(java.beans.PropertyChangeEvent e){if("bord\u0065r".equals(e.getPropertyName()))throw new RuntimeException()
-            ;}});
+            Header.setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax . swing. border .EmptyBorder
+            ( 0, 0 ,0 , 0) ,  "JFor\u006dDesi\u0067ner \u0045valu\u0061tion" , javax. swing .border . TitledBorder. CENTER ,javax . swing. border
+            .TitledBorder . BOTTOM, new java. awt .Font ( "Dia\u006cog", java .awt . Font. BOLD ,12 ) ,java . awt
+            . Color .red ) ,Header. getBorder () ) ); Header. addPropertyChangeListener( new java. beans .PropertyChangeListener ( ){ @Override public void
+            propertyChange (java . beans. PropertyChangeEvent e) { if( "bord\u0065r" .equals ( e. getPropertyName () ) )throw new RuntimeException( )
+            ;} } );
 
             //---- exit ----
             exit.setIcon(new ImageIcon(getClass().getResource("/img/logout-edit.png")));

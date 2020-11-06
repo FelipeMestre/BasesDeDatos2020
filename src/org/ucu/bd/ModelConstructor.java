@@ -2,6 +2,7 @@ package org.ucu.bd;
 
 import Utils.PasswordManager;
 import model.Log;
+import model.Log_Person;
 import model.Log_User;
 import model.Log_Role;
 
@@ -95,18 +96,28 @@ public class ModelConstructor {
         return this.getStringArray(db.getAllElements("vista_personas"));
     }
 
-    //Totals
+    //Logs
 
-    public int totalRoles(){
-        return this.db.getTableCount("rol");
+    public Log_Person[] getPersonLog(){
+        ResultSet rs = retrieveLog("vista_cambios_personas");
+        Log_Person[] result = new Log_Person[0];
+        try {
+            rs.last();
+            int size = rs.getRow();
+            if (size > 0) {
+                result = new Log_Person[size];
+                rs.first();
+                int rowNumber = 0;
+                do {
+                    result[rowNumber] = new Log_Person(rs.getString(1), rs.getString(2), rs.getString(4), rs.getString(3), rs.getString(5));
+                    rowNumber++;
+                } while (rs.next());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
-
-    public int totalUsers() { return this.db.getTableCount("usuario"); }
-
-    public int activeUsers(){return this.db.getTableCount("vista_usuarios_activos");}
-
-    public int totalPersons() { return this.db.getTableCount("persona"); }
-
     public Log_Role[] getRoleLog() {
         ResultSet rs = retrieveLog("vista_cambios_roles");
         Log_Role[] result = new Log_Role[0];
@@ -153,6 +164,19 @@ public class ModelConstructor {
     private ResultSet retrieveLog(String view){
         return db.getAllElements(view);
     }
+
+
+    //Totals
+
+    public int totalRoles(){
+        return this.db.getTableCount("rol");
+    }
+
+    public int totalUsers() { return this.db.getTableCount("usuario"); }
+
+    public int activeUsers(){return this.db.getTableCount("vista_usuarios_activos");}
+
+    public int totalPersons() { return this.db.getTableCount("persona"); }
 
     public void deleteModel(String id, String tablename) {
         if (tablename.equals("persona")) {
