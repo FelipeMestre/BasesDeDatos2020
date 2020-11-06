@@ -184,7 +184,7 @@ public class Database {
         return 0;
     }
 
-    public boolean createModel(String name, String description, String tablename) {
+    public boolean createModel(String name, String description, String tablename, int event_type) {
         if(isConnected()) {
             try {
                 stmt = db_connection.createStatement();
@@ -196,7 +196,7 @@ public class Database {
                 if ( rs.next() ) {
                     int modelKey = rs.getInt(1);
                     java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-                    String query = new StringBuilder().append("INSERT INTO log_").append(tablename).append(" (id_").append(tablename).append(", fecha_registro, id_usuario, id_evento) VALUES ('").append(String.valueOf(modelKey)).append("','").append(date).append("','").append(currentUser.getCurrentUser().get_userId()).append("','").append(1).append("')").toString();
+                    String query = new StringBuilder().append("INSERT INTO log_").append(tablename).append(" (id_").append(tablename).append(", fecha_registro, id_usuario, id_evento) VALUES ('").append(String.valueOf(modelKey)).append("','").append(date).append("','").append(currentUser.getCurrentUser().get_userId()).append("','").append(event_type).append("')").toString();
                     stmt.executeUpdate(query);
                     return true;
                 }
@@ -225,7 +225,9 @@ public class Database {
         if(isConnected()) {
             try {
                 stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
-                stmt.executeUpdate("UPDATE " + table_name + " SET activo = false WHERE  id_" + table_name  + " = " + row_id);
+                stmt.executeUpdate("UPDATE " + table_name + " SET activo = false WHERE  id_" + table_name  + " = " + row_id, Statement.RETURN_GENERATED_KEYS);
+                ResultSet rs = stmt.getGeneratedKeys();
+                logActivity(rs, table_name, 2);
             }
             catch (SQLException ex) {
                 Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
@@ -251,7 +253,7 @@ public class Database {
     //Updates
     public void updateModel(String row_id, String new_name, String new_desc,String tablename){
         this.deleteRow(tablename, row_id);
-        this.createModel(new_name, new_desc, tablename);
+        this.createModel(new_name, new_desc, tablename,3);
     }
 
     public void updatePerson(String id, String newName, String newAdres, String newPhone){

@@ -40,7 +40,7 @@ public class ModelConstructor {
     }
 
     public String[][] getRoles() {
-        return this.getStringArray(db.getAllElements("vista_roles"));
+        return this.getStringArray(db.getAllElements("vista_roles_activos"));
     }
 
     public int totalRoles(){
@@ -67,7 +67,7 @@ public class ModelConstructor {
 
     public boolean createModel(String name, String description, String tablename, Component father){
         if (name != null && name.length() <= 50 && description != null && description.length() <= 200){
-            return this.db.createModel(name,description,tablename);
+            return this.db.createModel(name,description,tablename,1);
         } else {
             if(name == null){
                 JOptionPane.showMessageDialog(father,"Ingrese Nombre");

@@ -102,6 +102,9 @@ public class MainMenu extends JFrame {
         RolesTable.getTableHeader().setDefaultRenderer(new TableHeaderRender(baseRenderer));
         scrollTable.setBorder(new LineBorder(new Color(0,0,0,0)));
         scrollTable.setViewportView(RolesTable);
+
+        roles_history.setListData(controller.getRoleLog());
+        roles_history.setCellRenderer(new RolesHistoryListRenderer());
     }
 
     public void editRole(int row){
@@ -115,7 +118,7 @@ public class MainMenu extends JFrame {
 
     public void deleteRole(int row){
         String id_edit = String.valueOf(RolesTable.getValueAt(row, 0));
-       // controller.deleteRole(id_edit);
+        controller.deleteModel(id_edit, "rol");
         fetchRoles();
     }
 
