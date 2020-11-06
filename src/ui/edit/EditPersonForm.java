@@ -44,7 +44,7 @@ public class EditPersonForm extends JFrame {
         String newCi = Documento.getText();
         if (!newName.equals("") && !newPhone.equals("") && !newAdres.equals("") && !newCi.equals("")){
             constructor.updatePerson(newCi,newName, newAdres,newPhone);
-            parent.fetchPersons();
+            // parent.fetchPersons();
             exitForm();
         }
     }

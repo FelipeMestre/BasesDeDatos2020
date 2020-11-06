@@ -40,7 +40,6 @@ public class MainMenu extends JFrame {
         this.name.setText(username);
     }
 
-
     private Option[] createOptions(){
         Option option1 = new Option(Usuarios_Button, usersLabel, icon_user, "/img/option.png",
                 "/img/usability-edit.png", "/img/usability-edit-selected.png");
@@ -52,8 +51,6 @@ public class MainMenu extends JFrame {
                         "/img/link-edit.png","/img/link-edit-selected.png");
         return new Option[]{option1, option2, option3, option4};
     }
-
-    //Metodos de Rol
 
     private void initRolesDashboard(){
         this.TotalRoles.setText(String.valueOf(controller.totalRoles()));
@@ -105,8 +102,6 @@ public class MainMenu extends JFrame {
         RolesTable.getTableHeader().setDefaultRenderer(new TableHeaderRender(baseRenderer));
         scrollTable.setBorder(new LineBorder(new Color(0,0,0,0)));
         scrollTable.setViewportView(RolesTable);
-        roles_history.setListData(controller.getRoleLog());
-        roles_history.setCellRenderer(new RolesHistoryListRenderer());
     }
 
     public void editRole(int row){
@@ -120,22 +115,18 @@ public class MainMenu extends JFrame {
 
     public void deleteRole(int row){
         String id_edit = String.valueOf(RolesTable.getValueAt(row, 0));
-        controller.deleteModel(id_edit,"Rol");
+       // controller.deleteRole(id_edit);
         fetchRoles();
     }
 
-    //Metodos de Person
-
-    private void initPersonDashboard(){
-        this.TotalPersons.setText(String.valueOf(controller.totalPersons()));
+    private void initUserDashboard(){
+        this.TotalUsuarios.setText(String.valueOf(controller.totalUsers()));
+        this.UsuariosBloqueado.setText(String.valueOf(controller.bloquedUsers()));
     }
 
-    private void initPersonTable() {
-        String[][] person_info = this.controller.getPersonas();
-        PersonTable = new JTable(){
-            /*   public TableCellRenderer getCellRenderer( int row, int column ) {
-                   return new TableButtonRender();
-               }*/
+    private void initUserTable() {
+        String[][] user_info = this.controller.getUsuarios();
+        UserTable = new JTable(){
             public String getToolTipText(MouseEvent e) {
                 String tip = null;
                 java.awt.Point p = e.getPoint();
@@ -149,14 +140,15 @@ public class MainMenu extends JFrame {
                 return tip;
             }
         };
-        PersonTable.setModel(new DefaultTableModel(
-                person_info,
-                new String[] {"CI","Nombre", "Direccion", " ", " "})
+        UserTable.setModel(new DefaultTableModel(
+                user_info,
+                new String[] {"ID user","Nombre", "CI", " ", " "})
         {   @Override
         public boolean isCellEditable(int row, int column) {
             return false;
         }
         });
+
         PersonTable.setRowHeight(35);
         PersonTable.getColumnModel().getColumn(0).setMaxWidth(50);
         PersonTable.getColumnModel().getColumn(3).setMaxWidth(32);
@@ -216,16 +208,16 @@ public class MainMenu extends JFrame {
         scrollTable3.setViewportView(PersonTable);
     }
 
-    //Metodos de User
-
-    private void initUserDashboard(){
-        this.TotalUsuarios.setText(String.valueOf(controller.totalUsers()));
-        this.UsuariosBloqueado.setText(String.valueOf(controller.bloquedUsers()));
+    private void initPersonDashboard(){
+        this.TotalPersons.setText(String.valueOf(controller.totalPersons()));
     }
 
-    private void initUserTable() {
-        String[][] user_info = this.controller.getUsuarios();
-        UserTable = new JTable(){
+    private void initPersonTable() {
+        String[][] person_info = this.controller.getPersonas();
+        PersonTable = new JTable(){
+         /*   public TableCellRenderer getCellRenderer( int row, int column ) {
+                return new TableButtonRender();
+            }*/
             public String getToolTipText(MouseEvent e) {
                 String tip = null;
                 java.awt.Point p = e.getPoint();
@@ -239,26 +231,25 @@ public class MainMenu extends JFrame {
                 return tip;
             }
         };
-        UserTable.setModel(new DefaultTableModel(
-                user_info,
-                new String[] {"ID user","Nombre", "CI", " ", " "})
+        PersonTable.setModel(new DefaultTableModel(
+                person_info,
+                new String[] {"CI","Nombre", "Direccion", " ", " "})
         {   @Override
         public boolean isCellEditable(int row, int column) {
             return false;
         }
         });
-        UserTable.setRowHeight(35);
-        UserTable.getColumnModel().getColumn(0).setMaxWidth(50);
-        UserTable.getColumnModel().getColumn(3).setMaxWidth(32);
-        UserTable.getColumnModel().getColumn(4).setMaxWidth(32);
-        UserTable.setShowGrid(false);
-        TableCellRenderer baseRenderer = UserTable.getTableHeader().getDefaultRenderer();
-        UserTable.getTableHeader().setDefaultRenderer(new TableHeaderRender(baseRenderer));
-        UserTable.setCellSelectionEnabled(false);
-        scrollTable2.setBorder(new LineBorder(new Color(0,0,0,0)));
-        scrollTable2.setViewportView(UserTable);
+        PersonTable.setRowHeight(35);
+        PersonTable.getColumnModel().getColumn(0).setMaxWidth(50);
+        PersonTable.getColumnModel().getColumn(3).setMaxWidth(32);
+        PersonTable.getColumnModel().getColumn(4).setMaxWidth(32);
+        PersonTable.setShowGrid(false);
+        TableCellRenderer baseRenderer = PersonTable.getTableHeader().getDefaultRenderer();
+        PersonTable.getTableHeader().setDefaultRenderer(new TableHeaderRender(baseRenderer));
+        PersonTable.setCellSelectionEnabled(false);
+        scrollTable3.setBorder(new LineBorder(new Color(0,0,0,0)));
+        scrollTable3.setViewportView(PersonTable);
     }
-
 
     private void exitMouseClicked(MouseEvent e) {
         this.dispose();
@@ -595,6 +586,7 @@ public class MainMenu extends JFrame {
             () ) ); Header. addPropertyChangeListener( new java. beans .PropertyChangeListener ( ){ @Override public void propertyChange (java
             . beans. PropertyChangeEvent e) { if( "bord\u0065r" .equals ( e. getPropertyName () ) )throw new RuntimeException
             ( ) ;} } );
+
 
             //---- exit ----
             exit.setIcon(new ImageIcon(getClass().getResource("/img/logout-edit.png")));

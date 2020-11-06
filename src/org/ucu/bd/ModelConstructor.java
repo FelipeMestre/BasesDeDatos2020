@@ -116,9 +116,9 @@ public class ModelConstructor {
 
     public void deleteModel(String id, String tablename){
         if (tablename.equals("persona")){
-            db.deleteRow(tablename,id,"cedula");
+            db.deleteRowPersona(tablename,id);
         } else {
-            db.deleteRow(tablename, id, "id_" + tablename);
+            db.deleteRow(tablename, id);
         }
     }
 
