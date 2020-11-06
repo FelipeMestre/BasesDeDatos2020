@@ -227,11 +227,24 @@ public class Database {
         }
     }
 
-    public ResultSet deleteRow(String table_name, String row_id, String col_name) {
+    public ResultSet deleteRow(String table_name, String row_id) {
         if(isConnected()) {
             try {
                 stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
-                stmt.executeUpdate("DELETE FROM " + table_name + " WHERE " + col_name + " = " + row_id);
+                stmt.executeUpdate("UPDATE " + table_name + " SET activo = false WHERE  id_" + table_name  + " = " + row_id);
+            }
+            catch (SQLException ex) {
+                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return null;
+    }
+
+    public ResultSet deleteRowPersona(String table_name, String row_id) {
+        if(isConnected()) {
+            try {
+                stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
+                stmt.executeUpdate("UPDATE " + table_name + " SET activo = false WHERE cedula = " + row_id);
             }
             catch (SQLException ex) {
                 Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
@@ -243,29 +256,13 @@ public class Database {
 
     //Updates
     public void updateModel(String row_id, String new_name, String new_desc,String tablename){
-        if(isConnected()) {
-            try {
-                stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
-                stmt.executeUpdate(String.format("UPDATE "+ tablename + " SET nombre_"+tablename+ "= \'%s\',descripcion = \'%s\' WHERE id_"+tablename+" = %d",new_name,new_desc,Integer.parseInt(row_id)),Statement.RETURN_GENERATED_KEYS);
-                logActivity(stmt.getGeneratedKeys(), tablename,3);
-            }
-            catch (SQLException ex) {
-                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        this.deleteRow(tablename, row_id);
+        this.createModel(new_name, new_desc, tablename);
     }
 
     public void updatePerson(String id, String newName, String newAdres, String newPhone){
-        if(isConnected()) {
-            try {
-                stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
-                stmt.executeUpdate(String.format("UPDATE persona SET nombre = \'%s\',direccion = \'%s\' " +
-                        ", telefono = \'%s\' WHERE cedula = %d",newName,newAdres,newPhone,Integer.parseInt(id)));
-            }
-            catch (SQLException ex) {
-                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        this.deleteRowPersona("persona", id);
+        this.createPerson(Integer.parseInt(id), newName, newAdres, Integer.parseInt(newPhone));
     }
 
     //Role asignments
