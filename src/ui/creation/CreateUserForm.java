@@ -43,7 +43,7 @@ public class CreateUserForm extends JFrame {
                     if (PasswordManager.isPasswordValid(newPassword,this)){
                         if (constructor.createUser(newUsername,newPassword,Integer.valueOf(ci),admin,
                                 currentUser.get_userId())){
-                            parent.fetchUsers();
+                          //  parent.fetchUsers();
                             exitForm();
                         }
                     }
