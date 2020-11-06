@@ -21,7 +21,7 @@ public class UserHistoryListRender extends JPanel implements ListCellRenderer<Lo
                 layout.createParallelGroup()
                         .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(item_back, 225,225,250)
+                                .addComponent(item_back, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -84,9 +84,8 @@ public class UserHistoryListRender extends JPanel implements ListCellRenderer<Lo
                                                 .addComponent(user_name, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(user_descripcion, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(actioned_username, 90, 90, 90)
-                                                .addContainerGap(107, Short.MAX_VALUE)
+                                                .addGap(20)
                                         ))
                                 .addContainerGap())
         );

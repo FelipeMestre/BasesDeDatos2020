@@ -20,7 +20,7 @@ public class RolesHistoryListRenderer extends JPanel implements ListCellRenderer
                 layout.createParallelGroup()
                         .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(item_back, 225,225,250)
+                                .addComponent(item_back, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -80,14 +80,13 @@ public class RolesHistoryListRenderer extends JPanel implements ListCellRenderer
                                 .addGroup(panel1Layout.createParallelGroup()
                                         .addComponent(rol_date, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGroup(panel1Layout.createSequentialGroup()
-                                                .addContainerGap()
                                                 .addComponent(user_name, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(rol_description, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(rol_name, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                                .addContainerGap(107, Short.MAX_VALUE)
-                                               )))
+                                                .addComponent(rol_name, 90, 90, 90)
+                                                .addGap(10)
+                                               ))
+                                .addContainerGap())
         );
         panel1Layout.setVerticalGroup(
                 panel1Layout.createParallelGroup()

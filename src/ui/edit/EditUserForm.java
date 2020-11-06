@@ -50,7 +50,7 @@ public class EditUserForm extends JFrame {
                     //Checkea la nueva contraseña
                     if (PasswordManager.isPasswordValid(newPassword,this)){
                         constructor.updateUser(userId,newUsername,newPassword,newBlocked,true);
-                    //    parent.fetchUsers();
+                        parent.fetchUsers();
                         exitForm();
                     }
                 }
@@ -60,7 +60,7 @@ public class EditUserForm extends JFrame {
                     JOptionPane.showMessageDialog(this,"Para cambiar la contraseña debe ingresar\n Antigua y Nueva contraseña");
                 } else {//Si no se quiere actualizar la contraseña
                     constructor.updateUser(userId,newUsername,newPassword,newBlocked,false);
-                 //   parent.fetchUsers();
+                    parent.fetchUsers();
                     exitForm();
                 }
             }
