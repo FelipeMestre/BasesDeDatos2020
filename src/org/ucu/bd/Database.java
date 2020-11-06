@@ -92,7 +92,7 @@ public class Database {
         return false;
     }
 
-    public boolean createPerson(int ci, String name, String direction, int phone) {
+    public boolean createPerson(int ci, String name, String direction, int phone, int event_type) {
         if(isConnected()) {
             try {
                 stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
@@ -100,7 +100,7 @@ public class Database {
 
                 //Agarramos la key de la persona creada
                 ResultSet rs = stmt.getGeneratedKeys();
-                logActivity(rs, "persona", 1);
+                logActivity(rs, "persona", event_type);
                 return true;
             }
             catch (SQLException ex) {
@@ -240,7 +240,9 @@ public class Database {
         if(isConnected()) {
             try {
                 stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
-                stmt.executeUpdate("UPDATE " + table_name + " SET activo = false WHERE cedula = " + row_id);
+                stmt.executeUpdate("UPDATE " + table_name + " SET activo = false WHERE cedula = " + row_id,  Statement.RETURN_GENERATED_KEYS);
+                ResultSet rs = stmt.getGeneratedKeys();
+                logActivity(rs, table_name, 2);
             }
             catch (SQLException ex) {
                 Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
