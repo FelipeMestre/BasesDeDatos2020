@@ -9,6 +9,6 @@ public class DeleteUserAction extends ChangeAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         MainMenu frame = (MainMenu) (e.getSource());
-        frame.deletePerson(Integer.parseInt(e.getActionCommand()));
+        frame.deleteUser(Integer.parseInt(e.getActionCommand()));
     }
 }

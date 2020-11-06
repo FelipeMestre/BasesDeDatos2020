@@ -1,7 +1,7 @@
 package org.ucu.bd;
 
 import Utils.PasswordManager;
-import model.currentUser;
+import model.CurrentUser;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,6 +24,7 @@ public class Database {
         this.uri = uri;
     }
 
+    //Driver methods
     public void initConnection() throws SQLException {
         this.db_connection = DriverManager.getConnection(this.uri, this.username, this.password);
     }
@@ -42,15 +43,15 @@ public class Database {
         return "jdbc:postgresql://" + ip + ":" +  port + "/" + DB_name;
     }
 
-    //Login and user creation
+    //Login and password checking
     public boolean login (String user,String passwordText, String tableName, Component parent){
         if (isConnected()) {
             try {
-                stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE,ResultSet.TYPE_FORWARD_ONLY);
+                stmt = db_connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
                 ResultSet rs = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE nombre_usuario = '" + user
                         + "'");
 
-                if (!rs.next()){ //Si no hay resultados
+                if (!rs.first()){ //Si no hay resultados
 
                     JOptionPane.showMessageDialog(parent, "Usuario Incorrecto");
 
@@ -58,15 +59,62 @@ public class Database {
                     int tries = rs.getInt("availabletries");
                     if (rs.getBoolean("admin")){ //Si es administrador
                         if (!rs.getBoolean("bloqueado")){ //Si no esta bloqueado
-                            if(PasswordManager.validatePassword2(rs.getString("Contraseña"),passwordText) ){
+                            if(PasswordManager.getInstance().validatePassword(rs.getString("Contraseña"),
+                                    passwordText,rs.getInt("id_usuario")) ){
                                 //Iniciar programa
                                 if (tries != 5){
                                     rs.updateInt("availableTries",5);
                                     rs.updateRow();
                                 }
-                                currentUser logedUser = currentUser.getCurrentUser();
+                                CurrentUser logedUser = CurrentUser.getCurrentUser();
                                 logedUser.setUser_id(rs.getInt("id_usuario"));
                                 logedUser.setUserName(rs.getString("nombre_usuario"));
+                                return true;
+                            } else {
+                                JOptionPane.showMessageDialog(parent, "Contraseña Incorrecta");
+                                if(tries == 0){
+                                    rs.updateBoolean("bloqueado",true);
+                                } else {
+                                    rs.updateInt("availableTries",--tries);
+                                }
+                                rs.updateRow();
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(parent, "Cuenta Bloqueada.\nContacte al administrador");
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(parent, "Usted no Es Administrador");
+                    }
+                }
+                rs.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return false;
+    }
+
+    public boolean checkIfCorrectPassword (String userId,String user,String passwordText, String tableName, Component parent){
+        if (isConnected()) {
+            try {
+                stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE,ResultSet.TYPE_FORWARD_ONLY);
+                ResultSet rs = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE nombre_usuario = '" + user
+                        + "'");
+
+                if (!rs.first()){ //Si no hay resultados
+
+                    JOptionPane.showMessageDialog(parent, "Usuario Incorrecto");
+
+                } else { //Si hay resultados
+                    int tries = rs.getInt("availabletries");
+                    if (rs.getBoolean("admin")){ //Si es administrador
+                        if (!rs.getBoolean("bloqueado")){ //Si no esta bloqueado
+                            if(PasswordManager.getInstance().validatePassword(rs.getString("Contraseña"),passwordText,Integer.valueOf(userId))){
+                                //Iniciar programa
+                                if (tries != 5){
+                                    rs.updateInt("availableTries",5);
+                                    rs.updateRow();
+                                }
                                 return true;
                             } else {
                                 JOptionPane.showMessageDialog(parent, "Contraseña Incorrecta");
@@ -92,6 +140,7 @@ public class Database {
         return false;
     }
 
+    //Creation of things
     public boolean createPerson(int ci, String name, String direction, int phone) {
         if(isConnected()) {
             try {
@@ -104,8 +153,9 @@ public class Database {
                     int personKey = rs.getInt(1);
                     java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
                     int eventKey = createEvento("Persona",date);
-                    String query = new StringBuilder().append("INSERT INTO log_").append("Persona").append(" (id_").append("Persona").append(", fecha_registro, id_usuario, id_evento) VALUES ('").append(String.valueOf(personKey)).append("','").append(date).append("','").append(currentUser.getCurrentUser().get_userId()).append("','").append(eventKey).append("')").toString();
+                    String query = new StringBuilder().append("INSERT INTO log_").append("Persona").append(" (id_").append("Persona").append(", fecha_registro, id_usuario, id_evento) VALUES ('").append(String.valueOf(personKey)).append("','").append(date).append("','").append(CurrentUser.getCurrentUser().get_userId()).append("','").append(eventKey).append("')").toString();
                     stmt.executeUpdate(query);
+                    rs.close();
                     return true;
                 }
             }
@@ -117,9 +167,11 @@ public class Database {
     }
 
     private int createEvento(String tablename,java.sql.Date date ) throws SQLException {
-        String nombre_rol = currentUser.getCurrentUser().getUserName(); //Se puede actualizar a que sea nombre rol. no se
+        String nombre_rol = CurrentUser.getCurrentUser().getUserName(); //Se puede actualizar a que sea nombre rol. no se
         String eventDescription =  tablename + " creado el " + date + " por " + nombre_rol;
-        stmt.executeUpdate(new StringBuilder().append("INSERT INTO evento (nombre_rol, descripcion) ").append("VALUES ('").append(nombre_rol).append("','").append(eventDescription).append("')").toString(),Statement.RETURN_GENERATED_KEYS);
+        stmt.executeUpdate(new StringBuilder().append("INSERT INTO evento (nombre_rol, descripcion) ").
+                append("VALUES ('").append(nombre_rol).append("','").append(eventDescription).
+                append("')").toString(),Statement.RETURN_GENERATED_KEYS);
         ResultSet rs = stmt.getGeneratedKeys();
         if ( rs.next() ) {
             int eventKey = rs.getInt(1);
@@ -129,20 +181,32 @@ public class Database {
         return 0;
     }
 
-    public ResultSet createUser(String name, String password, int ci, boolean admin, int creator, boolean blocked) {
+    public boolean createUser(String name, String password, int ci, boolean admin, int creator, boolean blocked) {
         if(isConnected()) {
             try {
                 stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
-                ResultSet rs =
-                        stmt.executeQuery(
-                                "INSERT INTO usuario (nombre_usuario, contraseña, ci_persona, admin, creador, bloqueado) VALUES ('" + name + "','" + password + "'," + ci + ",'" + admin + "'," + creator + ",'" + blocked + "'");
-                return rs;
+                stmt.executeUpdate(
+                                "INSERT INTO usuario (nombre_usuario, contraseña, ci_persona, admin, " +
+                                        "creador, bloqueado) VALUES ('" + name + "',' a" +
+                                        "'," + ci + ",'" + admin + "'," + creator + ",'" + blocked + "')",
+                        Statement.RETURN_GENERATED_KEYS);
+                ResultSet rs = stmt.getGeneratedKeys();
+                int id_usuario = 0;
+                if(rs.first()){
+                    id_usuario = rs.getInt(1);
+                    String newPassword = PasswordManager.getInstance().generatePassword(password,id_usuario);
+                    stmt.executeUpdate(
+                            "update usuario set contraseña ='" + newPassword + "' where id_usuario = " + id_usuario);
+                    stmt.close();
+                    return true;
+                }
+                return false;
             }
             catch (SQLException ex) {
                 Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        return null;
+        return false;
     }
 
 
@@ -203,7 +267,7 @@ public class Database {
                     int modelKey = rs.getInt(1);
                     java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
                    int eventKey = createEvento(tablename,date);
-                    String query = new StringBuilder().append("INSERT INTO log_").append(tablename).append(" (id_").append(tablename).append(", fecha_registro, id_usuario, id_evento) VALUES ('").append(String.valueOf(modelKey)).append("','").append(date).append("','").append(currentUser.getCurrentUser().get_userId()).append("','").append(eventKey).append("')").toString();
+                    String query = new StringBuilder().append("INSERT INTO log_").append(tablename).append(" (id_").append(tablename).append(", fecha_registro, id_usuario, id_evento) VALUES ('").append(String.valueOf(modelKey)).append("','").append(date).append("','").append(CurrentUser.getCurrentUser().get_userId()).append("','").append(eventKey).append("')").toString();
                     stmt.executeUpdate(query);
                     return true;
                 }
@@ -255,6 +319,27 @@ public class Database {
         }
     }
 
+    public void updateUser(String id, String username, String password, boolean blocked, boolean withPassword){
+        if(isConnected()) {
+            String newPassword = PasswordManager.getInstance().generatePassword(password,Integer.valueOf(id));
+            try {
+                stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
+
+                if (withPassword){
+                    stmt.executeUpdate(String.format("UPDATE usuario SET nombre_usuario = \'%s\', contraseña = " +
+                            "\'%s\' " + ", bloqueado = \'%s\' WHERE id_usuario = " +
+                            "%d",username,newPassword,blocked,Integer.parseInt(id)));
+                } else {
+                    stmt.executeUpdate(String.format("UPDATE usuario SET nombre_usuario = \'%s\', bloqueado = \'%s\' " +
+                            "WHERE id_usuario = " + "%d",username,blocked,Integer.parseInt(id)));
+                }
+            }
+            catch (SQLException ex) {
+                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
     //Role asignments
     public ResultSet putAutorization(String id_usuario, int autorizante) {
         if(isConnected()) {
@@ -269,5 +354,16 @@ public class Database {
             }
         }
         return null;
+    }
+
+    //Existance
+    public boolean existsPerson(String ci){
+        ResultSet person = search("persona","cedula",ci);
+        try {
+            return person.first();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return false;
     }
 }

@@ -2,8 +2,10 @@
  * Created by JFormDesigner on Tue Nov 03 14:04:54 UYT 2020
  */
 
-package ui.edit;
+package ui.creation;
 
+import Utils.PasswordManager;
+import model.CurrentUser;
 import org.ucu.bd.ModelConstructor;
 import ui.MainMenu;
 
@@ -14,38 +16,43 @@ import java.awt.event.ActionEvent;
 /**
  * @author unknown
  */
-public class EditPersonForm extends JFrame {
+public class CreateUserForm extends JFrame {
 
     private ModelConstructor constructor;
     private MainMenu parent;
-    private String person_name;
-    private String telefono;
-    private String adress;
-    private String ci;
 
-    public EditPersonForm(MainMenu parent, ModelConstructor controller,
-                          String person_name, String telefono, String adress, String ci) {
+    public CreateUserForm(MainMenu parent, ModelConstructor controller) {
         this.constructor = controller;
         this.parent = parent;
-        this.telefono = telefono;
-        this.adress = adress;
-        this.ci = ci;
         initComponents();
-        this.Nombre.setText(person_name);
-        this.Direccion.setText(adress);
-        this.Telefono.setText(telefono);
-        this.Documento.setText(ci);
     }
 
     private void SubmitActionPerformed() {
-        String newName = Nombre.getText();
-        String newPhone = Telefono.getText();
-        String newAdres = Direccion.getText();
-        String newCi = Documento.getText();
-        if (!newName.equals("") && !newPhone.equals("") && !newAdres.equals("") && !newCi.equals("")){
-            constructor.updatePerson(newCi,newName, newAdres,newPhone);
-            parent.fetchPersons();
-            exitForm();
+        String newUsername = NombreUsuario.getText();
+        String newPassword = Contraseña.getText();
+        String ci = Ci.getText();
+        boolean admin = Admin.isSelected();
+        //Checkea si el nombre de usuario es valido
+        if (PasswordManager.getInstance().isUsernameValid(newUsername,this)){
+            //Checkea si se ingreso contraseña
+            if(!newPassword.equals("")) {
+                //Checkea si existe la persona
+                if(constructor.existsPerson(ci)){
+                    CurrentUser currentUser = CurrentUser.getCurrentUser();
+                    //Cheackea la nueva contraseña
+                    if (PasswordManager.isPasswordValid(newPassword,this)){
+                        if (constructor.createUser(newUsername,newPassword,Integer.valueOf(ci),admin,
+                                currentUser.get_userId())){
+                            parent.fetchUsers();
+                            exitForm();
+                        }
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "La persona no existe\nRegistre una persona con esa cedula");
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Ingrese Contraseña");
+            }
         }
     }
 
@@ -64,14 +71,13 @@ public class EditPersonForm extends JFrame {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - unknown
         panel1 = new JPanel();
-        NameTitle = new JLabel();
-        Telefono_Label = new JLabel();
-        Nombre = new JTextField();
-        Telefono = new JTextField();
-        Documento_label = new JLabel();
-        Documento = new JTextField();
-        Direccion_label = new JLabel();
-        Direccion = new JTextField();
+        nombre_Usuario_Label = new JLabel();
+        Contraseña_Label = new JLabel();
+        NombreUsuario = new JTextField();
+        Contraseña = new JTextField();
+        CI_Label = new JLabel();
+        Ci = new JTextField();
+        Admin = new JCheckBox();
         panel2 = new JPanel();
         Title = new JLabel();
         panel3 = new JPanel();
@@ -86,42 +92,42 @@ public class EditPersonForm extends JFrame {
         //======== panel1 ========
         {
             panel1.setBackground(new Color(244, 244, 244));
-            panel1.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing. border. EmptyBorder(
-            0, 0, 0, 0) , "JF\u006frmDes\u0069gner \u0045valua\u0074ion", javax. swing. border. TitledBorder. CENTER, javax. swing. border. TitledBorder
-            . BOTTOM, new java .awt .Font ("D\u0069alog" ,java .awt .Font .BOLD ,12 ), java. awt. Color.
-            red) ,panel1. getBorder( )) ); panel1. addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .
-            beans .PropertyChangeEvent e) {if ("\u0062order" .equals (e .getPropertyName () )) throw new RuntimeException( ); }} );
+            panel1.setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.
+            swing.border.EmptyBorder(0,0,0,0), "JF\u006frmDes\u0069gner \u0045valua\u0074ion",javax.swing.border
+            .TitledBorder.CENTER,javax.swing.border.TitledBorder.BOTTOM,new java.awt.Font("D\u0069alog"
+            ,java.awt.Font.BOLD,12),java.awt.Color.red),panel1. getBorder
+            ()));panel1. addPropertyChangeListener(new java.beans.PropertyChangeListener(){@Override public void propertyChange(java
+            .beans.PropertyChangeEvent e){if("\u0062order".equals(e.getPropertyName()))throw new RuntimeException
+            ();}});
 
-            //---- NameTitle ----
-            NameTitle.setText("Nombre del rol");
-            NameTitle.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 16));
+            //---- nombre_Usuario_Label ----
+            nombre_Usuario_Label.setText("Nombre de Usuario");
+            nombre_Usuario_Label.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 16));
 
-            //---- Telefono_Label ----
-            Telefono_Label.setText("Telefono");
-            Telefono_Label.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 16));
+            //---- Contraseña_Label ----
+            Contraseña_Label.setText("Contrase\u00f1a");
+            Contraseña_Label.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 16));
 
-            //---- Nombre ----
-            Nombre.setBackground(Color.white);
-            Nombre.setForeground(Color.darkGray);
-            Nombre.setBorder(null);
+            //---- NombreUsuario ----
+            NombreUsuario.setBackground(Color.white);
+            NombreUsuario.setForeground(Color.darkGray);
+            NombreUsuario.setBorder(null);
 
-            //---- Telefono ----
-            Telefono.setBackground(Color.white);
+            //---- Contraseña ----
+            Contraseña.setBackground(Color.white);
 
-            //---- Documento_label ----
-            Documento_label.setText("Documento (solo numeros)");
-            Documento_label.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 16));
+            //---- CI_Label ----
+            CI_Label.setText("Documento de Identidad");
+            CI_Label.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 16));
 
-            //---- Documento ----
-            Documento.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-            Documento.setBackground(Color.white);
+            //---- Ci ----
+            Ci.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+            Ci.setBackground(Color.white);
 
-            //---- Direccion_label ----
-            Direccion_label.setText("Direccion");
-            Direccion_label.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 16));
-
-            //---- Direccion ----
-            Direccion.setBackground(Color.white);
+            //---- Admin ----
+            Admin.setText("Admin");
+            Admin.setBackground(Color.white);
+            Admin.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 16));
 
             GroupLayout panel1Layout = new GroupLayout(panel1);
             panel1.setLayout(panel1Layout);
@@ -130,43 +136,37 @@ public class EditPersonForm extends JFrame {
                     .addGroup(panel1Layout.createSequentialGroup()
                         .addGap(44, 44, 44)
                         .addGroup(panel1Layout.createParallelGroup()
-                            .addComponent(Direccion_label)
-                            .addComponent(Documento, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Documento_label, GroupLayout.PREFERRED_SIZE, 214, GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Contraseña_Label, GroupLayout.PREFERRED_SIZE, 159, GroupLayout.PREFERRED_SIZE)
                             .addGroup(panel1Layout.createSequentialGroup()
                                 .addGroup(panel1Layout.createParallelGroup()
-                                    .addComponent(NameTitle)
-                                    .addComponent(Nombre, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE))
-                                .addGap(44, 44, 44)
+                                    .addComponent(nombre_Usuario_Label)
+                                    .addComponent(NombreUsuario, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(Contraseña, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE))
+                                .addGap(45, 45, 45)
                                 .addGroup(panel1Layout.createParallelGroup()
-                                    .addComponent(Telefono_Label, GroupLayout.PREFERRED_SIZE, 134, GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(Telefono, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(Direccion, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(60, Short.MAX_VALUE))
+                                    .addComponent(Admin)
+                                    .addComponent(CI_Label, GroupLayout.PREFERRED_SIZE, 214, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(Ci, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE))))
+                        .addContainerGap(59, Short.MAX_VALUE))
             );
             panel1Layout.setVerticalGroup(
                 panel1Layout.createParallelGroup()
                     .addGroup(panel1Layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addGroup(panel1Layout.createParallelGroup()
-                            .addGroup(GroupLayout.Alignment.TRAILING, panel1Layout.createSequentialGroup()
-                                .addComponent(NameTitle)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED))
-                            .addGroup(GroupLayout.Alignment.TRAILING, panel1Layout.createSequentialGroup()
-                                .addComponent(Telefono_Label)
-                                .addGap(3, 3, 3)))
-                        .addGroup(panel1Layout.createParallelGroup()
-                            .addComponent(Nombre, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Telefono, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(Documento_label, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+                        .addGap(17, 17, 17)
+                        .addGroup(panel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(nombre_Usuario_Label)
+                            .addComponent(CI_Label, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
+                        .addGroup(panel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(NombreUsuario, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Ci, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
+                        .addComponent(Contraseña_Label)
                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Documento, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(Direccion_label)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Direccion, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(15, Short.MAX_VALUE))
+                        .addGroup(panel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                            .addComponent(Contraseña, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Admin))
+                        .addContainerGap(78, Short.MAX_VALUE))
             );
         }
 
@@ -175,7 +175,7 @@ public class EditPersonForm extends JFrame {
             panel2.setBackground(new Color(42, 58, 64));
 
             //---- Title ----
-            Title.setText("Edici\u00f3n de rol ");
+            Title.setText("Creacion de Usuario");
             Title.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 22));
             Title.setForeground(Color.white);
             Title.setHorizontalAlignment(SwingConstants.CENTER);
@@ -209,7 +209,7 @@ public class EditPersonForm extends JFrame {
             Cancel.addActionListener(e -> CancelActionPerformed(e));
 
             //---- Submit ----
-            Submit.setText("Modificar");
+            Submit.setText("Crear");
             Submit.setBorder(null);
             Submit.setBackground(new Color(42, 58, 64));
             Submit.setForeground(Color.white);
@@ -263,14 +263,13 @@ public class EditPersonForm extends JFrame {
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
     // Generated using JFormDesigner Evaluation license - unknown
     private JPanel panel1;
-    private JLabel NameTitle;
-    private JLabel Telefono_Label;
-    private JTextField Nombre;
-    private JTextField Telefono;
-    private JLabel Documento_label;
-    private JTextField Documento;
-    private JLabel Direccion_label;
-    private JTextField Direccion;
+    private JLabel nombre_Usuario_Label;
+    private JLabel Contraseña_Label;
+    private JTextField NombreUsuario;
+    private JTextField Contraseña;
+    private JLabel CI_Label;
+    private JTextField Ci;
+    private JCheckBox Admin;
     private JPanel panel2;
     private JLabel Title;
     private JPanel panel3;

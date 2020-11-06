@@ -7,15 +7,15 @@ package ui;
 import javax.swing.border.LineBorder;
 import javax.swing.table.*;
 
-import actions.DeletePersonAction;
-import actions.DeleteRoleAction;
-import actions.EditPersonAction;
-import actions.EditRoleAction;
+import Utils.PasswordManager;
+import actions.*;
 import org.ucu.bd.*;
 import ui.creation.CreatePersonForm;
 import ui.creation.CreateRolForm;
+import ui.creation.CreateUserForm;
 import ui.edit.EditPersonForm;
 import ui.edit.EditRolForm;
+import ui.edit.EditUserForm;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -121,6 +121,84 @@ public class MainMenu extends JFrame {
         fetchRoles();
     }
 
+    //Metodos de User
+
+    private void initUserDashboard(){
+        this.TotalUsuarios.setText(String.valueOf(controller.totalUsers()));
+        this.UsuariosBloqueado.setText(String.valueOf(controller.bloquedUsers()));
+    }
+
+    private void initUserTable() {
+        String[][] user_info = this.controller.getUsuarios();
+        UserTable = new JTable(){
+            public String getToolTipText(MouseEvent e) {
+                String tip = null;
+                java.awt.Point p = e.getPoint();
+                int rowIndex = rowAtPoint(p);
+                int colIndex = columnAtPoint(p);
+                int realColumnIndex = convertColumnIndexToModel(colIndex);
+
+                if (realColumnIndex == 2) { //Sport column
+                    tip = getValueAt(rowIndex, colIndex).toString();
+                }
+                return tip;
+            }
+        };
+        fetchUsers();
+    }
+
+    private void updateUserTable(String[][] newData){
+        UserTable.setModel(new DefaultTableModel(
+                newData,
+                new String[] {"ID user","Nombre", "CI", " ", " "})
+        {   @Override
+        public boolean isCellEditable(int row, int column) {
+            return column == 3 || column == 4;
+        }});
+        ButtonColumn editButton = new ButtonColumn(UserTable,this, "/img/edit_button.png", new EditUserAction(),3);
+        ButtonColumn deleteButton = new ButtonColumn(UserTable,this, "/img/delete_button.png", new DeleteUserAction(),3);
+        UserTable.setRowHeight(35);
+        UserTable.getColumnModel().getColumn(3).setCellRenderer(editButton);
+        UserTable.getColumnModel().getColumn(3).setCellEditor(editButton);
+        UserTable.getColumnModel().getColumn(4).setCellEditor(deleteButton);
+        UserTable.getColumnModel().getColumn(4).setCellRenderer(deleteButton);
+        UserTable.getColumnModel().getColumn(0).setMaxWidth(50);
+        UserTable.getColumnModel().getColumn(3).setMaxWidth(32);
+        UserTable.getColumnModel().getColumn(4).setMaxWidth(32);
+        UserTable.setShowGrid(false);
+        TableCellRenderer baseRenderer = UserTable.getTableHeader().getDefaultRenderer();
+        UserTable.getTableHeader().setDefaultRenderer(new TableHeaderRender(baseRenderer));
+        UserTable.setBorder(new LineBorder(new Color(0,0,0,0)));
+        scrollTable2.setViewportView(UserTable);
+    }
+
+    public void fetchUsers(){
+        updateUserTable(this.controller.getUsuarios());
+    }
+
+    public void editUser(int row){
+        String userId = String.valueOf(UserTable.getValueAt(row, 0));
+        String userName = String.valueOf(UserTable.getValueAt(row, 1));
+        boolean blocked = false;
+        switch (String.valueOf(UserTable.getValueAt(row,3))){
+            case "f":
+                break;
+            case "v":
+                blocked = true;
+                break;
+        }
+
+        this.disable();
+        EditUserForm edit_screen = new EditUserForm(this,controller,userName,blocked,userId);
+        edit_screen.setVisible(true);
+    }
+
+    public void deleteUser(int row){
+        String id_edit = String.valueOf(UserTable.getValueAt(row, 0));
+        controller.deleteModel(id_edit,"usuario");
+        fetchUsers();
+    }
+
     //Metodos de Person
 
     private void initPersonDashboard(){
@@ -210,49 +288,6 @@ public class MainMenu extends JFrame {
         PersonTable.getTableHeader().setDefaultRenderer(new TableHeaderRender(baseRenderer));
         PersonTable.setBorder(new LineBorder(new Color(0,0,0,0)));
         scrollTable3.setViewportView(PersonTable);
-    }
-
-    //Metodos de User
-
-    private void initUserDashboard(){
-        this.TotalUsuarios.setText(String.valueOf(controller.totalUsers()));
-        this.UsuariosBloqueado.setText(String.valueOf(controller.bloquedUsers()));
-    }
-
-    private void initUserTable() {
-        String[][] user_info = this.controller.getUsuarios();
-        UserTable = new JTable(){
-            public String getToolTipText(MouseEvent e) {
-                String tip = null;
-                java.awt.Point p = e.getPoint();
-                int rowIndex = rowAtPoint(p);
-                int colIndex = columnAtPoint(p);
-                int realColumnIndex = convertColumnIndexToModel(colIndex);
-
-                if (realColumnIndex == 2) { //Sport column
-                    tip = getValueAt(rowIndex, colIndex).toString();
-                }
-                return tip;
-            }
-        };
-        UserTable.setModel(new DefaultTableModel(
-                user_info,
-                new String[] {"ID user","Nombre", "CI", " ", " "})
-        {   @Override
-        public boolean isCellEditable(int row, int column) {
-            return false;
-        }
-        });
-        UserTable.setRowHeight(35);
-        UserTable.getColumnModel().getColumn(0).setMaxWidth(50);
-        UserTable.getColumnModel().getColumn(3).setMaxWidth(32);
-        UserTable.getColumnModel().getColumn(4).setMaxWidth(32);
-        UserTable.setShowGrid(false);
-        TableCellRenderer baseRenderer = UserTable.getTableHeader().getDefaultRenderer();
-        UserTable.getTableHeader().setDefaultRenderer(new TableHeaderRender(baseRenderer));
-        UserTable.setCellSelectionEnabled(false);
-        scrollTable2.setBorder(new LineBorder(new Color(0,0,0,0)));
-        scrollTable2.setViewportView(UserTable);
     }
 
 
@@ -373,9 +408,9 @@ public class MainMenu extends JFrame {
     }
 
     private void add_button_usuariosMouseClicked() {
-        JFrame addRoleFrame = new CreateRolForm(controller, this);
+        JFrame addUserFrame = new CreateUserForm(this,controller);
         this.disable();
-        addRoleFrame.setVisible(true);
+        addUserFrame.setVisible(true);
     }
 
     private void add_button_usuariosMouseExited() {
@@ -566,6 +601,12 @@ public class MainMenu extends JFrame {
         //======== Header ========
         {
             Header.setBackground(Color.white);
+            Header.setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder
+            (0,0,0,0), "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn",javax.swing.border.TitledBorder.CENTER,javax.swing.border
+            .TitledBorder.BOTTOM,new java.awt.Font("Dia\u006cog",java.awt.Font.BOLD,12),java.awt
+            .Color.red),Header. getBorder()));Header. addPropertyChangeListener(new java.beans.PropertyChangeListener(){@Override public void
+            propertyChange(java.beans.PropertyChangeEvent e){if("\u0062ord\u0065r".equals(e.getPropertyName()))throw new RuntimeException()
+            ;}});
 
             //---- exit ----
             exit.setIcon(new ImageIcon(getClass().getResource("/img/logout-edit.png")));

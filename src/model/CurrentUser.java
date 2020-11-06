@@ -1,6 +1,6 @@
 package model;
 
-public class currentUser {
+public class CurrentUser {
 
     private int user_id;
 
@@ -8,14 +8,14 @@ public class currentUser {
 
     private String userName;
 
-    private static currentUser user;
+    private static CurrentUser user;
 
-    public currentUser(){
+    public CurrentUser(){
     }
 
-    public static currentUser getCurrentUser(){
+    public static CurrentUser getCurrentUser(){
         if (user == null){
-            user = new currentUser();
+            user = new CurrentUser();
         }
         return user;
     }
