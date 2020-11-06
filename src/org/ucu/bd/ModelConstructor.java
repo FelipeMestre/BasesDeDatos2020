@@ -20,16 +20,19 @@ public class ModelConstructor {
         try {
             int columnsNumber = rs.getMetaData().getColumnCount();
             rs.last();
-            result = new String[rs.getRow()][columnsNumber];
-            rs.first();
+            int rowsNumber = rs.getRow();
+            if (rowsNumber > 0) {
+                result = new String[rs.getRow()][columnsNumber];
+                rs.first();
 
-            int rowNumber = 0;
-            do {
-                for (int i = 1; i <= columnsNumber; i++) {
-                    result[rowNumber][i - 1] = rs.getString(i);
-                }
-                rowNumber++;
-            } while(rs.next());
+                int rowNumber = 0;
+                do {
+                    for (int i = 1; i <= columnsNumber; i++) {
+                        result[rowNumber][i - 1] = rs.getString(i);
+                    }
+                    rowNumber++;
+                } while (rs.next());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
