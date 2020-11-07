@@ -33,14 +33,14 @@ public class ModelConstructor {
     }
 
     public boolean createModel(String name, String description, String tablename, Component father){
-        if (name != null && name.length() <= 50 && description != null && description.length() <= 200){
+        if (!name.equals("") && name.length() <= 50 && !description.equals("") && description.length() <= 200){
             return this.db.createModel(name,description,tablename,1);
         } else {
-            if(name == null){
+            if(name.equals("")){
                 JOptionPane.showMessageDialog(father,"Ingrese Nombre");
             } else if (name.length() > 50){
                 JOptionPane.showMessageDialog(father,"El nombre debe ser menor a 50 caracteres");
-            } else if(description == null){
+            } else if(description.equals("")){
                 JOptionPane.showMessageDialog(father,"Ingrese Descripcion");
             } else if(description.length() > 200){
                 JOptionPane.showMessageDialog(father,"La descripcion debe ser menor a 200 caracteres");
@@ -60,6 +60,10 @@ public class ModelConstructor {
 
     public void updateUser(String userId,String newUsername,String newPassword,boolean blocked,boolean withPassword, int creador, int autorizador, int ci_persona, boolean activo, boolean admin, int availabletries){
         db.updateUser(userId,newUsername,newPassword,blocked,withPassword,3, creador, autorizador, ci_persona, activo, admin, availabletries);
+    }
+
+    public void updateFuncionality(String role_id, String newName, String newDesc){
+        db.updateModel(role_id, newName, newDesc,"Funcionalidad");
     }
 
     public ResultSet search(String tableName, String column, String value) {
@@ -104,6 +108,10 @@ public class ModelConstructor {
         return this.getStringArray(db.getAllElements("vista_personas"));
     }
 
+    public String[][] getFuncionalities(){
+        return this.getStringArray(db.getAllElements("vista_funcionalidades"));
+    }
+
     //Logs
 
     public Log_Person[] getPersonLog(){
@@ -146,7 +154,6 @@ public class ModelConstructor {
         }
         return result;
     }
-
     public Log_User[] getUserLog(){
         ResultSet rs = retrieveLog("vista_cambios_usuarios");
         Log_User[] result = new Log_User[0];
@@ -168,11 +175,9 @@ public class ModelConstructor {
         }
         return result;
     }
-
     private ResultSet retrieveLog(String view){
         return db.getAllElements(view);
     }
-
 
     //Totals
 
@@ -185,6 +190,10 @@ public class ModelConstructor {
     public int activeUsers(){return this.db.getTableCount("vista_usuarios_activos");}
 
     public int totalPersons() { return this.db.getTableCount("persona"); }
+
+    public int totalAutorizations(){
+        return this.db.getTableCount("modelo_vista_usuarios_sin_autorizacion");
+    }
 
     public void deleteModel(String id, String tablename, boolean deleting) {
         if (tablename.equals("persona")) {

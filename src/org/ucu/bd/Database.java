@@ -230,8 +230,10 @@ public class Database {
         if(isConnected()) {
             try {
                 stmt = db_connection.createStatement();
+                String query2 = "INSERT INTO "+ tablename +" (nombre_"+ tablename +
+                        ", descripcion) VALUES ('" + name + "'," + description + ")";
                 stmt.executeUpdate("INSERT INTO "+ tablename +" (nombre_"+ tablename +
-                        ", descripcion) VALUES ('" + name + "',"+"'" + description + "')",Statement.RETURN_GENERATED_KEYS);
+                        ", descripcion) VALUES ('" + name + "','" + description + "')",Statement.RETURN_GENERATED_KEYS);
 
                 //Agarramos la key del model creado
                 ResultSet rs = stmt.getGeneratedKeys();

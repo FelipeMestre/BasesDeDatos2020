@@ -606,6 +606,197 @@ new FormModel {
 				}, new FormLayoutConstraints( class java.lang.String ) {
 					"value": "personas"
 				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+					"$horizontalGroup": "par l {seq l {space :::p, comp layeredPane10:::p:382:p, space ::25:x, comp layeredPane13:::p:377:p, space :p:30:p}, seq {par l {seq {space :p:45:p, par l {comp RelacionesTitle::l:p::p, comp RelacionesDescription::l:p:369:p}}, seq l {space :p:20:p, comp layeredPane11:::p:368:p, space u:::p, comp layeredPane12:::p:384:p}}, space ::36:x}}"
+					"$verticalGroup": "par l {seq l {space :p:17:p, comp RelacionesTitle:::p::p, space :::p, par t {seq {comp RelacionesDescription:::p::p, space :p:21:p, comp layeredPane11:::p:203:p}, comp layeredPane12:::p:221:p}, space :::p, par l {comp layeredPane13:::p:185:p, comp layeredPane10:::p:218:p}, space :::x}}"
+				} ) {
+					name: "Relaciones"
+					"background": #Color0
+					"foreground": #Color1
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "RelacionesTitle"
+						"text": "Relaciones"
+						"font": #Font0
+						"background": #Color2
+						"foreground": #Color3
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "RelacionesDescription"
+						"text": "Asigna relaciones"
+						"font": #Font1
+						"foreground": #Color4
+					} )
+					add( new FormContainer( "javax.swing.JLayeredPane", new FormLayoutManager( class javax.swing.JLayeredPane ) ) {
+						name: "layeredPane11"
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label12"
+							"text": "Lista de Funcionalidades"
+							"font": &Font6 new java.awt.Font( "Segoe UI Semibold", 0, 18 )
+							"foreground": &Color13 new java.awt.Color( 102, 102, 102, 255 )
+						}, new FormLayoutConstraints( null ) {
+							"width": 215
+							"height": 30
+							"x": 15
+							"y": -5
+						} )
+						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+							name: "scrollTable5"
+							"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							add( new FormComponent( "javax.swing.JTable" ) {
+								name: "FuncionalidadesTable"
+								"background": #Color10
+								"model": #SwingTableModel0
+								"cellSelectionEnabled": true
+								"fillsViewportHeight": true
+								"gridColor": #Color11
+							} )
+						}, new FormLayoutConstraints( null ) {
+							"width": 345
+							"height": 165
+							"x": 10
+							"y": 30
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "add_button_Funcionalidades"
+							"icon": #SwingIcon1
+							addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "add_button_Funcionalidades_MouseClicked", false ) )
+							addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseEntered", "add_button_funcionalidad_MouseEntered", false ) )
+							addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseExited", "add_button_funcionalidadMouseExited", false ) )
+						}, new FormLayoutConstraints( null ) {
+							"width": 105
+							"height": 35
+							"x": 245
+							"y": -5
+						} )
+					} )
+					add( new FormContainer( "javax.swing.JLayeredPane", new FormLayoutManager( class javax.swing.JLayeredPane ) ) {
+						name: "layeredPane13"
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "historial_title4"
+							"text": "Historial de cambios"
+							"font": #Font5
+							"foreground": #Color9
+						}, new FormLayoutConstraints( null ) {
+							"width": 170
+							"height": 35
+							"x": 35
+							"y": 10
+						} )
+						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+							name: "scrollHistoryRelations"
+							"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							add( new FormComponent( "javax.swing.JList" ) {
+								name: "relations_history"
+								"background": sfield java.awt.Color white
+								"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"selectionMode": 0
+								"visibleRowCount": 10
+							} )
+						}, new FormLayoutConstraints( null ) {
+							"x": 20
+							"y": 50
+							"width": 310
+							"height": 120
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "log_back_people2"
+							"icon": #SwingIcon3
+						}, new FormLayoutConstraints( null ) {
+							"width": 365
+							"height": 180
+							"x": 5
+							"y": 5
+						} )
+					} )
+					add( new FormContainer( "javax.swing.JLayeredPane", new FormLayoutManager( class javax.swing.JLayeredPane ) ) {
+						name: "layeredPane12"
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label13"
+							"text": "Usuarios de Rol"
+							"font": #Font6
+							"foreground": #Color13
+						}, new FormLayoutConstraints( null ) {
+							"x": 45
+							"y": 10
+							"width": 170
+							"height": 30
+						} )
+						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+							name: "scrollTable6"
+							"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							add( new FormComponent( "javax.swing.JTable" ) {
+								name: "Usuarios_de_Rol_Table"
+								"background": #Color10
+								"model": #SwingTableModel0
+								"cellSelectionEnabled": true
+								"fillsViewportHeight": true
+								"gridColor": #Color11
+							} )
+						}, new FormLayoutConstraints( null ) {
+							"width": 345
+							"height": 170
+							"x": 35
+							"y": 45
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "add_button_UserToRol"
+							"icon": #SwingIcon1
+							addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "add_button_personasMouseClicked", false ) )
+							addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseEntered", "add_button_personasMouseEntered", false ) )
+							addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseExited", "add_button_personasMouseExited", false ) )
+						}, new FormLayoutConstraints( null ) {
+							"width": 105
+							"height": 35
+							"x": 265
+							"y": 10
+						} )
+					} )
+					add( new FormContainer( "javax.swing.JLayeredPane", new FormLayoutManager( class javax.swing.JLayeredPane ) ) {
+						name: "layeredPane10"
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label11"
+							"text": "Lista de Menus"
+							"font": #Font6
+							"foreground": #Color13
+						}, new FormLayoutConstraints( null ) {
+							"x": 20
+							"y": 5
+							"width": 170
+							"height": 30
+						} )
+						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+							name: "scrollTable4"
+							"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							add( new FormComponent( "javax.swing.JTable" ) {
+								name: "Menus_Table"
+								"background": #Color10
+								"model": #SwingTableModel0
+								"cellSelectionEnabled": true
+								"fillsViewportHeight": true
+								"gridColor": #Color11
+							} )
+						}, new FormLayoutConstraints( null ) {
+							"width": 345
+							"height": 165
+							"x": 15
+							"y": 35
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "add_button_Menu"
+							"icon": #SwingIcon1
+							addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "add_button_personasMouseClicked", false ) )
+							addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseEntered", "add_button_personasMouseEntered", false ) )
+							addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseExited", "add_button_personasMouseExited", false ) )
+						}, new FormLayoutConstraints( null ) {
+							"width": 105
+							"height": 35
+							"x": 255
+							"y": 0
+						} )
+					} )
+				}, new FormLayoutConstraints( class java.lang.String ) {
+					"value": "relaciones"
+				} )
 			} )
 			add( new FormContainer( "javax.swing.JLayeredPane", new FormLayoutManager( class javax.swing.JLayeredPane ) ) {
 				name: "Nav"
@@ -642,8 +833,8 @@ new FormModel {
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "usersLabel"
 					"text": "Usuarios"
-					"font": &Font6 new java.awt.Font( "Segoe UI Semibold", 0, 14 )
-					"foreground": &Color13 new java.awt.Color( 255, 255, 255, 255 )
+					"font": &Font7 new java.awt.Font( "Segoe UI Semibold", 0, 14 )
+					"foreground": &Color14 new java.awt.Color( 255, 255, 255, 255 )
 				}, new FormLayoutConstraints( null ) {
 					"x": 75
 					"y": 231
@@ -735,8 +926,8 @@ new FormModel {
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "rolesLabel"
 					"text": "Roles"
-					"font": #Font6
-					"foreground": #Color13
+					"font": #Font7
+					"foreground": #Color14
 				}, new FormLayoutConstraints( null ) {
 					"width": 35
 					"height": 20
@@ -746,8 +937,8 @@ new FormModel {
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "peopleLabel"
 					"text": "Personas"
-					"font": #Font6
-					"foreground": #Color13
+					"font": #Font7
+					"foreground": #Color14
 				}, new FormLayoutConstraints( null ) {
 					"width": 60
 					"height": 20
@@ -757,8 +948,8 @@ new FormModel {
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "RelationshipsLabel"
 					"text": "Relaciones"
-					"font": #Font6
-					"foreground": #Color13
+					"font": #Font7
+					"foreground": #Color14
 				}, new FormLayoutConstraints( null ) {
 					"width": 70
 					"height": 20

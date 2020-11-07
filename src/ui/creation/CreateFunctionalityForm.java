@@ -18,7 +18,7 @@ public class CreateFunctionalityForm extends JFrame {
     private ModelConstructor constructor;
     private JFrame parent;
 
-    public CreateFunctionalityForm(ModelConstructor controller) {
+    public CreateFunctionalityForm(ModelConstructor controller,JFrame parent) {
         this.constructor = controller;
         this.parent = parent;
         initComponents();;

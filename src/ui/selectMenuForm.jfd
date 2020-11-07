@@ -1,0 +1,72 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {comp panel1:::::x, comp panel2::l:::x, comp panel3::l:::x}"
+			"$verticalGroup": "par l {seq l {comp panel2:::p::p, space :0:0:p, comp panel1:::p::p, space :p:34:p, comp panel3:::p::p, space :::p}}"
+		} ) {
+			name: "this"
+			"resizable": false
+			"undecorated": true
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq {space :p:15:p, comp scrollPane1::::476:x, space :p:17:p}}"
+				"$verticalGroup": "par l {seq t {space ::14:x, comp scrollPane1:::p:141:p, space :::p}}"
+			} ) {
+				name: "panel1"
+				"background": new java.awt.Color( 244, 244, 244, 255 )
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "scrollPane1"
+					add( new FormComponent( "javax.swing.JTable" ) {
+						name: "menus_table"
+					} )
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {comp Title::l::508:x}"
+				"$verticalGroup": "par l {seq t {space :::x, comp Title:::p::p, space :::p}}"
+			} ) {
+				name: "panel2"
+				"background": new java.awt.Color( 42, 58, 64, 255 )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "Title"
+					"text": "Seleccione los menus que desea agregar"
+					"font": new java.awt.Font( "Segoe UI Semibold", 0, 22 )
+					"foreground": sfield java.awt.Color white
+					"horizontalAlignment": 0
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq t {space :::x, comp Cancel:::p:103:p, space u:::p, comp Submit:::p:103:p, space :p:21:p}}"
+				"$verticalGroup": "par l {seq l {space :p:10:p, par b {comp Submit::b:p:30:p, comp Cancel::b:p:30:p}, space :::x}}"
+			} ) {
+				name: "panel3"
+				"background": new java.awt.Color( 203, 203, 203, 255 )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "Cancel"
+					"text": "Cancelar"
+					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"background": new java.awt.Color( 181, 181, 181, 255 )
+					"foreground": &Color0 new java.awt.Color( 255, 255, 255, 255 )
+					"font": &Font0 new java.awt.Font( "Segoe UI Semibold", 0, 14 )
+					"borderPainted": false
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "CancelActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "Submit"
+					"text": "Seleccionar"
+					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"background": new java.awt.Color( 42, 58, 64, 255 )
+					"foreground": #Color0
+					"font": #Font0
+					"borderPainted": false
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "SubmitActionPerformed", false ) )
+				} )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 510, 315 )
+		} )
+	}
+}
