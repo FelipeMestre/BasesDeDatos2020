@@ -281,8 +281,8 @@ new FormModel {
 					"value": "roles"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {seq {par l {seq {space :p:88:p, par l {comp UserTitle:::p::p, comp UserDesc:::p:369:p}}, seq l {space :p:77:p, par l:::p {comp layeredPane3::::353:x, comp layeredPane4::::353:x}}}, space :::p, comp layeredPane9:::p:295:p, space ::62:x}}"
-					"$verticalGroup": "par l {seq l {space :p:49:p, comp UserTitle:::p::p, space :::p, par l {seq {comp UserDesc:::p::p, space s:::p, comp layeredPane3:::p:103:p, space u:::p, comp layeredPane4:::p:235:p}, comp layeredPane9:::p:368:p}, space ::48:x}}"
+					"$horizontalGroup": "par l {seq {par l {seq l {space :p:77:p, par l:::p {comp layeredPane3::::353:x, comp layeredPane4::::353:x}}, seq l {space :p:88:p, par l {comp UserTitle:::p::p, comp UserDesc:::p:304:p}}}, space :p:33:p, par l {comp layeredPane9:::p:295:p, comp layeredPane10:::::x}, space ::62:x}}"
+					"$verticalGroup": "par l {seq l {par l {seq {space :p:49:p, comp UserTitle:::p::p, space :::p, comp UserDesc:::p::p, space s:::p, comp layeredPane3:::p:103:p, space u:::p, comp layeredPane4:::p:235:p}, seq t {space :::p, comp layeredPane10:::p:173:p, space s:::p, comp layeredPane9:::p:206:p}}, space ::48:x}}"
 				} ) {
 					name: "Usuarios"
 					"background": #Color0
@@ -418,7 +418,7 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "historial_title3"
 							"text": "Historial de cambios"
-							"font": #Font5
+							"font": new java.awt.Font( "Segoe UI Semibold", 0, 16 )
 							"foreground": #Color9
 						}, new FormLayoutConstraints( null ) {
 							"width": 175
@@ -440,16 +440,76 @@ new FormModel {
 							"x": 10
 							"y": 55
 							"width": 275
-							"height": 285
+							"height": 150
 						} )
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "log_back_role2"
 							"icon": #SwingIcon3
 						}, new FormLayoutConstraints( null ) {
 							"width": 295
-							"height": 350
+							"height": 206
 							"x": 0
 							"y": 0
+						} )
+					} )
+					add( new FormContainer( "javax.swing.JLayeredPane", new FormLayoutManager( class javax.swing.JLayeredPane ) ) {
+						name: "layeredPane10"
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "historial_title4"
+							"text": "Autorizaciones pendientes"
+							"font": new java.awt.Font( "Segoe UI Semibold", 0, 16 )
+							"foreground": #Color9
+						}, new FormLayoutConstraints( null ) {
+							"width": 225
+							"height": 31
+							"x": 30
+							"y": 10
+						} )
+						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+							name: "scrollPane1"
+							"background": new java.awt.Color( 255, 255, 255, 255 )
+							"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"horizontalScrollBarPolicy": 31
+							add( new FormComponent( "javax.swing.JTable" ) {
+								name: "usersPending"
+								"selectionMode": 0
+								"background": new java.awt.Color( 255, 255, 255, 255 )
+								"rowSelectionAllowed": false
+								"model": new com.jformdesigner.model.SwingTableModel( new java.util.Vector {
+									add( new java.util.Vector {
+										add( null )
+										add( null )
+									} )
+								}, new java.util.Vector {
+									add( null )
+									add( null )
+								}, new java.util.Vector {
+									add( null )
+									add( null )
+								}, new java.util.Vector {
+									add( null )
+									add( null )
+								}, new java.util.Vector {
+									add( null )
+									add( null )
+								} )
+								"rowHeight": 35
+							} )
+						}, new FormLayoutConstraints( null ) {
+							"x": 10
+							"y": 45
+							"height": 115
+							"width": 275
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "autorizacionUsuarioBack"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/img/autorizaciones-back.png" )
+							"background": new java.awt.Color( 255, 255, 255, 255 )
+						}, new FormLayoutConstraints( null ) {
+							"x": 0
+							"y": -5
+							"width": 295
+							"height": 175
 						} )
 					} )
 				}, new FormLayoutConstraints( class java.lang.String ) {

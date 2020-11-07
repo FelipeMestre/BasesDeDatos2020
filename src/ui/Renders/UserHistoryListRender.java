@@ -50,6 +50,8 @@ public class UserHistoryListRender extends JPanel implements ListCellRenderer<Lo
             case "DELETE":
                 description = "eliminó el usuario";
                 break;
+            case "APPROVE":
+                description = "aprobó el usuario";
             default:
                 break;
         }

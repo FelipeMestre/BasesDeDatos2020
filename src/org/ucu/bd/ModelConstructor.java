@@ -1,10 +1,7 @@
 package org.ucu.bd;
 
 import Utils.PasswordManager;
-import model.Log;
-import model.Log_Person;
-import model.Log_User;
-import model.Log_Role;
+import model.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -62,6 +59,15 @@ public class ModelConstructor {
         db.updateUser(userId,newUsername,newPassword,blocked,withPassword,3, creador, autorizador, ci_persona, activo, admin, availabletries);
     }
 
+    public boolean approveUser(String userToApprove, String Authorizer){
+        boolean result = !Authorizer.equals(String.valueOf(CurrentUser.getCurrentUser().get_userId()));
+        if (result){
+            db.putAutorization(userToApprove, Authorizer);
+        }
+        return result;
+
+    }
+
     public ResultSet search(String tableName, String column, String value) {
         return db.search(tableName, column, value);
     }
@@ -98,6 +104,27 @@ public class ModelConstructor {
 
     public String[][] getUsuarios() {
         return this.getStringArray(db.getAllElements("vista_usuarios_con_autorizacion"));
+    }
+
+    public NewUserRequest[][] getUsersPendingAuthorizations(){
+        ResultSet rs = retrieveLog("vista_usuarios_sin_autorizacion");
+        NewUserRequest[][] result = new NewUserRequest[0][0];
+        try {
+            rs.last();
+            int size = rs.getRow();
+            if (size > 0) {
+                result = new NewUserRequest[1][size];
+                rs.first();
+                int rowNumber = 0;
+                do {
+                    result[0][rowNumber] = new NewUserRequest(rs.getString(1),rs.getString(3), rs.getString(4), rs.getString(2));
+                    rowNumber++;
+                } while (rs.next());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
     public String[][] getPersonas() {

@@ -312,29 +312,37 @@ public class Database {
         try {
             if (rs.next()) {
                 int modelKey = rs.getInt(1);
-                Date date = new Date(Calendar.getInstance().getTime().getTime());
-                StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.append("INSERT INTO log_");
-                stringBuilder.append(tablename);
-                if(tablename.equals("usuario")){
-                    stringBuilder.append(" (usuario_modificado");
-                } else {
-                    stringBuilder.append(" (id_");
-                    stringBuilder.append(tablename);
-                }
-                stringBuilder.append(", fecha_registro, id_usuario, id_evento) VALUES ('");
-                stringBuilder.append(String.valueOf(modelKey));
-                stringBuilder.append("','");
-                stringBuilder.append(date);
-                stringBuilder.append("','");
-                stringBuilder.append(CurrentUser.getCurrentUser().get_userId());
-                stringBuilder.append("','");
-                stringBuilder.append(event_type);
-                stringBuilder.append("')");
-                String query = stringBuilder.toString();
-                stmt.executeUpdate(query);
+                logActivity(String.valueOf(modelKey), tablename, event_type);
             }
         }   catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void logActivity(String modelKey, String tablename, int event_type){
+        try{
+            Date date = new Date(Calendar.getInstance().getTime().getTime());
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("INSERT INTO log_");
+            stringBuilder.append(tablename);
+            if(tablename.equals("usuario")){
+                stringBuilder.append(" (usuario_modificado");
+            } else {
+                stringBuilder.append(" (id_");
+                stringBuilder.append(tablename);
+            }
+            stringBuilder.append(", fecha_registro, id_usuario, id_evento) VALUES ('");
+            stringBuilder.append(modelKey);
+            stringBuilder.append("','");
+            stringBuilder.append(date);
+            stringBuilder.append("','");
+            stringBuilder.append(CurrentUser.getCurrentUser().get_userId());
+            stringBuilder.append("','");
+            stringBuilder.append(event_type);
+            stringBuilder.append("')");
+            String query = stringBuilder.toString();
+            stmt.executeUpdate(query);
+        } catch (SQLException ex){
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -389,19 +397,18 @@ public class Database {
     }
 
     //Role asignments
-    public ResultSet putAutorization(String id_usuario, int autorizante) {
+    public void putAutorization(String id_usuario, String autorizante) {
         if(isConnected()) {
             try {
                 stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
-                ResultSet rs =
-                        stmt.executeQuery("UPDATE usuario SET autorizador = " + autorizante + "WHERE id_usuario = " + id_usuario);
-                return rs;
+                String sql = "UPDATE usuario SET autorizador = " + autorizante + " WHERE id_usuario = " + id_usuario ;
+                stmt.executeUpdate(sql, 1);
+               this.logActivity(id_usuario, "usuario", 5);
             }
             catch (SQLException ex) {
                 Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        return null;
     }
 
     //Existance
@@ -414,4 +421,5 @@ public class Database {
         }
         return false;
     }
+
 }
