@@ -10,18 +10,9 @@ import javax.swing.table.*;
 import actions.*;
 import model.NewUserRequest;
 import org.ucu.bd.*;
-import ui.Renders.PersonsHistoryListRender;
-import ui.Renders.RolesHistoryListRenderer;
-import ui.Renders.UserAuthorizationListRender;
-import ui.Renders.UserHistoryListRender;
-import ui.creation.CreateFunctionalityForm;
-import ui.creation.CreatePersonForm;
-import ui.creation.CreateRolForm;
-import ui.edit.EditFuncionalityForm;
-import ui.creation.CreateUserForm;
-import ui.edit.EditPersonForm;
-import ui.edit.EditRolForm;
-import ui.edit.EditUserForm;
+import ui.Renders.*;
+import ui.creation.*;
+import ui.edit.*;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -55,7 +46,9 @@ public class MainMenu extends JFrame {
                 "/img/people-edit.png", "/img/people-edit-selected.png");
         Option option4 = new Option(Relaciones_Button, RelationshipsLabel, icon_relation, "/img/option.png",
                 "/img/link-edit.png", "/img/link-edit-selected.png");
-        return new Option[]{option1, option2, option3, option4};
+        Option option5 = new Option(Permisos_Button, PermisosLabel, icon_permisos, "/img/option.png",
+                "/img/permisos.png", "/img/permisos_edit.png");
+        return new Option[]{option1, option2, option3, option4, option5};
     }
 
     private void initRolesDashboard() {
@@ -129,6 +122,72 @@ public class MainMenu extends JFrame {
         String id_edit = String.valueOf(RolesTable.getValueAt(row, 0));
         controller.deleteModel(id_edit, "rol", true);
         fetchRoles();
+    }
+
+    private void initMenuTable() {
+        Menus_Table = new JTable() {
+            public String getToolTipText(MouseEvent e) {
+                String tip = null;
+                java.awt.Point p = e.getPoint();
+                int rowIndex = rowAtPoint(p);
+                int colIndex = columnAtPoint(p);
+                int realColumnIndex = convertColumnIndexToModel(colIndex);
+
+                if (realColumnIndex == 2) { //Sport column
+                    tip = getValueAt(rowIndex, colIndex).toString();
+                }
+                return tip;
+            }
+        };
+        this.fetchMenus();
+    }
+
+    public void fetchMenus() {
+        updateMenuTable(this.controller.getMenus());
+    }
+
+    private void updateMenuTable(String[][] newData) {
+        Menus_Table.setModel(new DefaultTableModel(
+                newData,
+                new String[]{"ID Menu", "Nombre", "Descripci\u00f3n", " ", " "}) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column == 3 || column == 4;
+            }
+        });
+        ButtonColumn editButton = new ButtonColumn(Menus_Table, this, "/img/edit_button.png", new EditMenuAction(), 3);
+        ButtonColumn deleteButton = new ButtonColumn(Menus_Table, this, "/img/delete_button.png", new DeleteMenuAction(), 3);
+        Menus_Table.setRowHeight(35);
+        Menus_Table.getColumnModel().getColumn(3).setCellRenderer(editButton);
+        Menus_Table.getColumnModel().getColumn(3).setCellEditor(editButton);
+        Menus_Table.getColumnModel().getColumn(4).setCellEditor(deleteButton);
+        Menus_Table.getColumnModel().getColumn(4).setCellRenderer(deleteButton);
+        Menus_Table.getColumnModel().getColumn(0).setMaxWidth(50);
+        Menus_Table.getColumnModel().getColumn(3).setMaxWidth(32);
+        Menus_Table.getColumnModel().getColumn(4).setMaxWidth(32);
+        Menus_Table.setShowGrid(false);
+        TableCellRenderer baseRenderer = Menus_Table.getTableHeader().getDefaultRenderer();
+        Menus_Table.getTableHeader().setDefaultRenderer(new TableHeaderRender(baseRenderer));
+        scrollMenuTable.setBorder(new LineBorder(new Color(0, 0, 0, 0)));
+        scrollMenuTable.setViewportView(Menus_Table);
+
+        relations_history.setListData(controller.getMenuLog());
+        relations_history.setCellRenderer(new MenusHistoryListRenderer());
+    }
+
+    public void deleteMenu(int row) {
+        String id_edit = String.valueOf(Menus_Table.getValueAt(row, 0));
+        controller.deleteModel(id_edit, "menu", true);
+        this.fetchMenus();
+    }
+
+    public void editMenu(int row) {
+        String id_edit = String.valueOf(Menus_Table.getValueAt(row, 0));
+        String menu_name = String.valueOf(Menus_Table.getValueAt(row, 1));
+        String menu_desc = String.valueOf(Menus_Table.getValueAt(row, 2));
+        this.disable();
+        EditMenuForm edit_screen = new EditMenuForm(this, controller, id_edit, menu_name, menu_desc);
+        edit_screen.setVisible(true);
     }
 
     //Metodos de usuario
@@ -508,6 +567,7 @@ public class MainMenu extends JFrame {
         options[3].select();
         changeCard("relaciones");
         initFuncionalityTable();
+        initMenuTable();
         selected_option_button = Relaciones_Button;
     }
 
@@ -565,6 +625,27 @@ public class MainMenu extends JFrame {
 
     private void add_button_personasMouseExited() {
         // TODO add your code here
+    }
+
+    private void Permisos_ButtonMouseClicked(MouseEvent e) {
+        resetOptions();
+        options[4].select();
+        changeCard("permisos");
+        selected_option_button = Permisos_Button;
+    }
+
+    private void Permisos_ButtonMouseEntered(MouseEvent e) {
+        updateOptionState(Permisos_Button, true);
+    }
+
+    private void Permisos_ButtonMouseExited(MouseEvent e) {
+        updateOptionState(Permisos_Button, false);
+    }
+
+    private void add_button_MenuMouseClicked(MouseEvent e) {
+        JFrame addPersonFrame = new CreateMenuForm(controller, this);
+        this.disable();
+        addPersonFrame.setVisible(true);
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
@@ -658,9 +739,17 @@ public class MainMenu extends JFrame {
     private JLabel log_back_people2;
     private JLayeredPane Panel_Diez;
     private JLabel label11;
-    private JScrollPane scrollTable4;
+    private JScrollPane scrollMenuTable;
     private JTable Menus_Table;
     private JLabel add_button_Menu;
+    private JPanel Permisos;
+    private JLabel RelacionesTitle2;
+    private JLabel RelacionesDescription2;
+    private JLayeredPane layeredPane14;
+    private JLabel label14;
+    private JScrollPane scrollTable7;
+    private JTable Usuarios_de_Rol_Table2;
+    private JLabel add_button_UserToRol2;
     private JLayeredPane Nav;
     private JLabel iconUser;
     private JLabel name;
@@ -671,17 +760,21 @@ public class MainMenu extends JFrame {
     private JLabel serparator_3;
     private JLabel serparator_4;
     private JLabel serparator_5;
+    private JLabel serparator_6;
     private JLabel icon_user;
     private JLabel icon_roles;
     private JLabel icon_people;
     private JLabel icon_relation;
+    private JLabel icon_permisos;
     private JLabel rolesLabel;
     private JLabel peopleLabel;
     private JLabel RelationshipsLabel;
+    private JLabel PermisosLabel;
     private JLabel Usuarios_Button;
     private JLabel Roles_Button;
     private JLabel Personas_Button;
     private JLabel Relaciones_Button;
+    private JLabel Permisos_Button;
     private JLabel main_back;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 
@@ -777,9 +870,17 @@ public class MainMenu extends JFrame {
         log_back_people2 = new JLabel();
         Panel_Diez = new JLayeredPane();
         label11 = new JLabel();
-        scrollTable4 = new JScrollPane();
+        scrollMenuTable = new JScrollPane();
         Menus_Table = new JTable();
         add_button_Menu = new JLabel();
+        Permisos = new JPanel();
+        RelacionesTitle2 = new JLabel();
+        RelacionesDescription2 = new JLabel();
+        layeredPane14 = new JLayeredPane();
+        label14 = new JLabel();
+        scrollTable7 = new JScrollPane();
+        Usuarios_de_Rol_Table2 = new JTable();
+        add_button_UserToRol2 = new JLabel();
         Nav = new JLayeredPane();
         iconUser = new JLabel();
         name = new JLabel();
@@ -790,17 +891,21 @@ public class MainMenu extends JFrame {
         serparator_3 = new JLabel();
         serparator_4 = new JLabel();
         serparator_5 = new JLabel();
+        serparator_6 = new JLabel();
         icon_user = new JLabel();
         icon_roles = new JLabel();
         icon_people = new JLabel();
         icon_relation = new JLabel();
+        icon_permisos = new JLabel();
         rolesLabel = new JLabel();
         peopleLabel = new JLabel();
         RelationshipsLabel = new JLabel();
+        PermisosLabel = new JLabel();
         Usuarios_Button = new JLabel();
         Roles_Button = new JLabel();
         Personas_Button = new JLabel();
         Relaciones_Button = new JLabel();
+        Permisos_Button = new JLabel();
         main_back = new JLabel();
 
         //======== this ========
@@ -811,13 +916,13 @@ public class MainMenu extends JFrame {
         //======== Header ========
         {
             Header.setBackground(Color.white);
-            Header.setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new
-            javax . swing. border .EmptyBorder ( 0, 0 ,0 , 0) ,  "JF\u006frmDesi\u0067ner Ev\u0061luatio\u006e" , javax
-            . swing .border . TitledBorder. CENTER ,javax . swing. border .TitledBorder . BOTTOM, new java
-            . awt .Font ( "Dialo\u0067", java .awt . Font. BOLD ,12 ) ,java . awt
-            . Color .red ) ,Header. getBorder () ) ); Header. addPropertyChangeListener( new java. beans .
-            PropertyChangeListener ( ){ @Override public void propertyChange (java . beans. PropertyChangeEvent e) { if( "borde\u0072" .
-            equals ( e. getPropertyName () ) )throw new RuntimeException( ) ;} } );
+            Header.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax.
+            swing. border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn", javax. swing. border
+            . TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM, new java .awt .Font ("Dia\u006cog"
+            ,java .awt .Font .BOLD ,12 ), java. awt. Color. red) ,Header. getBorder
+            ( )) ); Header. addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java
+            .beans .PropertyChangeEvent e) {if ("\u0062ord\u0065r" .equals (e .getPropertyName () )) throw new RuntimeException
+            ( ); }} );
 
             //---- exit ----
             exit.setIcon(new ImageIcon(getClass().getResource("/img/logout-edit.png")));
@@ -1667,9 +1772,9 @@ public class MainMenu extends JFrame {
                     Panel_Diez.add(label11, JLayeredPane.DEFAULT_LAYER);
                     label11.setBounds(20, 5, 170, 30);
 
-                    //======== scrollTable4 ========
+                    //======== scrollMenuTable ========
                     {
-                        scrollTable4.setBorder(null);
+                        scrollMenuTable.setBorder(null);
 
                         //---- Menus_Table ----
                         Menus_Table.setBackground(Color.white);
@@ -1693,17 +1798,17 @@ public class MainMenu extends JFrame {
                         Menus_Table.setCellSelectionEnabled(true);
                         Menus_Table.setFillsViewportHeight(true);
                         Menus_Table.setGridColor(Color.white);
-                        scrollTable4.setViewportView(Menus_Table);
+                        scrollMenuTable.setViewportView(Menus_Table);
                     }
-                    Panel_Diez.add(scrollTable4, JLayeredPane.DEFAULT_LAYER);
-                    scrollTable4.setBounds(15, 35, 345, 140);
+                    Panel_Diez.add(scrollMenuTable, JLayeredPane.DEFAULT_LAYER);
+                    scrollMenuTable.setBounds(20, 35, 345, 140);
 
                     //---- add_button_Menu ----
                     add_button_Menu.setIcon(new ImageIcon(getClass().getResource("/img/add_button.png")));
                     add_button_Menu.addMouseListener(new MouseAdapter() {
                         @Override
                         public void mouseClicked(MouseEvent e) {
-                            add_button_personasMouseClicked();
+                            add_button_MenuMouseClicked(e);
                         }
                         @Override
                         public void mouseEntered(MouseEvent e) {
@@ -1755,6 +1860,113 @@ public class MainMenu extends JFrame {
                 );
             }
             main.add(Relaciones, "relaciones");
+
+            //======== Permisos ========
+            {
+                Permisos.setBackground(new Color(245, 245, 245));
+                Permisos.setForeground(new Color(185, 185, 185));
+
+                //---- RelacionesTitle2 ----
+                RelacionesTitle2.setText("Permisos");
+                RelacionesTitle2.setFont(new Font("Segoe UI", Font.BOLD, 36));
+                RelacionesTitle2.setBackground(new Color(64, 65, 65));
+                RelacionesTitle2.setForeground(new Color(64, 65, 65));
+
+                //---- RelacionesDescription2 ----
+                RelacionesDescription2.setText("Administra los permisos de tu aplicaci\u00f3n");
+                RelacionesDescription2.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
+                RelacionesDescription2.setForeground(new Color(126, 126, 126));
+
+                //======== layeredPane14 ========
+                {
+
+                    //---- label14 ----
+                    label14.setText("Usuarios de Rol");
+                    label14.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 18));
+                    label14.setForeground(new Color(102, 102, 102));
+                    layeredPane14.add(label14, JLayeredPane.DEFAULT_LAYER);
+                    label14.setBounds(45, 10, 170, 30);
+
+                    //======== scrollTable7 ========
+                    {
+                        scrollTable7.setBorder(null);
+
+                        //---- Usuarios_de_Rol_Table2 ----
+                        Usuarios_de_Rol_Table2.setBackground(Color.white);
+                        Usuarios_de_Rol_Table2.setModel(new DefaultTableModel(
+                            new Object[][] {
+                                {null, "", null},
+                                {null, null, null},
+                            },
+                            new String[] {
+                                "Nombre", "Descripci\u00f3n", " "
+                            }
+                        ) {
+                            Class<?>[] columnTypes = new Class<?>[] {
+                                String.class, String.class, Object.class
+                            };
+                            @Override
+                            public Class<?> getColumnClass(int columnIndex) {
+                                return columnTypes[columnIndex];
+                            }
+                        });
+                        Usuarios_de_Rol_Table2.setCellSelectionEnabled(true);
+                        Usuarios_de_Rol_Table2.setFillsViewportHeight(true);
+                        Usuarios_de_Rol_Table2.setGridColor(Color.white);
+                        scrollTable7.setViewportView(Usuarios_de_Rol_Table2);
+                    }
+                    layeredPane14.add(scrollTable7, JLayeredPane.DEFAULT_LAYER);
+                    scrollTable7.setBounds(30, 45, 345, 170);
+
+                    //---- add_button_UserToRol2 ----
+                    add_button_UserToRol2.setIcon(new ImageIcon(getClass().getResource("/img/add_button.png")));
+                    add_button_UserToRol2.addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mouseClicked(MouseEvent e) {
+                            add_button_personasMouseClicked();
+                        }
+                        @Override
+                        public void mouseEntered(MouseEvent e) {
+                            add_button_personasMouseEntered();
+                        }
+                        @Override
+                        public void mouseExited(MouseEvent e) {
+                            add_button_personasMouseExited();
+                        }
+                    });
+                    layeredPane14.add(add_button_UserToRol2, JLayeredPane.DEFAULT_LAYER);
+                    add_button_UserToRol2.setBounds(265, 10, 105, 35);
+                }
+
+                GroupLayout PermisosLayout = new GroupLayout(Permisos);
+                Permisos.setLayout(PermisosLayout);
+                PermisosLayout.setHorizontalGroup(
+                    PermisosLayout.createParallelGroup()
+                        .addGroup(PermisosLayout.createSequentialGroup()
+                            .addGroup(PermisosLayout.createParallelGroup()
+                                .addGroup(PermisosLayout.createSequentialGroup()
+                                    .addGap(45, 45, 45)
+                                    .addGroup(PermisosLayout.createParallelGroup()
+                                        .addComponent(RelacionesTitle2)
+                                        .addComponent(RelacionesDescription2, GroupLayout.PREFERRED_SIZE, 369, GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(PermisosLayout.createSequentialGroup()
+                                    .addContainerGap()
+                                    .addComponent(layeredPane14, GroupLayout.PREFERRED_SIZE, 384, GroupLayout.PREFERRED_SIZE)))
+                            .addContainerGap(406, Short.MAX_VALUE))
+                );
+                PermisosLayout.setVerticalGroup(
+                    PermisosLayout.createParallelGroup()
+                        .addGroup(PermisosLayout.createSequentialGroup()
+                            .addGap(17, 17, 17)
+                            .addComponent(RelacionesTitle2)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(RelacionesDescription2)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(layeredPane14, GroupLayout.PREFERRED_SIZE, 221, GroupLayout.PREFERRED_SIZE)
+                            .addContainerGap(215, Short.MAX_VALUE))
+                );
+            }
+            main.add(Permisos, "permisos");
         }
 
         //======== Nav ========
@@ -1810,6 +2022,11 @@ public class MainMenu extends JFrame {
             Nav.add(serparator_5, JLayeredPane.DEFAULT_LAYER);
             serparator_5.setBounds(0, 435, 205, 1);
 
+            //---- serparator_6 ----
+            serparator_6.setIcon(new ImageIcon(getClass().getResource("/img/serparator.png")));
+            Nav.add(serparator_6, JLayeredPane.DEFAULT_LAYER);
+            serparator_6.setBounds(0, 490, 205, 1);
+
             //---- icon_user ----
             icon_user.setIcon(new ImageIcon(getClass().getResource("/img/usability-edit.png")));
             Nav.add(icon_user, JLayeredPane.DEFAULT_LAYER);
@@ -1829,6 +2046,11 @@ public class MainMenu extends JFrame {
             icon_relation.setIcon(new ImageIcon(getClass().getResource("/img/link-edit.png")));
             Nav.add(icon_relation, JLayeredPane.DEFAULT_LAYER);
             icon_relation.setBounds(35, 390, 30, 35);
+
+            //---- icon_permisos ----
+            icon_permisos.setIcon(new ImageIcon(getClass().getResource("/img/permisos.png")));
+            Nav.add(icon_permisos, JLayeredPane.DEFAULT_LAYER);
+            icon_permisos.setBounds(35, 445, 30, 35);
 
             //---- rolesLabel ----
             rolesLabel.setText("Roles");
@@ -1850,6 +2072,13 @@ public class MainMenu extends JFrame {
             RelationshipsLabel.setForeground(Color.white);
             Nav.add(RelationshipsLabel, JLayeredPane.DEFAULT_LAYER);
             RelationshipsLabel.setBounds(75, 396, 70, 20);
+
+            //---- PermisosLabel ----
+            PermisosLabel.setText("Permisos");
+            PermisosLabel.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+            PermisosLabel.setForeground(Color.white);
+            Nav.add(PermisosLabel, JLayeredPane.DEFAULT_LAYER);
+            PermisosLabel.setBounds(75, 451, 70, 20);
 
             //---- Usuarios_Button ----
             Usuarios_Button.setBackground(new Color(120, 223, 225, 106));
@@ -1928,6 +2157,25 @@ public class MainMenu extends JFrame {
             });
             Nav.add(Relaciones_Button, JLayeredPane.DEFAULT_LAYER);
             Relaciones_Button.setBounds(0, 380, 203, 55);
+
+            //---- Permisos_Button ----
+            Permisos_Button.setBackground(new Color(60, 63, 65, 0));
+            Permisos_Button.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    Permisos_ButtonMouseClicked(e);
+                }
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    Permisos_ButtonMouseEntered(e);
+                }
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    Permisos_ButtonMouseExited(e);
+                }
+            });
+            Nav.add(Permisos_Button, JLayeredPane.DEFAULT_LAYER);
+            Permisos_Button.setBounds(0, 435, 203, 55);
 
             //---- main_back ----
             main_back.setIcon(new ImageIcon(getClass().getResource("/img/Main-back.png")));

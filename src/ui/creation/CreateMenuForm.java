@@ -6,6 +6,7 @@ package ui.creation;
 
 import java.awt.event.*;
 import org.ucu.bd.ModelConstructor;
+import ui.MainMenu;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,17 +19,17 @@ public class CreateMenuForm extends JFrame {
     private ModelConstructor constructor;
     private JFrame parent;
 
-    public CreateMenuForm(ModelConstructor controller) {
+    public CreateMenuForm(ModelConstructor controller, MainMenu parent) {
         this.constructor = controller;
         this.parent = parent;
-        initComponents();;
+        initComponents();
     }
 
     private void SubmitActionPerformed() {
         String name = Nombre.getText();
         String description = Descripcion.getText();
         if (constructor.createModel(name,description,"menu",this)){
-            this.dispose();
+            this.close();
         }
     }
 
