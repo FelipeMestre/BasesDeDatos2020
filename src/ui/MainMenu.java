@@ -16,6 +16,7 @@ import ui.Renders.UserAuthorizationListRender;
 import ui.Renders.UserHistoryListRender;
 import ui.creation.CreatePersonForm;
 import ui.creation.CreateRolForm;
+import ui.creation.CreateUserForm;
 import ui.edit.EditPersonForm;
 import ui.edit.EditRolForm;
 import ui.edit.EditUserForm;
@@ -423,9 +424,9 @@ public class MainMenu extends JFrame {
     }
 
     private void add_button_usuariosMouseClicked() {
-        JFrame addRoleFrame = new CreateRolForm(controller, this);
+        JFrame addUserFrame = new CreateUserForm(this, controller);
         this.disable();
-        addRoleFrame.setVisible(true);
+        addUserFrame.setVisible(true);
     }
 
     private void add_button_usuariosMouseExited() {
@@ -433,9 +434,9 @@ public class MainMenu extends JFrame {
     }
 
     private void add_button_personasMouseClicked() {
-        JFrame addRoleFrame = new CreatePersonForm(controller, this);
+        JFrame addPersonFrame = new CreatePersonForm(controller, this);
         this.disable();
-        addRoleFrame.setVisible(true);
+        addPersonFrame.setVisible(true);
     }
 
     private void add_button_personasMouseEntered() {
