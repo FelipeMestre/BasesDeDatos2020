@@ -55,7 +55,9 @@ public class MainMenu extends JFrame {
                 "/img/people-edit.png", "/img/people-edit-selected.png");
         Option option4 = new Option(Relaciones_Button, RelationshipsLabel, icon_relation, "/img/option.png",
                 "/img/link-edit.png", "/img/link-edit-selected.png");
-        return new Option[]{option1, option2, option3, option4};
+        Option option5 = new Option(Permisos_Button, PermisosLabel, icon_permisos, "/img/option.png",
+                "/img/permisos.png", "/img/permisos_edit.png");
+        return new Option[]{option1, option2, option3, option4, option5};
     }
 
     private void initRolesDashboard() {
@@ -551,6 +553,21 @@ public class MainMenu extends JFrame {
         // TODO add your code here
     }
 
+    private void Permisos_ButtonMouseClicked(MouseEvent e) {
+        resetOptions();
+        options[4].select();
+        changeCard("permisos");
+        selected_option_button = Permisos_Button;
+    }
+
+    private void Permisos_ButtonMouseEntered(MouseEvent e) {
+        updateOptionState(Permisos_Button, true);
+    }
+
+    private void Permisos_ButtonMouseExited(MouseEvent e) {
+        updateOptionState(Permisos_Button, false);
+    }
+
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
     // Generated using JFormDesigner Evaluation license - unknown
     private JPanel Header;
@@ -650,6 +667,9 @@ public class MainMenu extends JFrame {
     private JScrollPane scrollTable4;
     private JTable Menus_Table;
     private JLabel add_button_Menu;
+    private JPanel Permisos;
+    private JLabel RelacionesTitle2;
+    private JLabel RelacionesDescription2;
     private JLayeredPane Nav;
     private JLabel iconUser;
     private JLabel name;
@@ -660,17 +680,21 @@ public class MainMenu extends JFrame {
     private JLabel serparator_3;
     private JLabel serparator_4;
     private JLabel serparator_5;
+    private JLabel serparator_6;
     private JLabel icon_user;
     private JLabel icon_roles;
     private JLabel icon_people;
     private JLabel icon_relation;
+    private JLabel icon_permisos;
     private JLabel rolesLabel;
     private JLabel peopleLabel;
     private JLabel RelationshipsLabel;
+    private JLabel PermisosLabel;
     private JLabel Usuarios_Button;
     private JLabel Roles_Button;
     private JLabel Personas_Button;
     private JLabel Relaciones_Button;
+    private JLabel Permisos_Button;
     private JLabel main_back;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 
@@ -774,6 +798,9 @@ public class MainMenu extends JFrame {
         scrollTable4 = new JScrollPane();
         Menus_Table = new JTable();
         add_button_Menu = new JLabel();
+        Permisos = new JPanel();
+        RelacionesTitle2 = new JLabel();
+        RelacionesDescription2 = new JLabel();
         Nav = new JLayeredPane();
         iconUser = new JLabel();
         name = new JLabel();
@@ -784,17 +811,21 @@ public class MainMenu extends JFrame {
         serparator_3 = new JLabel();
         serparator_4 = new JLabel();
         serparator_5 = new JLabel();
+        serparator_6 = new JLabel();
         icon_user = new JLabel();
         icon_roles = new JLabel();
         icon_people = new JLabel();
         icon_relation = new JLabel();
+        icon_permisos = new JLabel();
         rolesLabel = new JLabel();
         peopleLabel = new JLabel();
         RelationshipsLabel = new JLabel();
+        PermisosLabel = new JLabel();
         Usuarios_Button = new JLabel();
         Roles_Button = new JLabel();
         Personas_Button = new JLabel();
         Relaciones_Button = new JLabel();
+        Permisos_Button = new JLabel();
         main_back = new JLabel();
 
         //======== this ========
@@ -805,12 +836,12 @@ public class MainMenu extends JFrame {
         //======== Header ========
         {
             Header.setBackground(Color.white);
-            Header.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing. border. EmptyBorder
-            ( 0, 0, 0, 0) , "JFor\u006dDesi\u0067ner \u0045valu\u0061tion", javax. swing. border. TitledBorder. CENTER, javax. swing. border
-            . TitledBorder. BOTTOM, new java .awt .Font ("Dia\u006cog" ,java .awt .Font .BOLD ,12 ), java. awt
-            . Color. red) ,Header. getBorder( )) ); Header. addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void
-            propertyChange (java .beans .PropertyChangeEvent e) {if ("bord\u0065r" .equals (e .getPropertyName () )) throw new RuntimeException( )
-            ; }} );
+            Header.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing. border.
+            EmptyBorder( 0, 0, 0, 0) , "JF\u006frmDesi\u0067ner Ev\u0061luatio\u006e", javax. swing. border. TitledBorder. CENTER, javax. swing
+            . border. TitledBorder. BOTTOM, new java .awt .Font ("Dialo\u0067" ,java .awt .Font .BOLD ,12 ),
+            java. awt. Color. red) ,Header. getBorder( )) ); Header. addPropertyChangeListener (new java. beans. PropertyChangeListener( )
+            { @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("borde\u0072" .equals (e .getPropertyName () ))
+            throw new RuntimeException( ); }} );
 
             //---- exit ----
             exit.setIcon(new ImageIcon(getClass().getResource("/img/logout-edit.png")));
@@ -1816,6 +1847,45 @@ public class MainMenu extends JFrame {
                 );
             }
             main.add(Relaciones, "relaciones");
+
+            //======== Permisos ========
+            {
+                Permisos.setBackground(new Color(245, 245, 245));
+                Permisos.setForeground(new Color(185, 185, 185));
+
+                //---- RelacionesTitle2 ----
+                RelacionesTitle2.setText("Permisos");
+                RelacionesTitle2.setFont(new Font("Segoe UI", Font.BOLD, 36));
+                RelacionesTitle2.setBackground(new Color(64, 65, 65));
+                RelacionesTitle2.setForeground(new Color(64, 65, 65));
+
+                //---- RelacionesDescription2 ----
+                RelacionesDescription2.setText("Administra los permisos de tu aplicaci\u00f3n");
+                RelacionesDescription2.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
+                RelacionesDescription2.setForeground(new Color(126, 126, 126));
+
+                GroupLayout PermisosLayout = new GroupLayout(Permisos);
+                Permisos.setLayout(PermisosLayout);
+                PermisosLayout.setHorizontalGroup(
+                    PermisosLayout.createParallelGroup()
+                        .addGroup(PermisosLayout.createSequentialGroup()
+                            .addGap(45, 45, 45)
+                            .addGroup(PermisosLayout.createParallelGroup()
+                                .addComponent(RelacionesTitle2)
+                                .addComponent(RelacionesDescription2, GroupLayout.PREFERRED_SIZE, 369, GroupLayout.PREFERRED_SIZE))
+                            .addContainerGap(406, Short.MAX_VALUE))
+                );
+                PermisosLayout.setVerticalGroup(
+                    PermisosLayout.createParallelGroup()
+                        .addGroup(PermisosLayout.createSequentialGroup()
+                            .addGap(17, 17, 17)
+                            .addComponent(RelacionesTitle2)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(RelacionesDescription2)
+                            .addContainerGap(448, Short.MAX_VALUE))
+                );
+            }
+            main.add(Permisos, "permisos");
         }
 
         //======== Nav ========
@@ -1871,6 +1941,11 @@ public class MainMenu extends JFrame {
             Nav.add(serparator_5, JLayeredPane.DEFAULT_LAYER);
             serparator_5.setBounds(0, 435, 205, 1);
 
+            //---- serparator_6 ----
+            serparator_6.setIcon(new ImageIcon(getClass().getResource("/img/serparator.png")));
+            Nav.add(serparator_6, JLayeredPane.DEFAULT_LAYER);
+            serparator_6.setBounds(0, 490, 205, 1);
+
             //---- icon_user ----
             icon_user.setIcon(new ImageIcon(getClass().getResource("/img/usability-edit.png")));
             Nav.add(icon_user, JLayeredPane.DEFAULT_LAYER);
@@ -1890,6 +1965,11 @@ public class MainMenu extends JFrame {
             icon_relation.setIcon(new ImageIcon(getClass().getResource("/img/link-edit.png")));
             Nav.add(icon_relation, JLayeredPane.DEFAULT_LAYER);
             icon_relation.setBounds(35, 390, 30, 35);
+
+            //---- icon_permisos ----
+            icon_permisos.setIcon(new ImageIcon(getClass().getResource("/img/permisos.png")));
+            Nav.add(icon_permisos, JLayeredPane.DEFAULT_LAYER);
+            icon_permisos.setBounds(35, 445, 30, 35);
 
             //---- rolesLabel ----
             rolesLabel.setText("Roles");
@@ -1911,6 +1991,13 @@ public class MainMenu extends JFrame {
             RelationshipsLabel.setForeground(Color.white);
             Nav.add(RelationshipsLabel, JLayeredPane.DEFAULT_LAYER);
             RelationshipsLabel.setBounds(75, 396, 70, 20);
+
+            //---- PermisosLabel ----
+            PermisosLabel.setText("Permisos");
+            PermisosLabel.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+            PermisosLabel.setForeground(Color.white);
+            Nav.add(PermisosLabel, JLayeredPane.DEFAULT_LAYER);
+            PermisosLabel.setBounds(75, 451, 70, 20);
 
             //---- Usuarios_Button ----
             Usuarios_Button.setBackground(new Color(120, 223, 225, 106));
@@ -1989,6 +2076,25 @@ public class MainMenu extends JFrame {
             });
             Nav.add(Relaciones_Button, JLayeredPane.DEFAULT_LAYER);
             Relaciones_Button.setBounds(0, 380, 203, 55);
+
+            //---- Permisos_Button ----
+            Permisos_Button.setBackground(new Color(60, 63, 65, 0));
+            Permisos_Button.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    Permisos_ButtonMouseClicked(e);
+                }
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    Permisos_ButtonMouseEntered(e);
+                }
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    Permisos_ButtonMouseExited(e);
+                }
+            });
+            Nav.add(Permisos_Button, JLayeredPane.DEFAULT_LAYER);
+            Permisos_Button.setBounds(0, 435, 203, 55);
 
             //---- main_back ----
             main_back.setIcon(new ImageIcon(getClass().getResource("/img/Main-back.png")));
