@@ -12,6 +12,8 @@ import ui.MainMenu;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * @author unknown
@@ -41,7 +43,26 @@ public class EditUserForm extends JFrame {
         String newUsername = NombreUsuario.getText();
         String newPassword = NuevaContraseña.getText();
         String oldPassword = ContraseñaAnterior.getText();
+        int creador = 0;
+        int autorizador = 0;
+        int ci_persona = 0;
+        boolean activo = true;
+        boolean admin = true;
+        int availabletries = 0;
         boolean newBlocked = Bloqueado.isSelected();
+        ResultSet user = constructor.search("usuario", "id_usuario", userId);
+        try {
+            if (user.first()) {
+                creador = user.getInt("creador");
+                autorizador = user.getInt("autorizador");
+                ci_persona = user.getInt("ci_persona");
+                activo = user.getBoolean("activo");
+                admin = user.getBoolean("admin");
+                availabletries = user.getInt("availabletries");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         if (PasswordManager.getInstance().isUsernameValid(newUsername,this)){
             //Checkea si se ingresaron las contraseñas
             if(!oldPassword.equals("") && !newPassword.equals("")) {
@@ -49,7 +70,7 @@ public class EditUserForm extends JFrame {
                 if (constructor.checkIfCorrectPassword(userId,userName, oldPassword, "usuario", this)) {
                     //Checkea la nueva contraseña
                     if (PasswordManager.isPasswordValid(newPassword,this)){
-                        constructor.updateUser(userId,newUsername,newPassword,newBlocked,true);
+                        constructor.updateUser(userId,newUsername,newPassword,newBlocked,true, creador, autorizador, ci_persona, activo, admin, availabletries);
                         parent.fetchUsers();
                         exitForm();
                     }
@@ -59,7 +80,7 @@ public class EditUserForm extends JFrame {
                 if (!ContraseñaAnterior.getText().equals("") || !NuevaContraseña.getText().equals("")){
                     JOptionPane.showMessageDialog(this,"Para cambiar la contraseña debe ingresar\n Antigua y Nueva contraseña");
                 } else {//Si no se quiere actualizar la contraseña
-                    constructor.updateUser(userId,newUsername,newPassword,newBlocked,false);
+                    constructor.updateUser(userId,newUsername,newPassword,newBlocked,false, creador, autorizador, ci_persona, activo, admin, availabletries);
                     parent.fetchUsers();
                     exitForm();
                 }
@@ -106,13 +127,12 @@ public class EditUserForm extends JFrame {
         //======== panel1 ========
         {
             panel1.setBackground(new Color(244, 244, 244));
-            panel1.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing
-            . border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frm\u0044es\u0069gn\u0065r \u0045va\u006cua\u0074io\u006e", javax. swing. border. TitledBorder
-            . CENTER, javax. swing. border. TitledBorder. BOTTOM, new java .awt .Font ("D\u0069al\u006fg" ,java .
-            awt .Font .BOLD ,12 ), java. awt. Color. red) ,panel1. getBorder( )) )
-            ; panel1. addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e
-            ) {if ("\u0062or\u0064er" .equals (e .getPropertyName () )) throw new RuntimeException( ); }} )
-            ;
+            panel1.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing.
+            border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmDes\u0069gner \u0045valua\u0074ion", javax. swing. border. TitledBorder. CENTER
+            , javax. swing. border. TitledBorder. BOTTOM, new java .awt .Font ("D\u0069alog" ,java .awt .Font
+            .BOLD ,12 ), java. awt. Color. red) ,panel1. getBorder( )) ); panel1. addPropertyChangeListener (
+            new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("\u0062order"
+            .equals (e .getPropertyName () )) throw new RuntimeException( ); }} );
 
             //---- NameTitle ----
             NameTitle.setText("Nombre de Usuario");

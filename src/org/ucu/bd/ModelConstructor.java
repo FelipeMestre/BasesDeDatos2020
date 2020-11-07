@@ -28,6 +28,10 @@ public class ModelConstructor {
         return db.createUser(username,password,ci,admin,creator,false,1);
     }
 
+    public boolean createUserEdit(String username, String password, int ci_persona, int creador, int autorizador, boolean admin, boolean blocked, boolean activo, int availabletries) {
+        return db.createUserEdit(username, password, ci_persona, creador, autorizador, admin, blocked, activo, availabletries);
+    }
+
     public boolean createModel(String name, String description, String tablename, Component father){
         if (name != null && name.length() <= 50 && description != null && description.length() <= 200){
             return this.db.createModel(name,description,tablename,1);
@@ -54,8 +58,12 @@ public class ModelConstructor {
         db.updatePerson(id, newName, newAdres,newPhone);
     }
 
-    public void updateUser(String userId,String newUsername,String newPassword,boolean blocked,boolean withPassword){
-        db.updateUser(userId,newUsername,newPassword,blocked,withPassword,3);
+    public void updateUser(String userId,String newUsername,String newPassword,boolean blocked,boolean withPassword, int creador, int autorizador, int ci_persona, boolean activo, boolean admin, int availabletries){
+        db.updateUser(userId,newUsername,newPassword,blocked,withPassword,3, creador, autorizador, ci_persona, activo, admin, availabletries);
+    }
+
+    public ResultSet search(String tableName, String column, String value) {
+        return db.search(tableName, column, value);
     }
 
     //Strings de arrays
@@ -89,7 +97,7 @@ public class ModelConstructor {
     }
 
     public String[][] getUsuarios() {
-        return this.getStringArray(db.getAllElements("vista_usuarios_activos"));
+        return this.getStringArray(db.getAllElements("vista_usuarios_con_autorizacion"));
     }
 
     public String[][] getPersonas() {
@@ -178,11 +186,11 @@ public class ModelConstructor {
 
     public int totalPersons() { return this.db.getTableCount("persona"); }
 
-    public void deleteModel(String id, String tablename) {
+    public void deleteModel(String id, String tablename, boolean deleting) {
         if (tablename.equals("persona")) {
             db.deleteRowPersona(tablename, id);
         } else {
-            db.deleteRow(tablename,id);
+            db.deleteRow(tablename,id, deleting);
         }
     }
 
