@@ -133,7 +133,6 @@ public class MainMenu extends JFrame {
     }
 
     private void initUserTable() {
-        String[][] user_info = this.controller.getUsuarios();
         UserTable = new JTable(){
             public String getToolTipText(MouseEvent e) {
                 String tip = null;
@@ -174,6 +173,7 @@ public class MainMenu extends JFrame {
         UserTable.getTableHeader().setDefaultRenderer(new TableHeaderRender(baseRenderer));
         UserTable.setBorder(new LineBorder(new Color(0,0,0,0)));
         scrollTable2.setViewportView(UserTable);
+        scrollTable2.setBorder(new LineBorder(new Color(0,0,0,0)));
 
         user_history.setListData(controller.getUserLog());
         user_history.setCellRenderer(new UserHistoryListRender());
@@ -246,6 +246,8 @@ public class MainMenu extends JFrame {
         scrollTable3.setBorder(new LineBorder(new Color(0,0,0,0)));
         scrollTable3.setViewportView(PersonTable);
         fetchPersons();
+        }
+
     }
 
     private void updatePersonTable(String[][] newData){
