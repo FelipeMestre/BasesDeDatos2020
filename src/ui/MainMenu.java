@@ -248,8 +248,6 @@ public class MainMenu extends JFrame {
         fetchPersons();
         }
 
-    }
-
     private void updatePersonTable(String[][] newData){
         PersonTable.setModel(new DefaultTableModel(
                 newData,
