@@ -430,8 +430,8 @@ public class MainMenu extends JFrame {
         scrollTable5.setBorder(new LineBorder(new Color(0, 0, 0, 0)));
         scrollTable5.setViewportView(FuncionalidadesTable);
 
-        //relations_group.setListData(controller.getRelationsLog());
-        //relations_group.setCellRenderer(new PersonsHistoryListRender());
+        relations_history2.setListData(controller.getFunctionalityLog());
+        relations_history2.setCellRenderer(new FunctionalityHistoryListRender());
     }
 
     public void fetchFuncionalities() {
