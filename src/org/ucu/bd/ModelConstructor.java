@@ -63,8 +63,8 @@ public class ModelConstructor {
         db.updateUser(userId,newUsername,newPassword,blocked,withPassword,3, creador, autorizador, ci_persona, activo, admin, availabletries);
     }
 
-    public void updateFuncionality(String role_id, String newName, String newDesc){
-        db.updateModel(role_id, newName, newDesc,"Funcionalidad");
+    public void updateFuncionality(String func_id, String newName, String newDesc){
+        db.updateModel(func_id, newName, newDesc,"Funcionalidad");
     }
     public boolean approveUser(String userToApprove, String Authorizer){
         boolean result = !Authorizer.equals(String.valueOf(CurrentUser.getCurrentUser().get_userId()));
@@ -133,6 +133,10 @@ public class ModelConstructor {
         return this.getStringArray(db.getAllElements("vista_menu_activos"));
     }
 
+    public String[][] getFuncionalidadMenu(){
+            return this.getStringArray(db.getAllElements("vista_funcionalidad_menu"));
+    }
+
     public String[][] getUsuarios() {
         return this.getStringArray(db.getAllElements("vista_usuarios_con_autorizacion"));
     }
@@ -188,7 +192,7 @@ public class ModelConstructor {
     }
 
     public String[][] getFuncionalities(){
-        return this.getStringArray(db.getAllElements("vista_funcionalidades"));
+        return this.getStringArray(db.getAllElements("vista_funcionalidades_activos"));
     }
 
     //Logs
@@ -213,6 +217,7 @@ public class ModelConstructor {
         }
         return result;
     }
+
     public Log_Role[] getRoleLog() {
         ResultSet rs = retrieveLog("vista_cambios_roles");
         Log_Role[] result = new Log_Role[0];
@@ -225,6 +230,27 @@ public class ModelConstructor {
                 int rowNumber = 0;
                 do {
                     result[rowNumber] = new Log_Role(rs.getString(1), rs.getString(2), rs.getString(4), rs.getString(3), rs.getString(5));
+                    rowNumber++;
+                } while (rs.next());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public Log_functionality[] getFunctionalityLog() {
+        ResultSet rs = retrieveLog("vista_cambios_funcionalidad");
+        Log_functionality[] result = new Log_functionality[0];
+        try {
+            rs.last();
+            int size = rs.getRow();
+            if (size > 0) {
+                result = new Log_functionality[size];
+                rs.first();
+                int rowNumber = 0;
+                do {
+                    result[rowNumber] = new Log_functionality(rs.getString(1), rs.getString(2), rs.getString(4), rs.getString(3), rs.getString(5));
                     rowNumber++;
                 } while (rs.next());
             }

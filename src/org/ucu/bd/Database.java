@@ -49,7 +49,7 @@ public class Database {
             try {
                 stmt = db_connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
                 ResultSet rs = stmt.executeQuery("SELECT * FROM " + tableName + " WHERE nombre_usuario = '" + user
-                        + "'");
+                        + "' and activo = true");
 
                 if (!rs.first()){ //Si no hay resultados
 

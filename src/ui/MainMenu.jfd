@@ -711,7 +711,7 @@ new FormModel {
 								"gridColor": #Color11
 							} )
 						}, new FormLayoutConstraints( null ) {
-							"width": 745
+							"width": 355
 							"height": 165
 							"x": 10
 							"y": 30
@@ -728,16 +728,52 @@ new FormModel {
 							"x": 245
 							"y": -5
 						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "historialTitulo2"
+							"text": "Historial de Funcionalidades"
+							"font": #Font5
+							"foreground": #Color9
+						}, new FormLayoutConstraints( null ) {
+							"width": 315
+							"height": 35
+							"x": 440
+							"y": 30
+						} )
+						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+							name: "scrollHistoryRelations2"
+							"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							add( new FormComponent( "javax.swing.JList" ) {
+								name: "relations_history2"
+								"background": sfield java.awt.Color white
+								"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"selectionMode": 0
+								"visibleRowCount": 10
+							} )
+						}, new FormLayoutConstraints( null ) {
+							"width": 310
+							"height": 120
+							"x": 425
+							"y": 70
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "log_back_people3"
+							"icon": #SwingIcon3
+						}, new FormLayoutConstraints( null ) {
+							"width": 365
+							"height": 180
+							"x": 415
+							"y": 20
+						} )
 					} )
 					add( new FormContainer( "javax.swing.JLayeredPane", new FormLayoutManager( class javax.swing.JLayeredPane ) ) {
 						name: "layeredPane13"
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "historialTitulo"
-							"text": "Historial de cambios"
+							"text": "Historial de cambios Menu"
 							"font": #Font5
 							"foreground": #Color9
 						}, new FormLayoutConstraints( null ) {
-							"width": 170
+							"width": 250
 							"height": 35
 							"x": 35
 							"y": 10
