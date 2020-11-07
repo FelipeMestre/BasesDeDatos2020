@@ -430,8 +430,8 @@ public class MainMenu extends JFrame {
         scrollTable5.setBorder(new LineBorder(new Color(0, 0, 0, 0)));
         scrollTable5.setViewportView(FuncionalidadesTable);
 
-        //relations_group.setListData(controller.getRelationsLog());
-        //relations_group.setCellRenderer(new PersonsHistoryListRender());
+        relations_history2.setListData(controller.getFunctionalityLog());
+        relations_history2.setCellRenderer(new FunctionalityHistoryListRender());
     }
 
     public void fetchFuncionalities() {
@@ -732,6 +732,10 @@ public class MainMenu extends JFrame {
     private JScrollPane scrollTable5;
     private JTable FuncionalidadesTable;
     private JLabel add_button_Funcionalidades;
+    private JLabel historialTitulo2;
+    private JScrollPane scrollHistoryRelations2;
+    private JList relations_history2;
+    private JLabel log_back_people3;
     private JLayeredPane layeredPane13;
     private JLabel historialTitulo;
     private JScrollPane scrollHistoryRelations;
@@ -863,6 +867,10 @@ public class MainMenu extends JFrame {
         scrollTable5 = new JScrollPane();
         FuncionalidadesTable = new JTable();
         add_button_Funcionalidades = new JLabel();
+        historialTitulo2 = new JLabel();
+        scrollHistoryRelations2 = new JScrollPane();
+        relations_history2 = new JList();
+        log_back_people3 = new JLabel();
         layeredPane13 = new JLayeredPane();
         historialTitulo = new JLabel();
         scrollHistoryRelations = new JScrollPane();
@@ -916,13 +924,13 @@ public class MainMenu extends JFrame {
         //======== Header ========
         {
             Header.setBackground(Color.white);
-            Header.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax
-            . swing. border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frm\u0044es\u0069gn\u0065r \u0045va\u006cua\u0074io\u006e", javax. swing
-            . border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM, new java .awt .
-            Font ("D\u0069al\u006fg" ,java .awt .Font .BOLD ,12 ), java. awt. Color. red
-            ) ,Header. getBorder( )) ); Header. addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override
-            public void propertyChange (java .beans .PropertyChangeEvent e) {if ("\u0062or\u0064er" .equals (e .getPropertyName (
-            ) )) throw new RuntimeException( ); }} );
+            Header.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing
+            . border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmDes\u0069gner \u0045valua\u0074ion", javax. swing. border. TitledBorder
+            . CENTER, javax. swing. border. TitledBorder. BOTTOM, new java .awt .Font ("D\u0069alog" ,java .
+            awt .Font .BOLD ,12 ), java. awt. Color. red) ,Header. getBorder( )) )
+            ; Header. addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e
+            ) {if ("\u0062order" .equals (e .getPropertyName () )) throw new RuntimeException( ); }} )
+            ;
 
             //---- exit ----
             exit.setIcon(new ImageIcon(getClass().getResource("/img/logout-edit.png")));
@@ -1730,17 +1738,43 @@ public class MainMenu extends JFrame {
                     });
                     layeredPane11.add(add_button_Funcionalidades, JLayeredPane.DEFAULT_LAYER);
                     add_button_Funcionalidades.setBounds(245, -5, 105, 35);
+
+                    //---- historialTitulo2 ----
+                    historialTitulo2.setText("Historial de Funcionalidades");
+                    historialTitulo2.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 18));
+                    historialTitulo2.setForeground(new Color(102, 102, 102));
+                    layeredPane11.add(historialTitulo2, JLayeredPane.DEFAULT_LAYER);
+                    historialTitulo2.setBounds(440, 30, 315, 35);
+
+                    //======== scrollHistoryRelations2 ========
+                    {
+                        scrollHistoryRelations2.setBorder(null);
+
+                        //---- relations_history2 ----
+                        relations_history2.setBackground(Color.white);
+                        relations_history2.setBorder(null);
+                        relations_history2.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                        relations_history2.setVisibleRowCount(10);
+                        scrollHistoryRelations2.setViewportView(relations_history2);
+                    }
+                    layeredPane11.add(scrollHistoryRelations2, JLayeredPane.DEFAULT_LAYER);
+                    scrollHistoryRelations2.setBounds(425, 70, 310, 120);
+
+                    //---- log_back_people3 ----
+                    log_back_people3.setIcon(new ImageIcon(getClass().getResource("/img/Log-back.png")));
+                    layeredPane11.add(log_back_people3, JLayeredPane.DEFAULT_LAYER);
+                    log_back_people3.setBounds(415, 20, 365, 180);
                 }
 
                 //======== layeredPane13 ========
                 {
 
                     //---- historialTitulo ----
-                    historialTitulo.setText("Historial de cambios");
+                    historialTitulo.setText("Historial de cambios Menu");
                     historialTitulo.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 18));
                     historialTitulo.setForeground(new Color(102, 102, 102));
                     layeredPane13.add(historialTitulo, JLayeredPane.DEFAULT_LAYER);
-                    historialTitulo.setBounds(35, 10, 170, 35);
+                    historialTitulo.setBounds(35, 10, 250, 35);
 
                     //======== scrollHistoryRelations ========
                     {

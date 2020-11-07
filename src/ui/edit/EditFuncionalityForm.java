@@ -20,13 +20,13 @@ public class EditFuncionalityForm extends JFrame {
     private MainMenu parent;
     private String funcionality;
 
-    public EditFuncionalityForm(MainMenu parent, ModelConstructor controller, String role_id, String role_name, String role_desc) {
+    public EditFuncionalityForm(MainMenu parent, ModelConstructor controller, String func_id, String func_name, String func_desc) {
         this.constructor = controller;
         this.parent = parent;
-        this.funcionality = role_id;
+        this.funcionality = func_id;
         initComponents();
-        this.Nombre.setText(role_name);
-        this.Descripcion.setText(role_desc);
+        this.Nombre.setText(func_name);
+        this.Descripcion.setText(func_desc);
     }
 
     private void SubmitActionPerformed() {
