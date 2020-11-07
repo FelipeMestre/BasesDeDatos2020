@@ -667,8 +667,8 @@ new FormModel {
 					"value": "personas"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {seq l {space :::p, comp layeredPane10:::p:382:p, space ::25:x, comp layeredPane13:::p:377:p, space :p:30:p}, seq {par l {seq {space :p:45:p, par l {comp RelacionesTitle::l:p::p, comp RelacionesDescription::l:p:369:p}}, seq l {space :p:20:p, comp layeredPane11:::p:368:p, space u:::p, comp layeredPane12:::p:384:p}}, space ::36:x}}"
-					"$verticalGroup": "par l {seq l {space :p:17:p, comp RelacionesTitle:::p::p, space :::p, par t {seq {comp RelacionesDescription:::p::p, space :p:21:p, comp layeredPane11:::p:203:p}, comp layeredPane12:::p:221:p}, space :::p, par l {comp layeredPane13:::p:185:p, comp layeredPane10:::p:218:p}, space :::x}}"
+					"$horizontalGroup": "par l {seq l {space :::p, comp Panel_Diez:::p:382:p, space ::25:x, comp layeredPane13:::p:377:p, space :p:30:p}, seq {par l {seq {space :p:45:p, par l {comp RelacionesTitle::l:p::p, comp RelacionesDescription::l:p:369:p}}, seq l {space :p:20:p, comp layeredPane11:::p:368:p, space u:::p, comp layeredPane12:::p:384:p}}, space ::36:x}}"
+					"$verticalGroup": "par l {seq l {space :p:17:p, comp RelacionesTitle:::p::p, space :::p, par t {seq {comp RelacionesDescription:::p::p, space :p:21:p, comp layeredPane11:::p:203:p}, comp layeredPane12:::p:221:p}, space :::p, par l {comp layeredPane13:::p:185:p, comp Panel_Diez:::p:196:p}, space ::22:x}}"
 				} ) {
 					name: "Relaciones"
 					"background": #Color0
@@ -732,7 +732,7 @@ new FormModel {
 					add( new FormContainer( "javax.swing.JLayeredPane", new FormLayoutManager( class javax.swing.JLayeredPane ) ) {
 						name: "layeredPane13"
 						add( new FormComponent( "javax.swing.JLabel" ) {
-							name: "historial_title4"
+							name: "historialTitulo"
 							"text": "Historial de cambios"
 							"font": #Font5
 							"foreground": #Color9
@@ -795,7 +795,7 @@ new FormModel {
 						}, new FormLayoutConstraints( null ) {
 							"width": 345
 							"height": 170
-							"x": 35
+							"x": 30
 							"y": 45
 						} )
 						add( new FormComponent( "javax.swing.JLabel" ) {
@@ -812,7 +812,7 @@ new FormModel {
 						} )
 					} )
 					add( new FormContainer( "javax.swing.JLayeredPane", new FormLayoutManager( class javax.swing.JLayeredPane ) ) {
-						name: "layeredPane10"
+						name: "Panel_Diez"
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "label11"
 							"text": "Lista de Menus"
@@ -837,7 +837,7 @@ new FormModel {
 							} )
 						}, new FormLayoutConstraints( null ) {
 							"width": 345
-							"height": 165
+							"height": 140
 							"x": 15
 							"y": 35
 						} )

@@ -15,6 +15,7 @@ import ui.Renders.RolesHistoryListRenderer;
 import ui.Renders.UserAuthorizationListRender;
 import ui.Renders.UserHistoryListRender;
 import ui.creation.CreateFunctionalityForm;
+import ui.creation.CreatePersonForm;
 import ui.creation.CreateRolForm;
 import ui.edit.EditFuncionalityForm;
 import ui.creation.CreateUserForm;
@@ -45,19 +46,19 @@ public class MainMenu extends JFrame {
         this.name.setText(username);
     }
 
-    private Option[] createOptions(){
+    private Option[] createOptions() {
         Option option1 = new Option(Usuarios_Button, usersLabel, icon_user, "/img/option.png",
                 "/img/usability-edit.png", "/img/usability-edit-selected.png");
         Option option2 = new Option(Roles_Button, rolesLabel, icon_roles, "/img/option.png",
                 "/img/roles-edit.png", "/img/diamond.png");
         Option option3 = new Option(Personas_Button, peopleLabel, icon_people, "/img/option.png",
-                "/img/people-edit.png","/img/people-edit-selected.png");
+                "/img/people-edit.png", "/img/people-edit-selected.png");
         Option option4 = new Option(Relaciones_Button, RelationshipsLabel, icon_relation, "/img/option.png",
-                        "/img/link-edit.png","/img/link-edit-selected.png");
+                "/img/link-edit.png", "/img/link-edit-selected.png");
         return new Option[]{option1, option2, option3, option4};
     }
 
-    private void initRolesDashboard(){
+    private void initRolesDashboard() {
         this.TotalRoles.setText(String.valueOf(controller.totalRoles()));
         this.ActiveRoles.setText(String.valueOf(controller.activeRoles()));
     }
@@ -65,7 +66,7 @@ public class MainMenu extends JFrame {
     //Metodos de roles
 
     private void initRolesTable() {
-        RolesTable = new JTable(){
+        RolesTable = new JTable() {
             public String getToolTipText(MouseEvent e) {
                 String tip = null;
                 java.awt.Point p = e.getPoint();
@@ -82,20 +83,21 @@ public class MainMenu extends JFrame {
         fetchRoles();
     }
 
-    public void fetchRoles(){
+    public void fetchRoles() {
         updateRolesTable(this.controller.getRoles());
     }
 
-    private void updateRolesTable(String[][] newData){
+    private void updateRolesTable(String[][] newData) {
         RolesTable.setModel(new DefaultTableModel(
                 newData,
-                new String[] {"ID Rol","Nombre", "Descripci\u00f3n", " ", " "})
-        {   @Override
-        public boolean isCellEditable(int row, int column) {
-            return column == 3 || column == 4;
-        }});
-        ButtonColumn editButton = new ButtonColumn(RolesTable,this, "/img/edit_button.png", new EditRoleAction(),3);
-        ButtonColumn deleteButton = new ButtonColumn(RolesTable,this, "/img/delete_button.png", new DeleteRoleAction(),3);
+                new String[]{"ID Rol", "Nombre", "Descripci\u00f3n", " ", " "}) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column == 3 || column == 4;
+            }
+        });
+        ButtonColumn editButton = new ButtonColumn(RolesTable, this, "/img/edit_button.png", new EditRoleAction(), 3);
+        ButtonColumn deleteButton = new ButtonColumn(RolesTable, this, "/img/delete_button.png", new DeleteRoleAction(), 3);
         RolesTable.setRowHeight(35);
         RolesTable.getColumnModel().getColumn(3).setCellRenderer(editButton);
         RolesTable.getColumnModel().getColumn(3).setCellEditor(editButton);
@@ -107,23 +109,23 @@ public class MainMenu extends JFrame {
         RolesTable.setShowGrid(false);
         TableCellRenderer baseRenderer = RolesTable.getTableHeader().getDefaultRenderer();
         RolesTable.getTableHeader().setDefaultRenderer(new TableHeaderRender(baseRenderer));
-        scrollTable.setBorder(new LineBorder(new Color(0,0,0,0)));
+        scrollTable.setBorder(new LineBorder(new Color(0, 0, 0, 0)));
         scrollTable.setViewportView(RolesTable);
 
         roles_history.setListData(controller.getRoleLog());
         roles_history.setCellRenderer(new RolesHistoryListRenderer());
     }
 
-    public void editRole(int row){
+    public void editRole(int row) {
         String id_edit = String.valueOf(RolesTable.getValueAt(row, 0));
         String role_name = String.valueOf(RolesTable.getValueAt(row, 1));
-        String role_desc = String.valueOf(RolesTable.getValueAt(row,2));
+        String role_desc = String.valueOf(RolesTable.getValueAt(row, 2));
         this.disable();
         EditRolForm edit_screen = new EditRolForm(this, controller, id_edit, role_name, role_desc);
         edit_screen.setVisible(true);
     }
 
-    public void deleteRole(int row){
+    public void deleteRole(int row) {
         String id_edit = String.valueOf(RolesTable.getValueAt(row, 0));
         controller.deleteModel(id_edit, "rol", true);
         fetchRoles();
@@ -131,13 +133,13 @@ public class MainMenu extends JFrame {
 
     //Metodos de usuario
 
-    private void initUserDashboard(){
+    private void initUserDashboard() {
         this.TotalUsuarios.setText(String.valueOf(controller.totalUsers()));
         this.UsuariosBloqueado.setText(String.valueOf(controller.bloquedUsers()));
     }
 
     private void initUserTable() {
-        UserTable = new JTable(){
+        UserTable = new JTable() {
             public String getToolTipText(MouseEvent e) {
                 String tip = null;
                 java.awt.Point p = e.getPoint();
@@ -154,16 +156,17 @@ public class MainMenu extends JFrame {
         fetchUsers();
     }
 
-    private void updateUserTable(String[][] newData, NewUserRequest[][] newAuthorizations){
+    private void updateUserTable(String[][] newData, NewUserRequest[][] newAuthorizations) {
         UserTable.setModel(new DefaultTableModel(
                 newData,
-                new String[] {"ID user","Nombre", "CI", " ", " "})
-        {   @Override
-        public boolean isCellEditable(int row, int column) {
-            return column == 3 || column == 4;
-        }});
-        ButtonColumn editButton = new ButtonColumn(UserTable,this, "/img/edit_button.png", new EditUserAction(),3);
-        ButtonColumn deleteButton = new ButtonColumn(UserTable,this, "/img/delete_button.png", new DeleteUserAction(),3);
+                new String[]{"ID user", "Nombre", "CI", " ", " "}) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column == 3 || column == 4;
+            }
+        });
+        ButtonColumn editButton = new ButtonColumn(UserTable, this, "/img/edit_button.png", new EditUserAction(), 3);
+        ButtonColumn deleteButton = new ButtonColumn(UserTable, this, "/img/delete_button.png", new DeleteUserAction(), 3);
         UserTable.setRowHeight(35);
         UserTable.getColumnModel().getColumn(3).setCellRenderer(editButton);
         UserTable.getColumnModel().getColumn(3).setCellEditor(editButton);
@@ -175,48 +178,48 @@ public class MainMenu extends JFrame {
         UserTable.setShowGrid(false);
         TableCellRenderer baseRenderer = UserTable.getTableHeader().getDefaultRenderer();
         UserTable.getTableHeader().setDefaultRenderer(new TableHeaderRender(baseRenderer));
-        UserTable.setBorder(new LineBorder(new Color(0,0,0,0)));
+        UserTable.setBorder(new LineBorder(new Color(0, 0, 0, 0)));
         scrollTable2.setViewportView(UserTable);
-        scrollTable2.setBorder(new LineBorder(new Color(0,0,0,0)));
+        scrollTable2.setBorder(new LineBorder(new Color(0, 0, 0, 0)));
 
         user_history.setListData(controller.getUserLog());
         user_history.setCellRenderer(new UserHistoryListRender());
 
         usersPending.setModel(new DefaultTableModel(
                 newAuthorizations,
-                new String[] {" ", " "}));
+                new String[]{" ", " "}));
         usersPending.getColumnModel().getColumn(1).setMaxWidth(50);
         usersPending.setShowGrid(false);
         TableCellRenderer authorizationBaseRenderer = usersPending.getTableHeader().getDefaultRenderer();
         usersPending.getTableHeader().setDefaultRenderer(new TableHeaderRender(authorizationBaseRenderer));
-        ButtonColumn approveButton = new ButtonColumn(usersPending,this, "/img/approval_edit.png", new ApproveUserAction(),1);
+        ButtonColumn approveButton = new ButtonColumn(usersPending, this, "/img/approval_edit.png", new ApproveUserAction(), 1);
         usersPending.getColumnModel().getColumn(1).setCellRenderer(approveButton);
         usersPending.getColumnModel().getColumn(1).setCellEditor(approveButton);
         usersPending.getColumnModel().getColumn(0).setCellRenderer(new UserAuthorizationListRender());
 
-        scrollPane1.setBorder(new LineBorder(new Color(0,0,0,0)));
+        scrollPane1.setBorder(new LineBorder(new Color(0, 0, 0, 0)));
     }
 
-    public void approveUser(int row){
-        String requestID = ((NewUserRequest)this.usersPending.getValueAt(row,0)).getRequestID();
-        String requesterID = ((NewUserRequest)this.usersPending.getValueAt(row,0)).getRequesterID();
-        if (!this.controller.approveUser(requestID, requesterID)){
-            JOptionPane.showMessageDialog(this, "Tú has solicitado la creación de este menú por lo que no puedes aprobarlo.","Violación de seguridad", 1);
+    public void approveUser(int row) {
+        String requestID = ((NewUserRequest) this.usersPending.getValueAt(row, 0)).getRequestID();
+        String requesterID = ((NewUserRequest) this.usersPending.getValueAt(row, 0)).getRequesterID();
+        if (!this.controller.approveUser(requestID, requesterID)) {
+            JOptionPane.showMessageDialog(this, "Tú has solicitado la creación de este menú por lo que no puedes aprobarlo.", "Violación de seguridad", 1);
 
         }
 
         fetchUsers();
     }
 
-    public void fetchUsers(){
+    public void fetchUsers() {
         updateUserTable(this.controller.getUsuarios(), this.controller.getUsersPendingAuthorizations());
     }
 
-    public void editUser(int row){
+    public void editUser(int row) {
         String userId = String.valueOf(UserTable.getValueAt(row, 0));
         String userName = String.valueOf(UserTable.getValueAt(row, 1));
         boolean blocked = false;
-        switch (String.valueOf(UserTable.getValueAt(row,3))){
+        switch (String.valueOf(UserTable.getValueAt(row, 3))) {
             case "f":
                 break;
             case "v":
@@ -225,49 +228,49 @@ public class MainMenu extends JFrame {
         }
 
         this.disable();
-        EditUserForm edit_screen = new EditUserForm(this,controller,userName,blocked,userId);
+        EditUserForm edit_screen = new EditUserForm(this, controller, userName, blocked, userId);
         edit_screen.setVisible(true);
     }
 
-    public void deleteUser(int row){
+    public void deleteUser(int row) {
         String id_edit = String.valueOf(UserTable.getValueAt(row, 0));
-        controller.deleteModel(id_edit,"usuario", true);
+        controller.deleteModel(id_edit, "usuario", true);
         fetchUsers();
     }
 
     //Metodos de Personas
 
-    public void fetchPersons(){
+    public void fetchPersons() {
         updatePersonTable(this.controller.getPersonas());
     }
 
-    public void editPerson(int row){
+    public void editPerson(int row) {
         String id_edit = String.valueOf(PersonTable.getValueAt(row, 0));
         String person_name = String.valueOf(PersonTable.getValueAt(row, 1));
-        String person_direccion = String.valueOf(PersonTable.getValueAt(row,2));
-        String telefono = String.valueOf(PersonTable.getValueAt(row,3));
+        String person_direccion = String.valueOf(PersonTable.getValueAt(row, 2));
+        String telefono = String.valueOf(PersonTable.getValueAt(row, 3));
         this.disable();
-        EditPersonForm edit_screen = new EditPersonForm(this, controller,person_name,telefono,person_direccion,id_edit);
+        EditPersonForm edit_screen = new EditPersonForm(this, controller, person_name, telefono, person_direccion, id_edit);
         edit_screen.setVisible(true);
     }
 
-    public void deletePerson(int row){
+    public void deletePerson(int row) {
         String id_edit = String.valueOf(PersonTable.getValueAt(row, 0));
-        controller.deleteModel(id_edit,"persona", true);
+        controller.deleteModel(id_edit, "persona", true);
         fetchPersons();
     }
 
-    private void updatePersonTable(String[][] newData){
+    private void updatePersonTable(String[][] newData) {
         PersonTable.setModel(new DefaultTableModel(
                 newData,
-                new String[] {"CI","Nombre", "Direcci\u00f3n", " ", " "})
-        {
+                new String[]{"CI", "Nombre", "Direcci\u00f3n", " ", " "}) {
             @Override
-        public boolean isCellEditable(int row, int column) {
-            return column == 3 || column == 4;
-        }});
-        ButtonColumn editButton = new ButtonColumn(PersonTable,this, "/img/edit_button.png", new EditPersonAction(),3);
-        ButtonColumn deleteButton = new ButtonColumn(PersonTable,this, "/img/delete_button.png", new DeletePersonAction(),3);
+            public boolean isCellEditable(int row, int column) {
+                return column == 3 || column == 4;
+            }
+        });
+        ButtonColumn editButton = new ButtonColumn(PersonTable, this, "/img/edit_button.png", new EditPersonAction(), 3);
+        ButtonColumn deleteButton = new ButtonColumn(PersonTable, this, "/img/delete_button.png", new DeletePersonAction(), 3);
         PersonTable.setRowHeight(35);
         PersonTable.getColumnModel().getColumn(3).setCellRenderer(editButton);
         PersonTable.getColumnModel().getColumn(3).setCellEditor(editButton);
@@ -279,8 +282,8 @@ public class MainMenu extends JFrame {
         PersonTable.setShowGrid(false);
         TableCellRenderer baseRenderer = PersonTable.getTableHeader().getDefaultRenderer();
         PersonTable.getTableHeader().setDefaultRenderer(new TableHeaderRender(baseRenderer));
-        PersonTable.setBorder(new LineBorder(new Color(0,0,0,0)));
-        scrollTable3.setBorder(new LineBorder(new Color(0,0,0,0)));
+        PersonTable.setBorder(new LineBorder(new Color(0, 0, 0, 0)));
+        scrollTable3.setBorder(new LineBorder(new Color(0, 0, 0, 0)));
         scrollTable3.setViewportView(PersonTable);
 
         people_history.setListData(controller.getPersonLog());
@@ -289,15 +292,15 @@ public class MainMenu extends JFrame {
 
     }
 
-    private void initPersonDashboard(){
+    private void initPersonDashboard() {
         this.TotalPersons.setText(String.valueOf(controller.totalPersons()));
     }
 
     private void initPersonTable() {
-        PersonTable = new JTable(){
-         /*   public TableCellRenderer getCellRenderer( int row, int column ) {
-                return new TableButtonRender();
-            }*/
+        PersonTable = new JTable() {
+            /*   public TableCellRenderer getCellRenderer( int row, int column ) {
+                   return new TableButtonRender();
+               }*/
             public String getToolTipText(MouseEvent e) {
                 String tip = null;
                 java.awt.Point p = e.getPoint();
@@ -315,8 +318,8 @@ public class MainMenu extends JFrame {
     }
 
     //Metodos de funcionalidades
-    private void initFuncionalityTable(){
-        FuncionalidadesTable = new JTable(){
+    private void initFuncionalityTable() {
+        FuncionalidadesTable = new JTable() {
             /*   public TableCellRenderer getCellRenderer( int row, int column ) {
                    return new TableButtonRender();
                }*/
@@ -336,18 +339,18 @@ public class MainMenu extends JFrame {
         this.fetchFuncionalities();
     }
 
-    private void updateFuncionalitiesTable(String [][] newData){
+    private void updateFuncionalitiesTable(String[][] newData) {
         FuncionalidadesTable.setModel(new DefaultTableModel(
                 newData,
-                new String[] {"Nombre", "Descripci\u00f3n", "ID"," ", " "," "})
-        {
+                new String[]{"Nombre", "Descripci\u00f3n", "ID", " ", " ", " "}) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return column == 3 || column == 4;
-            }});
-        ButtonColumn editButton = new ButtonColumn(FuncionalidadesTable,this, "/img/edit_button.png", new EditFuncionalityAction(),3);
-        ButtonColumn deleteButton = new ButtonColumn(FuncionalidadesTable,this, "/img/delete_button.png", new DeleteFuncionalityAction(),3);
-        ButtonColumn addMenus = new ButtonColumn(FuncionalidadesTable,this, "/img/addMenu_button.png",new AddMenuToFunctionalityAction(),4);
+            }
+        });
+        ButtonColumn editButton = new ButtonColumn(FuncionalidadesTable, this, "/img/edit_button.png", new EditFuncionalityAction(), 3);
+        ButtonColumn deleteButton = new ButtonColumn(FuncionalidadesTable, this, "/img/delete_button.png", new DeleteFuncionalityAction(), 3);
+        ButtonColumn addMenus = new ButtonColumn(FuncionalidadesTable, this, "/img/addMenu_button.png", new AddMenuToFunctionalityAction(), 4);
         FuncionalidadesTable.setRowHeight(35);
         FuncionalidadesTable.getColumnModel().getColumn(3).setCellRenderer(editButton);
         FuncionalidadesTable.getColumnModel().getColumn(3).setCellEditor(editButton);
@@ -359,35 +362,35 @@ public class MainMenu extends JFrame {
         FuncionalidadesTable.setShowGrid(false);
         TableCellRenderer baseRenderer = FuncionalidadesTable.getTableHeader().getDefaultRenderer();
         FuncionalidadesTable.getTableHeader().setDefaultRenderer(new TableHeaderRender(baseRenderer));
-        FuncionalidadesTable.setBorder(new LineBorder(new Color(0,0,0,0)));
-        scrollTable5.setBorder(new LineBorder(new Color(0,0,0,0)));
+        FuncionalidadesTable.setBorder(new LineBorder(new Color(0, 0, 0, 0)));
+        scrollTable5.setBorder(new LineBorder(new Color(0, 0, 0, 0)));
         scrollTable5.setViewportView(FuncionalidadesTable);
 
         //relations_group.setListData(controller.getRelationsLog());
         //relations_group.setCellRenderer(new PersonsHistoryListRender());
     }
 
-    public void fetchFuncionalities(){
+    public void fetchFuncionalities() {
         updateFuncionalitiesTable(this.controller.getFuncionalities());
     }
 
-    public void editFuncionality(int row){
+    public void editFuncionality(int row) {
         String id_edit = String.valueOf(FuncionalidadesTable.getValueAt(row, 2));
         String funcionality_name = String.valueOf(FuncionalidadesTable.getValueAt(row, 0));
-        String funcionality_desc = String.valueOf(FuncionalidadesTable.getValueAt(row,1));
+        String funcionality_desc = String.valueOf(FuncionalidadesTable.getValueAt(row, 1));
         this.disable();
         EditFuncionalityForm edit_screen = new EditFuncionalityForm(this,
                 controller, id_edit, funcionality_name, funcionality_desc);
         edit_screen.setVisible(true);
     }
 
-    public void deleteFuncionality(int row){
+    public void deleteFuncionality(int row) {
         String id_edit = String.valueOf(FuncionalidadesTable.getValueAt(row, 2));
         controller.deleteModel(id_edit, "funcionalidad", true);
         fetchFuncionalities();
     }
 
-    public void addMenuToFunctionality(int row){
+    public void addMenuToFunctionality(int row) {
         String id_functionality = String.valueOf(FuncionalidadesTable.getValueAt(row, 2));
 
 
@@ -414,9 +417,9 @@ public class MainMenu extends JFrame {
         updateOptionState(Usuarios_Button, false);
     }
 
-    private void updateOptionState(JLabel option,boolean state){
-        if (!option.equals(selected_option_button)){
-            if (state){
+    private void updateOptionState(JLabel option, boolean state) {
+        if (!option.equals(selected_option_button)) {
+            if (state) {
                 option.setIcon(new ImageIcon(getClass().getResource("/img/option.png")));
             } else {
                 option.setIcon(null);
@@ -475,14 +478,14 @@ public class MainMenu extends JFrame {
         selected_option_button = Personas_Button;
     }
 
-    private void resetOptions(){
-        for (Option op: options){
+    private void resetOptions() {
+        for (Option op : options) {
             op.reset();
         }
     }
 
-    private void changeCard(String card_name){
-        CardLayout cl = (CardLayout)(this.main.getLayout());
+    private void changeCard(String card_name) {
+        CardLayout cl = (CardLayout) (this.main.getLayout());
         cl.show(this.main, card_name);
     }
 
@@ -523,7 +526,8 @@ public class MainMenu extends JFrame {
     }
 
     private void add_button_Funcionalidades_MouseClicked() {
-        JFrame addRoleFrame = new CreateFunctionalityForm(controller,this);
+        JFrame addRoleFrame = new CreateFunctionalityForm(controller, this);
+    }
 
     private void add_button_personasMouseClicked() {
         JFrame addPersonFrame = new CreatePersonForm(controller, this);
@@ -537,10 +541,6 @@ public class MainMenu extends JFrame {
 
     private void add_button_funcionalidadMouseExited() {
         add_button_personas.setIcon(new ImageIcon(getClass().getResource("/img/add_button.png")));
-    }
-
-    private void add_button_personasMouseClicked() {
-        // TODO add your code here
     }
 
     private void add_button_personasMouseEntered() {
@@ -636,7 +636,7 @@ public class MainMenu extends JFrame {
     private JTable FuncionalidadesTable;
     private JLabel add_button_Funcionalidades;
     private JLayeredPane layeredPane13;
-    private JLabel historial_title4;
+    private JLabel historialTitulo;
     private JScrollPane scrollHistoryRelations;
     private JList relations_history;
     private JLabel log_back_people2;
@@ -645,7 +645,7 @@ public class MainMenu extends JFrame {
     private JScrollPane scrollTable6;
     private JTable Usuarios_de_Rol_Table;
     private JLabel add_button_UserToRol;
-    private JLayeredPane layeredPane10;
+    private JLayeredPane Panel_Diez;
     private JLabel label11;
     private JScrollPane scrollTable4;
     private JTable Menus_Table;
@@ -760,7 +760,7 @@ public class MainMenu extends JFrame {
         FuncionalidadesTable = new JTable();
         add_button_Funcionalidades = new JLabel();
         layeredPane13 = new JLayeredPane();
-        historial_title4 = new JLabel();
+        historialTitulo = new JLabel();
         scrollHistoryRelations = new JScrollPane();
         relations_history = new JList();
         log_back_people2 = new JLabel();
@@ -769,7 +769,7 @@ public class MainMenu extends JFrame {
         scrollTable6 = new JScrollPane();
         Usuarios_de_Rol_Table = new JTable();
         add_button_UserToRol = new JLabel();
-        layeredPane10 = new JLayeredPane();
+        Panel_Diez = new JLayeredPane();
         label11 = new JLabel();
         scrollTable4 = new JScrollPane();
         Menus_Table = new JTable();
@@ -805,12 +805,12 @@ public class MainMenu extends JFrame {
         //======== Header ========
         {
             Header.setBackground(Color.white);
-            Header.setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax . swing. border
-            .EmptyBorder ( 0, 0 ,0 , 0) ,  "JF\u006frmDes\u0069gner \u0045valua\u0074ion" , javax. swing .border . TitledBorder. CENTER ,javax
-            . swing. border .TitledBorder . BOTTOM, new java. awt .Font ( "D\u0069alog", java .awt . Font. BOLD ,
-            12 ) ,java . awt. Color .red ) ,Header. getBorder () ) ); Header. addPropertyChangeListener( new java. beans
-            .PropertyChangeListener ( ){ @Override public void propertyChange (java . beans. PropertyChangeEvent e) { if( "\u0062order" .equals ( e.
-            getPropertyName () ) )throw new RuntimeException( ) ;} } );
+            Header.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing. border. EmptyBorder
+            ( 0, 0, 0, 0) , "JFor\u006dDesi\u0067ner \u0045valu\u0061tion", javax. swing. border. TitledBorder. CENTER, javax. swing. border
+            . TitledBorder. BOTTOM, new java .awt .Font ("Dia\u006cog" ,java .awt .Font .BOLD ,12 ), java. awt
+            . Color. red) ,Header. getBorder( )) ); Header. addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void
+            propertyChange (java .beans .PropertyChangeEvent e) {if ("bord\u0065r" .equals (e .getPropertyName () )) throw new RuntimeException( )
+            ; }} );
 
             //---- exit ----
             exit.setIcon(new ImageIcon(getClass().getResource("/img/logout-edit.png")));
@@ -1623,12 +1623,12 @@ public class MainMenu extends JFrame {
                 //======== layeredPane13 ========
                 {
 
-                    //---- historial_title4 ----
-                    historial_title4.setText("Historial de cambios");
-                    historial_title4.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 18));
-                    historial_title4.setForeground(new Color(102, 102, 102));
-                    layeredPane13.add(historial_title4, JLayeredPane.DEFAULT_LAYER);
-                    historial_title4.setBounds(35, 10, 170, 35);
+                    //---- historialTitulo ----
+                    historialTitulo.setText("Historial de cambios");
+                    historialTitulo.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 18));
+                    historialTitulo.setForeground(new Color(102, 102, 102));
+                    layeredPane13.add(historialTitulo, JLayeredPane.DEFAULT_LAYER);
+                    historialTitulo.setBounds(35, 10, 170, 35);
 
                     //======== scrollHistoryRelations ========
                     {
@@ -1689,7 +1689,7 @@ public class MainMenu extends JFrame {
                         scrollTable6.setViewportView(Usuarios_de_Rol_Table);
                     }
                     layeredPane12.add(scrollTable6, JLayeredPane.DEFAULT_LAYER);
-                    scrollTable6.setBounds(35, 45, 345, 170);
+                    scrollTable6.setBounds(30, 45, 345, 170);
 
                     //---- add_button_UserToRol ----
                     add_button_UserToRol.setIcon(new ImageIcon(getClass().getResource("/img/add_button.png")));
@@ -1711,14 +1711,14 @@ public class MainMenu extends JFrame {
                     add_button_UserToRol.setBounds(265, 10, 105, 35);
                 }
 
-                //======== layeredPane10 ========
+                //======== Panel_Diez ========
                 {
 
                     //---- label11 ----
                     label11.setText("Lista de Menus");
                     label11.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 18));
                     label11.setForeground(new Color(102, 102, 102));
-                    layeredPane10.add(label11, JLayeredPane.DEFAULT_LAYER);
+                    Panel_Diez.add(label11, JLayeredPane.DEFAULT_LAYER);
                     label11.setBounds(20, 5, 170, 30);
 
                     //======== scrollTable4 ========
@@ -1749,8 +1749,8 @@ public class MainMenu extends JFrame {
                         Menus_Table.setGridColor(Color.white);
                         scrollTable4.setViewportView(Menus_Table);
                     }
-                    layeredPane10.add(scrollTable4, JLayeredPane.DEFAULT_LAYER);
-                    scrollTable4.setBounds(15, 35, 345, 165);
+                    Panel_Diez.add(scrollTable4, JLayeredPane.DEFAULT_LAYER);
+                    scrollTable4.setBounds(15, 35, 345, 140);
 
                     //---- add_button_Menu ----
                     add_button_Menu.setIcon(new ImageIcon(getClass().getResource("/img/add_button.png")));
@@ -1768,7 +1768,7 @@ public class MainMenu extends JFrame {
                             add_button_personasMouseExited();
                         }
                     });
-                    layeredPane10.add(add_button_Menu, JLayeredPane.DEFAULT_LAYER);
+                    Panel_Diez.add(add_button_Menu, JLayeredPane.DEFAULT_LAYER);
                     add_button_Menu.setBounds(255, 0, 105, 35);
                 }
 
@@ -1778,7 +1778,7 @@ public class MainMenu extends JFrame {
                     RelacionesLayout.createParallelGroup()
                         .addGroup(RelacionesLayout.createSequentialGroup()
                             .addContainerGap()
-                            .addComponent(layeredPane10, GroupLayout.PREFERRED_SIZE, 382, GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Panel_Diez, GroupLayout.PREFERRED_SIZE, 382, GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                             .addComponent(layeredPane13, GroupLayout.PREFERRED_SIZE, 377, GroupLayout.PREFERRED_SIZE)
                             .addGap(30, 30, 30))
@@ -1811,8 +1811,8 @@ public class MainMenu extends JFrame {
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(RelacionesLayout.createParallelGroup()
                                 .addComponent(layeredPane13, GroupLayout.PREFERRED_SIZE, 185, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(layeredPane10, GroupLayout.PREFERRED_SIZE, 218, GroupLayout.PREFERRED_SIZE))
-                            .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(Panel_Diez, GroupLayout.PREFERRED_SIZE, 196, GroupLayout.PREFERRED_SIZE))
+                            .addContainerGap(22, Short.MAX_VALUE))
                 );
             }
             main.add(Relaciones, "relaciones");
