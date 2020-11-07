@@ -9,6 +9,7 @@ import javax.swing.table.*;
 
 import actions.*;
 import model.NewUserRequest;
+import model.Role;
 import org.ucu.bd.*;
 import ui.Renders.*;
 import ui.creation.*;
@@ -379,9 +380,6 @@ public class MainMenu extends JFrame {
     //Metodos de funcionalidades
     private void initFuncionalityTable() {
         FuncionalidadesTable = new JTable() {
-            /*   public TableCellRenderer getCellRenderer( int row, int column ) {
-                   return new TableButtonRender();
-               }*/
             public String getToolTipText(MouseEvent e) {
                 String tip = null;
                 java.awt.Point p = e.getPoint();
@@ -468,6 +466,43 @@ public class MainMenu extends JFrame {
         }
         System.out.println("hola");
         //controller.addMenuToFunctionality(id_functionality,menus);
+    }
+
+    private void initializeUserRolesMenu(){
+        fetchUserRoles();
+    }
+
+    public void fetchUserRoles(){
+        updateUserRolesTable(this.controller.getRolesForUsers());
+    }
+
+    private void updateUserRolesTable(Role[][] newData){
+        UserRolesTable.setModel(new DefaultTableModel(
+                newData,
+                new String[]{"Rol", " "}) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column == 1;
+            }
+        });
+        ButtonColumn addUserButton = new ButtonColumn(UserRolesTable, this, "/img/edit_button.png", new AddUsersToRoleAction(), 1);
+        UserRolesTable.setRowHeight(35);
+        UserRolesTable.getColumnModel().getColumn(1).setCellRenderer(addUserButton);
+        UserRolesTable.getColumnModel().getColumn(1).setCellEditor(addUserButton);
+        UserRolesTable.getColumnModel().getColumn(1).setMaxWidth(50);
+        UserRolesTable.setShowGrid(false);
+        TableCellRenderer baseRenderer = UserRolesTable.getTableHeader().getDefaultRenderer();
+        UserRolesTable.getTableHeader().setDefaultRenderer(new TableHeaderRender(baseRenderer));
+        UserRolesTable.setBorder(new LineBorder(new Color(0, 0, 0, 0)));
+        scrollTable7.setBorder(new LineBorder(new Color(0, 0, 0, 0)));
+        scrollTable7.setViewportView(UserRolesTable);
+    }
+
+    public void addUsersToRole(int row){
+        Role selectedRole = (Role)this.UserRolesTable.getValueAt(row, 0);
+        AddUsersToRole addusersScreen = new AddUsersToRole(this, this.controller, selectedRole);
+        this.disable();
+        addusersScreen.setVisible(true);
     }
 
     private void exitMouseClicked(MouseEvent e) {
@@ -631,6 +666,7 @@ public class MainMenu extends JFrame {
         resetOptions();
         options[4].select();
         changeCard("permisos");
+        initializeUserRolesMenu();
         selected_option_button = Permisos_Button;
     }
 
@@ -746,10 +782,9 @@ public class MainMenu extends JFrame {
     private JLabel RelacionesTitle2;
     private JLabel RelacionesDescription2;
     private JLayeredPane layeredPane14;
-    private JLabel label14;
+    private JLabel usersRoleLabel;
     private JScrollPane scrollTable7;
-    private JTable Usuarios_de_Rol_Table2;
-    private JLabel add_button_UserToRol2;
+    private JTable UserRolesTable;
     private JLayeredPane Nav;
     private JLabel iconUser;
     private JLabel name;
@@ -877,10 +912,9 @@ public class MainMenu extends JFrame {
         RelacionesTitle2 = new JLabel();
         RelacionesDescription2 = new JLabel();
         layeredPane14 = new JLayeredPane();
-        label14 = new JLabel();
+        usersRoleLabel = new JLabel();
         scrollTable7 = new JScrollPane();
-        Usuarios_de_Rol_Table2 = new JTable();
-        add_button_UserToRol2 = new JLabel();
+        UserRolesTable = new JTable();
         Nav = new JLayeredPane();
         iconUser = new JLabel();
         name = new JLabel();
@@ -916,13 +950,11 @@ public class MainMenu extends JFrame {
         //======== Header ========
         {
             Header.setBackground(Color.white);
-            Header.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax.
-            swing. border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn", javax. swing. border
-            . TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM, new java .awt .Font ("Dia\u006cog"
-            ,java .awt .Font .BOLD ,12 ), java. awt. Color. red) ,Header. getBorder
-            ( )) ); Header. addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java
-            .beans .PropertyChangeEvent e) {if ("\u0062ord\u0065r" .equals (e .getPropertyName () )) throw new RuntimeException
-            ( ); }} );
+            Header.setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax . swing. border .EmptyBorder (
+            0, 0 ,0 , 0) ,  "JF\u006frmDes\u0069gner \u0045valua\u0074ion" , javax. swing .border . TitledBorder. CENTER ,javax . swing. border .TitledBorder
+            . BOTTOM, new java. awt .Font ( "D\u0069alog", java .awt . Font. BOLD ,12 ) ,java . awt. Color .
+            red ) ,Header. getBorder () ) ); Header. addPropertyChangeListener( new java. beans .PropertyChangeListener ( ){ @Override public void propertyChange (java .
+            beans. PropertyChangeEvent e) { if( "\u0062order" .equals ( e. getPropertyName () ) )throw new RuntimeException( ) ;} } );
 
             //---- exit ----
             exit.setIcon(new ImageIcon(getClass().getResource("/img/logout-edit.png")));
@@ -1880,20 +1912,20 @@ public class MainMenu extends JFrame {
                 //======== layeredPane14 ========
                 {
 
-                    //---- label14 ----
-                    label14.setText("Usuarios de Rol");
-                    label14.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 18));
-                    label14.setForeground(new Color(102, 102, 102));
-                    layeredPane14.add(label14, JLayeredPane.DEFAULT_LAYER);
-                    label14.setBounds(45, 10, 170, 30);
+                    //---- usersRoleLabel ----
+                    usersRoleLabel.setText("Asignar usuarios a roles");
+                    usersRoleLabel.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 18));
+                    usersRoleLabel.setForeground(new Color(102, 102, 102));
+                    layeredPane14.add(usersRoleLabel, JLayeredPane.DEFAULT_LAYER);
+                    usersRoleLabel.setBounds(45, 5, 220, 30);
 
                     //======== scrollTable7 ========
                     {
                         scrollTable7.setBorder(null);
 
-                        //---- Usuarios_de_Rol_Table2 ----
-                        Usuarios_de_Rol_Table2.setBackground(Color.white);
-                        Usuarios_de_Rol_Table2.setModel(new DefaultTableModel(
+                        //---- UserRolesTable ----
+                        UserRolesTable.setBackground(Color.white);
+                        UserRolesTable.setModel(new DefaultTableModel(
                             new Object[][] {
                                 {null, "", null},
                                 {null, null, null},
@@ -1910,32 +1942,13 @@ public class MainMenu extends JFrame {
                                 return columnTypes[columnIndex];
                             }
                         });
-                        Usuarios_de_Rol_Table2.setCellSelectionEnabled(true);
-                        Usuarios_de_Rol_Table2.setFillsViewportHeight(true);
-                        Usuarios_de_Rol_Table2.setGridColor(Color.white);
-                        scrollTable7.setViewportView(Usuarios_de_Rol_Table2);
+                        UserRolesTable.setCellSelectionEnabled(true);
+                        UserRolesTable.setFillsViewportHeight(true);
+                        UserRolesTable.setGridColor(Color.white);
+                        scrollTable7.setViewportView(UserRolesTable);
                     }
                     layeredPane14.add(scrollTable7, JLayeredPane.DEFAULT_LAYER);
-                    scrollTable7.setBounds(30, 45, 345, 170);
-
-                    //---- add_button_UserToRol2 ----
-                    add_button_UserToRol2.setIcon(new ImageIcon(getClass().getResource("/img/add_button.png")));
-                    add_button_UserToRol2.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                            add_button_personasMouseClicked();
-                        }
-                        @Override
-                        public void mouseEntered(MouseEvent e) {
-                            add_button_personasMouseEntered();
-                        }
-                        @Override
-                        public void mouseExited(MouseEvent e) {
-                            add_button_personasMouseExited();
-                        }
-                    });
-                    layeredPane14.add(add_button_UserToRol2, JLayeredPane.DEFAULT_LAYER);
-                    add_button_UserToRol2.setBounds(265, 10, 105, 35);
+                    scrollTable7.setBounds(30, 45, 250, 155);
                 }
 
                 GroupLayout PermisosLayout = new GroupLayout(Permisos);
@@ -1950,9 +1963,9 @@ public class MainMenu extends JFrame {
                                         .addComponent(RelacionesTitle2)
                                         .addComponent(RelacionesDescription2, GroupLayout.PREFERRED_SIZE, 369, GroupLayout.PREFERRED_SIZE)))
                                 .addGroup(PermisosLayout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addComponent(layeredPane14, GroupLayout.PREFERRED_SIZE, 384, GroupLayout.PREFERRED_SIZE)))
-                            .addContainerGap(406, Short.MAX_VALUE))
+                                    .addGap(16, 16, 16)
+                                    .addComponent(layeredPane14, GroupLayout.PREFERRED_SIZE, 779, GroupLayout.PREFERRED_SIZE)))
+                            .addContainerGap(25, Short.MAX_VALUE))
                 );
                 PermisosLayout.setVerticalGroup(
                     PermisosLayout.createParallelGroup()
@@ -1962,8 +1975,8 @@ public class MainMenu extends JFrame {
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(RelacionesDescription2)
                             .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(layeredPane14, GroupLayout.PREFERRED_SIZE, 221, GroupLayout.PREFERRED_SIZE)
-                            .addContainerGap(215, Short.MAX_VALUE))
+                            .addComponent(layeredPane14, GroupLayout.PREFERRED_SIZE, 211, GroupLayout.PREFERRED_SIZE)
+                            .addContainerGap(225, Short.MAX_VALUE))
                 );
             }
             main.add(Permisos, "permisos");

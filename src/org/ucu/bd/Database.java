@@ -413,6 +413,20 @@ public class Database {
         }
     }
 
+    public ResultSet getUsersForRole(String id_role){
+        if(isConnected()) {
+            try {
+                stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
+                String sql = "SELECT id_usuario, nombre_usuario, CAST(CASE WHEN (EXISTS (SELECT id_rol from usuario_rol where id_rol = \'"+ id_role +"\' AND usuario_rol.id_usuario = usuario.id_usuario)) THEN true ELSE false END AS BOOL) AS Seleccionado FROM usuario";
+                return stmt.executeQuery(sql);
+            }
+            catch (SQLException ex) {
+                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return null;
+    }
+
     //Existance
     public boolean existsPerson(String ci){
         ResultSet person = search("persona","cedula",ci);

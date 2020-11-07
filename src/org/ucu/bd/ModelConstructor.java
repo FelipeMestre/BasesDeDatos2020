@@ -108,12 +108,58 @@ public class ModelConstructor {
         return this.getStringArray(db.getAllElements("vista_roles_activos"));
     }
 
+    public Role[][] getRolesForUsers(){
+        ResultSet rs = db.getAllElements("vista_roles_activos");
+        Role[][] result = new Role[0][0];
+        try {
+            rs.last();
+            int size = rs.getRow();
+            if (size > 0) {
+                result = new Role[1][size];
+                rs.first();
+                int rowNumber = 0;
+                do {
+                    result[0][rowNumber] = new Role(rs.getString(1),rs.getString(2));
+                    rowNumber++;
+                } while (rs.next());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     public String[][] getMenus() {
         return this.getStringArray(db.getAllElements("vista_menu_activos"));
     }
 
     public String[][] getUsuarios() {
         return this.getStringArray(db.getAllElements("vista_usuarios_con_autorizacion"));
+    }
+
+    public Object[][] getUsersForRole(Role role){
+        String id_role = role.getId_role();
+        ResultSet rs = this.db.getUsersForRole(id_role);
+        Object[][] result = new Object[0][0];
+        try {
+            rs.last();
+            int size = rs.getRow();
+            if (size > 0) {
+                result = new Object[size][3];
+                rs.first();
+                int rowNumber = 0;
+                do {
+                    result[rowNumber][0] = rs.getString(1);
+                    result[rowNumber][1] = rs.getString(2);
+                    result[rowNumber][2] = rs.getBoolean(3);
+                    rowNumber++;
+                } while (rs.next());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+
     }
 
     public NewUserRequest[][] getUsersPendingAuthorizations(){
@@ -139,10 +185,6 @@ public class ModelConstructor {
 
     public String[][] getPersonas() {
         return this.getStringArray(db.getAllElements("vista_personas"));
-    }
-
-    public String[][] getMenus(){
-        return this.getStringArray(db.getAllElements("vista_menus"));
     }
 
     public String[][] getFuncionalities(){
