@@ -29,7 +29,7 @@ public class CreateMenuForm extends JFrame {
         String name = Nombre.getText();
         String description = Descripcion.getText();
         if (constructor.createModel(name,description,"menu",this)){
-            this.dispose();
+            this.close();
         }
     }
 

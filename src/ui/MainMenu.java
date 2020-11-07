@@ -734,6 +734,11 @@ public class MainMenu extends JFrame {
     private JPanel Permisos;
     private JLabel RelacionesTitle2;
     private JLabel RelacionesDescription2;
+    private JLayeredPane layeredPane14;
+    private JLabel label14;
+    private JScrollPane scrollTable7;
+    private JTable Usuarios_de_Rol_Table2;
+    private JLabel add_button_UserToRol2;
     private JLayeredPane Nav;
     private JLabel iconUser;
     private JLabel name;
@@ -865,6 +870,11 @@ public class MainMenu extends JFrame {
         Permisos = new JPanel();
         RelacionesTitle2 = new JLabel();
         RelacionesDescription2 = new JLabel();
+        layeredPane14 = new JLayeredPane();
+        label14 = new JLabel();
+        scrollTable7 = new JScrollPane();
+        Usuarios_de_Rol_Table2 = new JTable();
+        add_button_UserToRol2 = new JLabel();
         Nav = new JLayeredPane();
         iconUser = new JLabel();
         name = new JLabel();
@@ -900,13 +910,13 @@ public class MainMenu extends JFrame {
         //======== Header ========
         {
             Header.setBackground(Color.white);
-            Header.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new
-            javax. swing. border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmDes\u0069gner \u0045valua\u0074ion", javax
-            . swing. border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM, new java
-            .awt .Font ("D\u0069alog" ,java .awt .Font .BOLD ,12 ), java. awt
-            . Color. red) ,Header. getBorder( )) ); Header. addPropertyChangeListener (new java. beans.
-            PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("\u0062order" .
-            equals (e .getPropertyName () )) throw new RuntimeException( ); }} );
+            Header.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax.
+            swing. border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn", javax. swing. border
+            . TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM, new java .awt .Font ("Dia\u006cog"
+            ,java .awt .Font .BOLD ,12 ), java. awt. Color. red) ,Header. getBorder
+            ( )) ); Header. addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java
+            .beans .PropertyChangeEvent e) {if ("\u0062ord\u0065r" .equals (e .getPropertyName () )) throw new RuntimeException
+            ( ); }} );
 
             //---- exit ----
             exit.setIcon(new ImageIcon(getClass().getResource("/img/logout-edit.png")));
@@ -1846,7 +1856,7 @@ public class MainMenu extends JFrame {
                         scrollMenuTable.setViewportView(Menus_Table);
                     }
                     Panel_Diez.add(scrollMenuTable, JLayeredPane.DEFAULT_LAYER);
-                    scrollMenuTable.setBounds(15, 35, 345, 140);
+                    scrollMenuTable.setBounds(20, 35, 345, 140);
 
                     //---- add_button_Menu ----
                     add_button_Menu.setIcon(new ImageIcon(getClass().getResource("/img/add_button.png")));
@@ -1929,15 +1939,81 @@ public class MainMenu extends JFrame {
                 RelacionesDescription2.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
                 RelacionesDescription2.setForeground(new Color(126, 126, 126));
 
+                //======== layeredPane14 ========
+                {
+
+                    //---- label14 ----
+                    label14.setText("Usuarios de Rol");
+                    label14.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 18));
+                    label14.setForeground(new Color(102, 102, 102));
+                    layeredPane14.add(label14, JLayeredPane.DEFAULT_LAYER);
+                    label14.setBounds(45, 10, 170, 30);
+
+                    //======== scrollTable7 ========
+                    {
+                        scrollTable7.setBorder(null);
+
+                        //---- Usuarios_de_Rol_Table2 ----
+                        Usuarios_de_Rol_Table2.setBackground(Color.white);
+                        Usuarios_de_Rol_Table2.setModel(new DefaultTableModel(
+                            new Object[][] {
+                                {null, "", null},
+                                {null, null, null},
+                            },
+                            new String[] {
+                                "Nombre", "Descripci\u00f3n", " "
+                            }
+                        ) {
+                            Class<?>[] columnTypes = new Class<?>[] {
+                                String.class, String.class, Object.class
+                            };
+                            @Override
+                            public Class<?> getColumnClass(int columnIndex) {
+                                return columnTypes[columnIndex];
+                            }
+                        });
+                        Usuarios_de_Rol_Table2.setCellSelectionEnabled(true);
+                        Usuarios_de_Rol_Table2.setFillsViewportHeight(true);
+                        Usuarios_de_Rol_Table2.setGridColor(Color.white);
+                        scrollTable7.setViewportView(Usuarios_de_Rol_Table2);
+                    }
+                    layeredPane14.add(scrollTable7, JLayeredPane.DEFAULT_LAYER);
+                    scrollTable7.setBounds(30, 45, 345, 170);
+
+                    //---- add_button_UserToRol2 ----
+                    add_button_UserToRol2.setIcon(new ImageIcon(getClass().getResource("/img/add_button.png")));
+                    add_button_UserToRol2.addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mouseClicked(MouseEvent e) {
+                            add_button_personasMouseClicked();
+                        }
+                        @Override
+                        public void mouseEntered(MouseEvent e) {
+                            add_button_personasMouseEntered();
+                        }
+                        @Override
+                        public void mouseExited(MouseEvent e) {
+                            add_button_personasMouseExited();
+                        }
+                    });
+                    layeredPane14.add(add_button_UserToRol2, JLayeredPane.DEFAULT_LAYER);
+                    add_button_UserToRol2.setBounds(265, 10, 105, 35);
+                }
+
                 GroupLayout PermisosLayout = new GroupLayout(Permisos);
                 Permisos.setLayout(PermisosLayout);
                 PermisosLayout.setHorizontalGroup(
                     PermisosLayout.createParallelGroup()
                         .addGroup(PermisosLayout.createSequentialGroup()
-                            .addGap(45, 45, 45)
                             .addGroup(PermisosLayout.createParallelGroup()
-                                .addComponent(RelacionesTitle2)
-                                .addComponent(RelacionesDescription2, GroupLayout.PREFERRED_SIZE, 369, GroupLayout.PREFERRED_SIZE))
+                                .addGroup(PermisosLayout.createSequentialGroup()
+                                    .addGap(45, 45, 45)
+                                    .addGroup(PermisosLayout.createParallelGroup()
+                                        .addComponent(RelacionesTitle2)
+                                        .addComponent(RelacionesDescription2, GroupLayout.PREFERRED_SIZE, 369, GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(PermisosLayout.createSequentialGroup()
+                                    .addContainerGap()
+                                    .addComponent(layeredPane14, GroupLayout.PREFERRED_SIZE, 384, GroupLayout.PREFERRED_SIZE)))
                             .addContainerGap(406, Short.MAX_VALUE))
                 );
                 PermisosLayout.setVerticalGroup(
@@ -1947,7 +2023,9 @@ public class MainMenu extends JFrame {
                             .addComponent(RelacionesTitle2)
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(RelacionesDescription2)
-                            .addContainerGap(448, Short.MAX_VALUE))
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(layeredPane14, GroupLayout.PREFERRED_SIZE, 221, GroupLayout.PREFERRED_SIZE)
+                            .addContainerGap(215, Short.MAX_VALUE))
                 );
             }
             main.add(Permisos, "permisos");
