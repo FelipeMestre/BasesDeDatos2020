@@ -220,6 +220,7 @@ public class MainMenu extends JFrame {
         String id_edit = String.valueOf(PersonTable.getValueAt(row, 0));
         controller.deleteModel(id_edit,"persona", true);
         fetchPersons();
+        }
     }
 
     private void updatePersonTable(String[][] newData){
