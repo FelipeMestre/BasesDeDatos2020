@@ -193,6 +193,39 @@ public class Database {
         return false;
     }
 
+    public boolean createUserEdit(String username, String password, int ci_persona, int creador, int autorizador, boolean admin, boolean blocked, boolean activo, int availabletries) {
+        if(isConnected()) {
+            try {
+                stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
+                stmt.executeUpdate(
+                        "INSERT INTO usuario (nombre_usuario, contraseña, ci_persona, admin, " +
+                                "creador, bloqueado, autorizador, activo, availabletries) VALUES ('" + username + "',' a" +
+                                "'," + ci_persona + ",'" + admin + "'," + creador + ",'" + blocked + "'," + autorizador + "," + activo + "," + availabletries + ")",
+                        Statement.RETURN_GENERATED_KEYS);
+                ResultSet rs = stmt.getGeneratedKeys();
+                int id_usuario = 0;
+                //Se crea el usuario y se genera la contraseña segun el id
+                if(rs.first()){
+                    id_usuario = rs.getInt(1);
+                    String newPassword = PasswordManager.getInstance().generatePassword(password,id_usuario);
+                    stmt.executeUpdate(
+                            "update usuario set contraseña ='" + newPassword + "' where id_usuario = " + id_usuario);
+                    Date date = new Date(Calendar.getInstance().getTime().getTime());
+                    stmt.executeUpdate("INSERT INTO log_usuario (id_usuario,fecha_registro,id_evento,usuario_" +
+                            "modificado) VALUES ("+CurrentUser.getCurrentUser().get_userId()+",'" + date +"',"
+                            + 3 +"," + id_usuario + ")");
+
+                    return true;
+                }
+                return false;
+            }
+            catch (SQLException ex) {
+                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return false;
+    }
+
     public boolean createModel(String name, String description, String tablename, int event_type) {
         if(isConnected()) {
             try {
@@ -306,13 +339,15 @@ public class Database {
         }
     }
 
-    public ResultSet deleteRow(String table_name, String row_id) {
+    public ResultSet deleteRow(String table_name, String row_id, boolean deleting) {
         if(isConnected()) {
             try {
                 stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
                 stmt.executeUpdate("UPDATE " + table_name + " SET activo = false WHERE  id_" + table_name  + " = " + row_id, Statement.RETURN_GENERATED_KEYS);
                 ResultSet rs = stmt.getGeneratedKeys();
-                logActivity(rs, table_name, 2);
+                if (deleting) {
+                    logActivity(rs, table_name, 2);
+                }
             }
             catch (SQLException ex) {
                 Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
@@ -339,37 +374,18 @@ public class Database {
 
     //Updates
     public void updateModel(String row_id, String new_name, String new_desc,String tablename){
-        this.deleteRow(tablename, row_id);
+        this.deleteRow(tablename, row_id, false);
         this.createModel(new_name, new_desc, tablename,3);
     }
 
-    public void updatePerson(String id, String newName, String newAdres, String newPhone){
+    public void updatePerson(String id, String newName, String newAdres, String newPhone) {
         this.deleteRowPersona("persona", id);
-        this.createPerson(Integer.parseInt(id), newName, newAdres, Integer.parseInt(newPhone),1);
+        this.createPerson(Integer.parseInt(id), newName, newAdres, Integer.parseInt(newPhone), 1);
     }
 
-    public void updateUser(String id, String username, String password, boolean blocked, boolean withPassword,int eventType){
-        if(isConnected()) {
-            String newPassword = PasswordManager.getInstance().generatePassword(password,Integer.valueOf(id));
-            try {
-                stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
-
-
-                if (withPassword){
-                    stmt.executeUpdate(String.format("UPDATE usuario SET nombre_usuario = \'%s\', contraseña = " +
-                            "\'%s\' " + ", bloqueado = \'%s\' WHERE id_usuario = " +
-                            "%d",username,newPassword,blocked,Integer.parseInt(id)),Statement.RETURN_GENERATED_KEYS);
-                } else {
-                    stmt.executeUpdate(String.format("UPDATE usuario SET nombre_usuario = \'%s\', bloqueado = \'%s\' " +
-                            "WHERE id_usuario = " + "%d",username,blocked,Integer.parseInt(id)),Statement.RETURN_GENERATED_KEYS);
-                }
-                ResultSet rs = stmt.getGeneratedKeys();
-                logActivity(rs,"usuario",3);
-            }
-            catch (SQLException ex) {
-                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+    public void updateUser(String id, String username, String password, boolean blocked, boolean withPassword,int eventType, int creador, int autorizador, int ci_persona, boolean activo, boolean admin, int availabletries){
+        this.deleteRow("usuario", id, false);
+        this.createUserEdit(username, password, ci_persona, creador, autorizador, admin, blocked, activo, availabletries);
     }
 
     //Role asignments
