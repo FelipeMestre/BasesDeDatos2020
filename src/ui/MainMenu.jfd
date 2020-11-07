@@ -711,7 +711,7 @@ new FormModel {
 								"gridColor": #Color11
 							} )
 						}, new FormLayoutConstraints( null ) {
-							"width": 745
+							"width": 355
 							"height": 165
 							"x": 10
 							"y": 30
