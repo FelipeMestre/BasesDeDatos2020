@@ -667,8 +667,8 @@ new FormModel {
 					"value": "personas"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {seq l {space :::p, comp Panel_Diez:::p:382:p, space ::25:x, comp layeredPane13:::p:377:p, space :p:30:p}, seq {par l {seq {space :p:45:p, par l {comp RelacionesTitle::l:p::p, comp RelacionesDescription::l:p:369:p}}, seq l {space :p:20:p, comp layeredPane11:::p:368:p, space u:::p, comp layeredPane12:::p:384:p}}, space ::36:x}}"
-					"$verticalGroup": "par l {seq l {space :p:17:p, comp RelacionesTitle:::p::p, space :::p, par t {seq {comp RelacionesDescription:::p::p, space :p:21:p, comp layeredPane11:::p:203:p}, comp layeredPane12:::p:221:p}, space :::p, par l {comp layeredPane13:::p:185:p, comp Panel_Diez:::p:196:p}, space ::22:x}}"
+					"$horizontalGroup": "par l {seq {space :p:45:p, par l {comp RelacionesTitle::l:p::p, comp RelacionesDescription::l:p:369:p}, space ::406:x}, seq t {space :::p, par t {comp layeredPane11::t::784:x, seq l {comp Panel_Diez:::p:382:p, space ::25:x, comp layeredPane13:::p:377:p}}, space :p:30:p}}"
+					"$verticalGroup": "par l {seq l {space :p:17:p, comp RelacionesTitle:::p::p, space :::p, comp RelacionesDescription:::p::p, space :p:21:p, comp layeredPane11:::p:203:p, space :::p, par l {comp layeredPane13:::p:185:p, comp Panel_Diez:::p:196:p}, space ::22:x}}"
 				} ) {
 					name: "Relaciones"
 					"background": #Color0
@@ -711,7 +711,7 @@ new FormModel {
 								"gridColor": #Color11
 							} )
 						}, new FormLayoutConstraints( null ) {
-							"width": 345
+							"width": 745
 							"height": 165
 							"x": 10
 							"y": 30
@@ -766,49 +766,6 @@ new FormModel {
 							"height": 180
 							"x": 5
 							"y": 5
-						} )
-					} )
-					add( new FormContainer( "javax.swing.JLayeredPane", new FormLayoutManager( class javax.swing.JLayeredPane ) ) {
-						name: "layeredPane12"
-						add( new FormComponent( "javax.swing.JLabel" ) {
-							name: "label13"
-							"text": "Usuarios de Rol"
-							"font": #Font6
-							"foreground": #Color13
-						}, new FormLayoutConstraints( null ) {
-							"x": 45
-							"y": 10
-							"width": 170
-							"height": 30
-						} )
-						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
-							name: "scrollTable6"
-							"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
-							add( new FormComponent( "javax.swing.JTable" ) {
-								name: "Usuarios_de_Rol_Table"
-								"background": #Color10
-								"model": #SwingTableModel0
-								"cellSelectionEnabled": true
-								"fillsViewportHeight": true
-								"gridColor": #Color11
-							} )
-						}, new FormLayoutConstraints( null ) {
-							"width": 345
-							"height": 170
-							"x": 30
-							"y": 45
-						} )
-						add( new FormComponent( "javax.swing.JLabel" ) {
-							name: "add_button_UserToRol"
-							"icon": #SwingIcon1
-							addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "add_button_personasMouseClicked", false ) )
-							addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseEntered", "add_button_personasMouseEntered", false ) )
-							addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseExited", "add_button_personasMouseExited", false ) )
-						}, new FormLayoutConstraints( null ) {
-							"width": 105
-							"height": 35
-							"x": 265
-							"y": 10
 						} )
 					} )
 					add( new FormContainer( "javax.swing.JLayeredPane", new FormLayoutManager( class javax.swing.JLayeredPane ) ) {

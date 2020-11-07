@@ -4,47 +4,88 @@
 
 package ui;
 
+import actions.AddMenuToFunctionalityAction;
+import actions.DeleteRoleAction;
+import actions.EditRoleAction;
+import org.ucu.bd.ButtonColumn;
 import org.ucu.bd.ModelConstructor;
+import org.ucu.bd.TableHeaderRender;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
 
 /**
  * @author unknown
  */
-public class selectMenuForm extends JFrame {
+public class SelectMenuForm extends JFrame {
 
     private ModelConstructor constructor;
     private MainMenu parent;
-    private String funcionality;
     private String[] menusToFunctionality;
+    private int funcionalityID;
 
-    public selectMenuForm(MainMenu parent, ModelConstructor controller) {
+    public SelectMenuForm(MainMenu parent, ModelConstructor controller,int funcionalityID) {
         this.constructor = controller;
         this.parent = parent;
+        this.funcionalityID = funcionalityID;
         initComponents();
+        initMenusTable();
+    }
+
+    private void initMenusTable() {
+        menus_table = new JTable() {
+            public String getToolTipText(MouseEvent e) {
+                String tip = null;
+                java.awt.Point p = e.getPoint();
+                int rowIndex = rowAtPoint(p);
+                int colIndex = columnAtPoint(p);
+                int realColumnIndex = convertColumnIndexToModel(colIndex);
+
+                if (realColumnIndex == 2) { //Sport column
+                    tip = getValueAt(rowIndex, colIndex).toString();
+                }
+                return tip;
+            }
+        };
+        fetchMenus();
+    }
+
+    private void fetchMenus() {
+        menus_table.setModel(new DefaultTableModel(
+                this.constructor.getMenus(),
+                new String[]{"Nombre", "Descripci\u00f3n"," "}));
+        menus_table.setRowHeight(35);
+        menus_table.getColumnModel().getColumn(0).setMaxWidth(70);
+        menus_table.getColumnModel().getColumn(1).setMaxWidth(250);
+        menus_table.getColumnModel().getColumn(2).setMaxWidth(50);
+        menus_table.setShowGrid(false);
+        TableCellRenderer baseRenderer = menus_table.getTableHeader().getDefaultRenderer();
+        menus_table.getTableHeader().setDefaultRenderer(new TableHeaderRender(baseRenderer));
+        scrollMenus.setBorder(new LineBorder(new Color(0, 0, 0, 0)));
+        scrollMenus.setViewportView(menus_table);
+    }
+
+    public void terminar(){
+        this.exitForm();
     }
 
     public String[] getMenusToFunctionality() {
         return menusToFunctionality;
     }
 
-    public void setMenusToFunctionality(String[] menusToFunctionality) {
-        this.menusToFunctionality = menusToFunctionality;
-    }
-
-    public void terminar(){
-        exitForm();
-    }
-
     private void SubmitActionPerformed() {
-
-
+        this.parent.joinFunctionalitiesToMenus(this);
+        exitForm();
     }
 
     private void CancelActionPerformed(ActionEvent e) {
         exitForm();
+        parent.setEnabled(true);
     }
 
     private void exitForm(){
@@ -57,7 +98,7 @@ public class selectMenuForm extends JFrame {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - unknown
         panel1 = new JPanel();
-        scrollPane1 = new JScrollPane();
+        scrollMenus = new JScrollPane();
         menus_table = new JTable();
         panel2 = new JPanel();
         Title = new JLabel();
@@ -73,33 +114,32 @@ public class selectMenuForm extends JFrame {
         //======== panel1 ========
         {
             panel1.setBackground(new Color(244, 244, 244));
-            panel1.setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing.border.
-            EmptyBorder(0,0,0,0), "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn",javax.swing.border.TitledBorder.CENTER,javax.swing
-            .border.TitledBorder.BOTTOM,new java.awt.Font("Dia\u006cog",java.awt.Font.BOLD,12),
-            java.awt.Color.red),panel1. getBorder()));panel1. addPropertyChangeListener(new java.beans.PropertyChangeListener()
-            {@Override public void propertyChange(java.beans.PropertyChangeEvent e){if("\u0062ord\u0065r".equals(e.getPropertyName()))
-            throw new RuntimeException();}});
+            panel1.setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing.
+            border.EmptyBorder(0,0,0,0), "JF\u006frmDes\u0069gner \u0045valua\u0074ion",javax.swing.border.TitledBorder.CENTER
+            ,javax.swing.border.TitledBorder.BOTTOM,new java.awt.Font("D\u0069alog",java.awt.Font
+            .BOLD,12),java.awt.Color.red),panel1. getBorder()));panel1. addPropertyChangeListener(
+            new java.beans.PropertyChangeListener(){@Override public void propertyChange(java.beans.PropertyChangeEvent e){if("\u0062order"
+            .equals(e.getPropertyName()))throw new RuntimeException();}});
 
-            //======== scrollPane1 ========
+            //======== scrollMenus ========
             {
-                scrollPane1.setViewportView(menus_table);
+                scrollMenus.setViewportView(menus_table);
             }
 
             GroupLayout panel1Layout = new GroupLayout(panel1);
             panel1.setLayout(panel1Layout);
             panel1Layout.setHorizontalGroup(
                 panel1Layout.createParallelGroup()
-                    .addGroup(panel1Layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addComponent(scrollPane1, GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE)
-                        .addGap(17, 17, 17))
+                    .addGroup(GroupLayout.Alignment.TRAILING, panel1Layout.createSequentialGroup()
+                        .addContainerGap(30, Short.MAX_VALUE)
+                        .addComponent(scrollMenus, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26))
             );
             panel1Layout.setVerticalGroup(
                 panel1Layout.createParallelGroup()
                     .addGroup(GroupLayout.Alignment.TRAILING, panel1Layout.createSequentialGroup()
-                        .addContainerGap(14, Short.MAX_VALUE)
-                        .addComponent(scrollPane1, GroupLayout.PREFERRED_SIZE, 141, GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
+                        .addGap(0, 20, Short.MAX_VALUE)
+                        .addComponent(scrollMenus, GroupLayout.PREFERRED_SIZE, 141, GroupLayout.PREFERRED_SIZE))
             );
         }
 
@@ -198,7 +238,7 @@ public class selectMenuForm extends JFrame {
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
     // Generated using JFormDesigner Evaluation license - unknown
     private JPanel panel1;
-    private JScrollPane scrollPane1;
+    private JScrollPane scrollMenus;
     private JTable menus_table;
     private JPanel panel2;
     private JLabel Title;

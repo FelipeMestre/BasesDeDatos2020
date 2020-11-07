@@ -11,13 +11,13 @@ new FormModel {
 			"resizable": false
 			"undecorated": true
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-				"$horizontalGroup": "par l {seq {space :p:15:p, comp scrollPane1::::476:x, space :p:17:p}}"
-				"$verticalGroup": "par l {seq t {space ::14:x, comp scrollPane1:::p:141:p, space :::p}}"
+				"$horizontalGroup": "par l {seq t {space ::30:x, comp scrollMenus:::p::p, space :p:26:p}}"
+				"$verticalGroup": "par l {seq t {space :0:20:x, comp scrollMenus:::p:141:p}}"
 			} ) {
 				name: "panel1"
 				"background": new java.awt.Color( 244, 244, 244, 255 )
 				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
-					name: "scrollPane1"
+					name: "scrollMenus"
 					add( new FormComponent( "javax.swing.JTable" ) {
 						name: "menus_table"
 					} )

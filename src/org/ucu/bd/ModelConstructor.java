@@ -133,6 +133,10 @@ public class ModelConstructor {
         return this.getStringArray(db.getAllElements("vista_personas"));
     }
 
+    public String[][] getMenus(){
+        return this.getStringArray(db.getAllElements("vista_menus"));
+    }
+
     public String[][] getFuncionalities(){
         return this.getStringArray(db.getAllElements("vista_funcionalidades"));
     }
