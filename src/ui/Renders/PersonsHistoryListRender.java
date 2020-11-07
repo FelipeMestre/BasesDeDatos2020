@@ -20,8 +20,8 @@ public class PersonsHistoryListRender  extends JPanel implements ListCellRendere
         layout.setHorizontalGroup(
                 layout.createParallelGroup()
                         .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(item_back, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(5)
+                                .addComponent(item_back, 235,235,235)
                                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -84,8 +84,8 @@ public class PersonsHistoryListRender  extends JPanel implements ListCellRendere
                                                 .addComponent(user_name, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(rol_description, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(rol_name, 90, 90, 90)
-                                                .addGap(10)
                                         ))
                                 .addContainerGap())
         );
