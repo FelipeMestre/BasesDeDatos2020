@@ -4,8 +4,8 @@ public class NewUserRequest extends Request {
 
     private String newUserName;
 
-    public NewUserRequest(String requesterName, String newUserName) {
-        super(requesterName);
+    public NewUserRequest(String requestID, String requesterName, String requesterID ,String newUserName) {
+        super(requestID, requesterName, requesterID);
         this.newUserName = newUserName;
     }
 

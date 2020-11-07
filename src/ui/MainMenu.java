@@ -8,13 +8,16 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.*;
 
 import actions.*;
+import model.NewUserRequest;
 import org.ucu.bd.*;
 import ui.Renders.PersonsHistoryListRender;
 import ui.Renders.RolesHistoryListRenderer;
+import ui.Renders.UserAuthorizationListRender;
 import ui.Renders.UserHistoryListRender;
 import ui.creation.CreateFunctionalityForm;
 import ui.creation.CreateRolForm;
 import ui.edit.EditFuncionalityForm;
+import ui.creation.CreateUserForm;
 import ui.edit.EditPersonForm;
 import ui.edit.EditRolForm;
 import ui.edit.EditUserForm;
@@ -151,7 +154,7 @@ public class MainMenu extends JFrame {
         fetchUsers();
     }
 
-    private void updateUserTable(String[][] newData){
+    private void updateUserTable(String[][] newData, NewUserRequest[][] newAuthorizations){
         UserTable.setModel(new DefaultTableModel(
                 newData,
                 new String[] {"ID user","Nombre", "CI", " ", " "})
@@ -178,10 +181,35 @@ public class MainMenu extends JFrame {
 
         user_history.setListData(controller.getUserLog());
         user_history.setCellRenderer(new UserHistoryListRender());
+
+        usersPending.setModel(new DefaultTableModel(
+                newAuthorizations,
+                new String[] {" ", " "}));
+        usersPending.getColumnModel().getColumn(1).setMaxWidth(50);
+        usersPending.setShowGrid(false);
+        TableCellRenderer authorizationBaseRenderer = usersPending.getTableHeader().getDefaultRenderer();
+        usersPending.getTableHeader().setDefaultRenderer(new TableHeaderRender(authorizationBaseRenderer));
+        ButtonColumn approveButton = new ButtonColumn(usersPending,this, "/img/approval_edit.png", new ApproveUserAction(),1);
+        usersPending.getColumnModel().getColumn(1).setCellRenderer(approveButton);
+        usersPending.getColumnModel().getColumn(1).setCellEditor(approveButton);
+        usersPending.getColumnModel().getColumn(0).setCellRenderer(new UserAuthorizationListRender());
+
+        scrollPane1.setBorder(new LineBorder(new Color(0,0,0,0)));
+    }
+
+    public void approveUser(int row){
+        String requestID = ((NewUserRequest)this.usersPending.getValueAt(row,0)).getRequestID();
+        String requesterID = ((NewUserRequest)this.usersPending.getValueAt(row,0)).getRequesterID();
+        if (!this.controller.approveUser(requestID, requesterID)){
+            JOptionPane.showMessageDialog(this, "Tú has solicitado la creación de este menú por lo que no puedes aprobarlo.","Violación de seguridad", 1);
+
+        }
+
+        fetchUsers();
     }
 
     public void fetchUsers(){
-        updateUserTable(this.controller.getUsuarios());
+        updateUserTable(this.controller.getUsuarios(), this.controller.getUsersPendingAuthorizations());
     }
 
     public void editUser(int row){
@@ -257,6 +285,8 @@ public class MainMenu extends JFrame {
 
         people_history.setListData(controller.getPersonLog());
         people_history.setCellRenderer(new PersonsHistoryListRender());
+
+
     }
 
     private void initPersonDashboard(){
@@ -483,9 +513,9 @@ public class MainMenu extends JFrame {
     }
 
     private void add_button_usuariosMouseClicked() {
-        JFrame addRoleFrame = new CreateRolForm(controller, this);
+        JFrame addUserFrame = new CreateUserForm(this, controller);
         this.disable();
-        addRoleFrame.setVisible(true);
+        addUserFrame.setVisible(true);
     }
 
     private void add_button_usuariosMouseExited() {
@@ -494,8 +524,11 @@ public class MainMenu extends JFrame {
 
     private void add_button_Funcionalidades_MouseClicked() {
         JFrame addRoleFrame = new CreateFunctionalityForm(controller,this);
+
+    private void add_button_personasMouseClicked() {
+        JFrame addPersonFrame = new CreatePersonForm(controller, this);
         this.disable();
-        addRoleFrame.setVisible(true);
+        addPersonFrame.setVisible(true);
     }
 
     private void add_button_funcionalidad_MouseEntered() {
@@ -571,6 +604,11 @@ public class MainMenu extends JFrame {
     private JScrollPane scrollHistoryUser;
     private JList user_history;
     private JLabel log_back_role2;
+    private JLayeredPane layeredPane10;
+    private JLabel historial_title4;
+    private JScrollPane scrollPane1;
+    private JTable usersPending;
+    private JLabel autorizacionUsuarioBack;
     private JPanel Personas;
     private JLabel PersonTitle;
     private JLabel PersonDesc;
@@ -690,6 +728,11 @@ public class MainMenu extends JFrame {
         scrollHistoryUser = new JScrollPane();
         user_history = new JList();
         log_back_role2 = new JLabel();
+        layeredPane10 = new JLayeredPane();
+        historial_title4 = new JLabel();
+        scrollPane1 = new JScrollPane();
+        usersPending = new JTable();
+        autorizacionUsuarioBack = new JLabel();
         Personas = new JPanel();
         PersonTitle = new JLabel();
         PersonDesc = new JLabel();
@@ -1211,7 +1254,7 @@ public class MainMenu extends JFrame {
 
                     //---- historial_title3 ----
                     historial_title3.setText("Historial de cambios");
-                    historial_title3.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 18));
+                    historial_title3.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 16));
                     historial_title3.setForeground(new Color(102, 102, 102));
                     layeredPane9.add(historial_title3, JLayeredPane.DEFAULT_LAYER);
                     historial_title3.setBounds(30, 10, 175, 31);
@@ -1228,12 +1271,53 @@ public class MainMenu extends JFrame {
                         scrollHistoryUser.setViewportView(user_history);
                     }
                     layeredPane9.add(scrollHistoryUser, JLayeredPane.DEFAULT_LAYER);
-                    scrollHistoryUser.setBounds(10, 55, 275, 285);
+                    scrollHistoryUser.setBounds(10, 55, 275, 150);
 
                     //---- log_back_role2 ----
                     log_back_role2.setIcon(new ImageIcon(getClass().getResource("/img/Log-back.png")));
                     layeredPane9.add(log_back_role2, JLayeredPane.DEFAULT_LAYER);
-                    log_back_role2.setBounds(0, 0, 295, 350);
+                    log_back_role2.setBounds(0, 0, 295, 206);
+                }
+
+                //======== layeredPane10 ========
+                {
+
+                    //---- historial_title4 ----
+                    historial_title4.setText("Autorizaciones pendientes");
+                    historial_title4.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 16));
+                    historial_title4.setForeground(new Color(102, 102, 102));
+                    layeredPane10.add(historial_title4, JLayeredPane.DEFAULT_LAYER);
+                    historial_title4.setBounds(30, 10, 225, 31);
+
+                    //======== scrollPane1 ========
+                    {
+                        scrollPane1.setBackground(Color.white);
+                        scrollPane1.setBorder(null);
+                        scrollPane1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+                        //---- usersPending ----
+                        usersPending.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                        usersPending.setBackground(Color.white);
+                        usersPending.setRowSelectionAllowed(false);
+                        usersPending.setModel(new DefaultTableModel(
+                            new Object[][] {
+                                {null, null},
+                            },
+                            new String[] {
+                                null, null
+                            }
+                        ));
+                        usersPending.setRowHeight(35);
+                        scrollPane1.setViewportView(usersPending);
+                    }
+                    layeredPane10.add(scrollPane1, JLayeredPane.DEFAULT_LAYER);
+                    scrollPane1.setBounds(10, 45, 275, 115);
+
+                    //---- autorizacionUsuarioBack ----
+                    autorizacionUsuarioBack.setIcon(new ImageIcon(getClass().getResource("/img/autorizaciones-back.png")));
+                    autorizacionUsuarioBack.setBackground(Color.white);
+                    layeredPane10.add(autorizacionUsuarioBack, JLayeredPane.DEFAULT_LAYER);
+                    autorizacionUsuarioBack.setBounds(0, -5, 295, 175);
                 }
 
                 GroupLayout UsuariosLayout = new GroupLayout(Usuarios);
@@ -1243,33 +1327,39 @@ public class MainMenu extends JFrame {
                         .addGroup(UsuariosLayout.createSequentialGroup()
                             .addGroup(UsuariosLayout.createParallelGroup()
                                 .addGroup(UsuariosLayout.createSequentialGroup()
-                                    .addGap(88, 88, 88)
-                                    .addGroup(UsuariosLayout.createParallelGroup()
-                                        .addComponent(UserTitle)
-                                        .addComponent(UserDesc, GroupLayout.PREFERRED_SIZE, 369, GroupLayout.PREFERRED_SIZE)))
-                                .addGroup(UsuariosLayout.createSequentialGroup()
                                     .addGap(77, 77, 77)
                                     .addGroup(UsuariosLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
                                         .addComponent(layeredPane3, GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE)
-                                        .addComponent(layeredPane4, GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE))))
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(layeredPane9, GroupLayout.PREFERRED_SIZE, 295, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(layeredPane4, GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE)))
+                                .addGroup(UsuariosLayout.createSequentialGroup()
+                                    .addGap(88, 88, 88)
+                                    .addGroup(UsuariosLayout.createParallelGroup()
+                                        .addComponent(UserTitle)
+                                        .addComponent(UserDesc, GroupLayout.PREFERRED_SIZE, 304, GroupLayout.PREFERRED_SIZE))))
+                            .addGap(33, 33, 33)
+                            .addGroup(UsuariosLayout.createParallelGroup()
+                                .addComponent(layeredPane9, GroupLayout.PREFERRED_SIZE, 295, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(layeredPane10))
                             .addContainerGap(62, Short.MAX_VALUE))
                 );
                 UsuariosLayout.setVerticalGroup(
                     UsuariosLayout.createParallelGroup()
                         .addGroup(UsuariosLayout.createSequentialGroup()
-                            .addGap(49, 49, 49)
-                            .addComponent(UserTitle)
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(UsuariosLayout.createParallelGroup()
                                 .addGroup(UsuariosLayout.createSequentialGroup()
+                                    .addGap(49, 49, 49)
+                                    .addComponent(UserTitle)
+                                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(UserDesc)
                                     .addGap(18, 18, 18)
                                     .addComponent(layeredPane3, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                                     .addComponent(layeredPane4, GroupLayout.PREFERRED_SIZE, 235, GroupLayout.PREFERRED_SIZE))
-                                .addComponent(layeredPane9, GroupLayout.PREFERRED_SIZE, 368, GroupLayout.PREFERRED_SIZE))
+                                .addGroup(GroupLayout.Alignment.TRAILING, UsuariosLayout.createSequentialGroup()
+                                    .addContainerGap()
+                                    .addComponent(layeredPane10, GroupLayout.PREFERRED_SIZE, 173, GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(layeredPane9, GroupLayout.PREFERRED_SIZE, 206, GroupLayout.PREFERRED_SIZE)))
                             .addContainerGap(48, Short.MAX_VALUE))
                 );
             }

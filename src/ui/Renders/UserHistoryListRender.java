@@ -20,8 +20,8 @@ public class UserHistoryListRender extends JPanel implements ListCellRenderer<Lo
         layout.setHorizontalGroup(
                 layout.createParallelGroup()
                         .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(item_back, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(5)
+                                .addComponent(item_back,235,235,235)
                                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -42,14 +42,16 @@ public class UserHistoryListRender extends JPanel implements ListCellRenderer<Lo
         String description = null;
         switch (eventType) {
             case "ADD":
-                description = "ha creado el usuario";
+                description = "creó el usuario";
                 break;
             case "EDIT":
-                description = "ha editado el usuario";
+                description = "editó el usuario";
                 break;
             case "DELETE":
-                description = "ha eliminado el usuario";
+                description = "eliminó el usuario";
                 break;
+            case "APPROVE":
+                description = "aprobó el usuario";
             default:
                 break;
         }
@@ -84,8 +86,8 @@ public class UserHistoryListRender extends JPanel implements ListCellRenderer<Lo
                                                 .addComponent(user_name, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(user_descripcion, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(actioned_username, 90, 90, 90)
-                                                .addGap(20)
                                         ))
                                 .addContainerGap())
         );

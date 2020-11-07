@@ -2,3 +2,4 @@ out
 lib
 .idea/inspectionProfiles/Project_Default.xml
 lib/config.txt
+*.txt
