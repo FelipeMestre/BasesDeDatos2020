@@ -10,18 +10,9 @@ import javax.swing.table.*;
 import actions.*;
 import model.NewUserRequest;
 import org.ucu.bd.*;
-import ui.Renders.PersonsHistoryListRender;
-import ui.Renders.RolesHistoryListRenderer;
-import ui.Renders.UserAuthorizationListRender;
-import ui.Renders.UserHistoryListRender;
-import ui.creation.CreateFunctionalityForm;
-import ui.creation.CreatePersonForm;
-import ui.creation.CreateRolForm;
-import ui.edit.EditFuncionalityForm;
-import ui.creation.CreateUserForm;
-import ui.edit.EditPersonForm;
-import ui.edit.EditRolForm;
-import ui.edit.EditUserForm;
+import ui.Renders.*;
+import ui.creation.*;
+import ui.edit.*;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -131,6 +122,72 @@ public class MainMenu extends JFrame {
         String id_edit = String.valueOf(RolesTable.getValueAt(row, 0));
         controller.deleteModel(id_edit, "rol", true);
         fetchRoles();
+    }
+
+    private void initMenuTable() {
+        Menus_Table = new JTable() {
+            public String getToolTipText(MouseEvent e) {
+                String tip = null;
+                java.awt.Point p = e.getPoint();
+                int rowIndex = rowAtPoint(p);
+                int colIndex = columnAtPoint(p);
+                int realColumnIndex = convertColumnIndexToModel(colIndex);
+
+                if (realColumnIndex == 2) { //Sport column
+                    tip = getValueAt(rowIndex, colIndex).toString();
+                }
+                return tip;
+            }
+        };
+        this.fetchMenus();
+    }
+
+    public void fetchMenus() {
+        updateMenuTable(this.controller.getMenus());
+    }
+
+    private void updateMenuTable(String[][] newData) {
+        Menus_Table.setModel(new DefaultTableModel(
+                newData,
+                new String[]{"ID Menu", "Nombre", "Descripci\u00f3n", " ", " "}) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column == 3 || column == 4;
+            }
+        });
+        ButtonColumn editButton = new ButtonColumn(Menus_Table, this, "/img/edit_button.png", new EditMenuAction(), 3);
+        ButtonColumn deleteButton = new ButtonColumn(Menus_Table, this, "/img/delete_button.png", new DeleteMenuAction(), 3);
+        Menus_Table.setRowHeight(35);
+        Menus_Table.getColumnModel().getColumn(3).setCellRenderer(editButton);
+        Menus_Table.getColumnModel().getColumn(3).setCellEditor(editButton);
+        Menus_Table.getColumnModel().getColumn(4).setCellEditor(deleteButton);
+        Menus_Table.getColumnModel().getColumn(4).setCellRenderer(deleteButton);
+        Menus_Table.getColumnModel().getColumn(0).setMaxWidth(50);
+        Menus_Table.getColumnModel().getColumn(3).setMaxWidth(32);
+        Menus_Table.getColumnModel().getColumn(4).setMaxWidth(32);
+        Menus_Table.setShowGrid(false);
+        TableCellRenderer baseRenderer = Menus_Table.getTableHeader().getDefaultRenderer();
+        Menus_Table.getTableHeader().setDefaultRenderer(new TableHeaderRender(baseRenderer));
+        scrollMenuTable.setBorder(new LineBorder(new Color(0, 0, 0, 0)));
+        scrollMenuTable.setViewportView(Menus_Table);
+
+        relations_history.setListData(controller.getMenuLog());
+        relations_history.setCellRenderer(new MenusHistoryListRenderer());
+    }
+
+    public void deleteMenu(int row) {
+        String id_edit = String.valueOf(Menus_Table.getValueAt(row, 0));
+        controller.deleteModel(id_edit, "menu", true);
+        this.fetchMenus();
+    }
+
+    public void editMenu(int row) {
+        String id_edit = String.valueOf(Menus_Table.getValueAt(row, 0));
+        String menu_name = String.valueOf(Menus_Table.getValueAt(row, 1));
+        String menu_desc = String.valueOf(Menus_Table.getValueAt(row, 2));
+        this.disable();
+        EditMenuForm edit_screen = new EditMenuForm(this, controller, id_edit, menu_name, menu_desc);
+        edit_screen.setVisible(true);
     }
 
     //Metodos de usuario
@@ -496,6 +553,7 @@ public class MainMenu extends JFrame {
         options[3].select();
         changeCard("relaciones");
         initFuncionalityTable();
+        initMenuTable();
         selected_option_button = Relaciones_Button;
     }
 
@@ -566,6 +624,12 @@ public class MainMenu extends JFrame {
 
     private void Permisos_ButtonMouseExited(MouseEvent e) {
         updateOptionState(Permisos_Button, false);
+    }
+
+    private void add_button_MenuMouseClicked(MouseEvent e) {
+        JFrame addPersonFrame = new CreateMenuForm(controller, this);
+        this.disable();
+        addPersonFrame.setVisible(true);
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
@@ -664,7 +728,7 @@ public class MainMenu extends JFrame {
     private JLabel add_button_UserToRol;
     private JLayeredPane Panel_Diez;
     private JLabel label11;
-    private JScrollPane scrollTable4;
+    private JScrollPane scrollMenuTable;
     private JTable Menus_Table;
     private JLabel add_button_Menu;
     private JPanel Permisos;
@@ -795,7 +859,7 @@ public class MainMenu extends JFrame {
         add_button_UserToRol = new JLabel();
         Panel_Diez = new JLayeredPane();
         label11 = new JLabel();
-        scrollTable4 = new JScrollPane();
+        scrollMenuTable = new JScrollPane();
         Menus_Table = new JTable();
         add_button_Menu = new JLabel();
         Permisos = new JPanel();
@@ -836,12 +900,13 @@ public class MainMenu extends JFrame {
         //======== Header ========
         {
             Header.setBackground(Color.white);
-            Header.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing. border.
-            EmptyBorder( 0, 0, 0, 0) , "JF\u006frmDesi\u0067ner Ev\u0061luatio\u006e", javax. swing. border. TitledBorder. CENTER, javax. swing
-            . border. TitledBorder. BOTTOM, new java .awt .Font ("Dialo\u0067" ,java .awt .Font .BOLD ,12 ),
-            java. awt. Color. red) ,Header. getBorder( )) ); Header. addPropertyChangeListener (new java. beans. PropertyChangeListener( )
-            { @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("borde\u0072" .equals (e .getPropertyName () ))
-            throw new RuntimeException( ); }} );
+            Header.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new
+            javax. swing. border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmDes\u0069gner \u0045valua\u0074ion", javax
+            . swing. border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM, new java
+            .awt .Font ("D\u0069alog" ,java .awt .Font .BOLD ,12 ), java. awt
+            . Color. red) ,Header. getBorder( )) ); Header. addPropertyChangeListener (new java. beans.
+            PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("\u0062order" .
+            equals (e .getPropertyName () )) throw new RuntimeException( ); }} );
 
             //---- exit ----
             exit.setIcon(new ImageIcon(getClass().getResource("/img/logout-edit.png")));
@@ -1752,9 +1817,9 @@ public class MainMenu extends JFrame {
                     Panel_Diez.add(label11, JLayeredPane.DEFAULT_LAYER);
                     label11.setBounds(20, 5, 170, 30);
 
-                    //======== scrollTable4 ========
+                    //======== scrollMenuTable ========
                     {
-                        scrollTable4.setBorder(null);
+                        scrollMenuTable.setBorder(null);
 
                         //---- Menus_Table ----
                         Menus_Table.setBackground(Color.white);
@@ -1778,17 +1843,17 @@ public class MainMenu extends JFrame {
                         Menus_Table.setCellSelectionEnabled(true);
                         Menus_Table.setFillsViewportHeight(true);
                         Menus_Table.setGridColor(Color.white);
-                        scrollTable4.setViewportView(Menus_Table);
+                        scrollMenuTable.setViewportView(Menus_Table);
                     }
-                    Panel_Diez.add(scrollTable4, JLayeredPane.DEFAULT_LAYER);
-                    scrollTable4.setBounds(15, 35, 345, 140);
+                    Panel_Diez.add(scrollMenuTable, JLayeredPane.DEFAULT_LAYER);
+                    scrollMenuTable.setBounds(15, 35, 345, 140);
 
                     //---- add_button_Menu ----
                     add_button_Menu.setIcon(new ImageIcon(getClass().getResource("/img/add_button.png")));
                     add_button_Menu.addMouseListener(new MouseAdapter() {
                         @Override
                         public void mouseClicked(MouseEvent e) {
-                            add_button_personasMouseClicked();
+                            add_button_MenuMouseClicked(e);
                         }
                         @Override
                         public void mouseEntered(MouseEvent e) {

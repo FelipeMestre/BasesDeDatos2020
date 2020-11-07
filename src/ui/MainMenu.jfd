@@ -825,7 +825,7 @@ new FormModel {
 							"height": 30
 						} )
 						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
-							name: "scrollTable4"
+							name: "scrollMenuTable"
 							"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
 							add( new FormComponent( "javax.swing.JTable" ) {
 								name: "Menus_Table"
@@ -844,9 +844,9 @@ new FormModel {
 						add( new FormComponent( "javax.swing.JLabel" ) {
 							name: "add_button_Menu"
 							"icon": #SwingIcon1
-							addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "add_button_personasMouseClicked", false ) )
 							addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseEntered", "add_button_personasMouseEntered", false ) )
 							addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseExited", "add_button_personasMouseExited", false ) )
+							addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "add_button_MenuMouseClicked", true ) )
 						}, new FormLayoutConstraints( null ) {
 							"width": 105
 							"height": 35

@@ -51,6 +51,10 @@ public class ModelConstructor {
         db.updateModel(role_id, newName, newDesc,"Rol");
     }
 
+    public void updateMenu(String menu_id, String newName, String newDesc){
+        db.updateModel(menu_id, newName, newDesc,"Menu");
+    }
+
     public void updatePerson(String id, String newName, String newAdres,String newPhone){
         db.updatePerson(id, newName, newAdres,newPhone);
     }
@@ -102,6 +106,10 @@ public class ModelConstructor {
 
     public String[][] getRoles() {
         return this.getStringArray(db.getAllElements("vista_roles_activos"));
+    }
+
+    public String[][] getMenus() {
+        return this.getStringArray(db.getAllElements("vista_menu_activos"));
     }
 
     public String[][] getUsuarios() {
@@ -179,6 +187,28 @@ public class ModelConstructor {
         }
         return result;
     }
+
+    public Log_Menu[] getMenuLog() {
+        ResultSet rs = retrieveLog("vista_cambios_menus");
+        Log_Menu[] result = new Log_Menu[0];
+        try {
+            rs.last();
+            int size = rs.getRow();
+            if (size > 0) {
+                result = new Log_Menu[size];
+                rs.first();
+                int rowNumber = 0;
+                do {
+                    result[rowNumber] = new Log_Menu(rs.getString(1), rs.getString(2), rs.getString(4), rs.getString(3), rs.getString(5));
+                    rowNumber++;
+                } while (rs.next());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     public Log_User[] getUserLog(){
         ResultSet rs = retrieveLog("vista_cambios_usuarios");
         Log_User[] result = new Log_User[0];
