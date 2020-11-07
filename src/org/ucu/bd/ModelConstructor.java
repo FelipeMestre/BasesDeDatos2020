@@ -112,6 +112,10 @@ public class ModelConstructor {
         return this.getStringArray(db.getAllElements("vista_menu_activos"));
     }
 
+    public String[][] getFuncionalidadMenu(){
+            return this.getStringArray(db.getAllElements("vista_funcionalidad_menu"));
+    }
+
     public String[][] getUsuarios() {
         return this.getStringArray(db.getAllElements("vista_usuarios_con_autorizacion"));
     }
@@ -143,7 +147,7 @@ public class ModelConstructor {
 
 
     public String[][] getFuncionalities(){
-        return this.getStringArray(db.getAllElements("vista_funcionalidades"));
+        return this.getStringArray(db.getAllElements("vista_funcionalidades_activos"));
     }
 
     //Logs

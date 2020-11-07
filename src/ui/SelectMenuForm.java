@@ -27,9 +27,9 @@ public class SelectMenuForm extends JFrame {
     private ModelConstructor constructor;
     private MainMenu parent;
     private String[] menusToFunctionality;
-    private int funcionalityID;
+    private String funcionalityID;
 
-    public SelectMenuForm(MainMenu parent, ModelConstructor controller,int funcionalityID) {
+    public SelectMenuForm(MainMenu parent, ModelConstructor controller,String funcionalityID) {
         this.constructor = controller;
         this.parent = parent;
         this.funcionalityID = funcionalityID;
@@ -46,23 +46,57 @@ public class SelectMenuForm extends JFrame {
                 int colIndex = columnAtPoint(p);
                 int realColumnIndex = convertColumnIndexToModel(colIndex);
 
-                if (realColumnIndex == 2) { //Sport column
+                if (realColumnIndex == 1) {
                     tip = getValueAt(rowIndex, colIndex).toString();
                 }
                 return tip;
+            }
+            @Override
+            public Class getColumnClass(int column) {
+                switch (column) {
+                    case 0:
+                        return String.class;
+                    case 1:
+                        return String.class;
+                    case 2:
+                        return Boolean.class;
+                    case 3:
+                        return String.class;
+                    default:
+                        return Boolean.class;
+                }
             }
         };
         fetchMenus();
     }
 
+    private Object[][] generateMatchTable(String[][] menus_funcionalidades,String[][] menus, String id_funcionalidad){
+        Object[][] match = new  Object[menus_funcionalidades.length][menus_funcionalidades[0].length];
+        for (int i = 0; i < menus_funcionalidades.length; i++) {
+            if (match[i][2] != null){
+                match[i][2] = menus_funcionalidades[i][2].equals(id_funcionalidad);
+            } else {
+                match[i][2] = false;
+            }
+            for (int j = 0; j < menus_funcionalidades[0].length; j++) {
+                if(j != 2){
+                    match[i][j] = menus_funcionalidades[i][j];
+                }
+            }
+        }
+        return match;
+    }
+
     private void fetchMenus() {
+        String[][] menus = this.constructor.getMenus();
+        String [][] funcionality_menus = this.constructor.getFuncionalidadMenu();
         menus_table.setModel(new DefaultTableModel(
-                this.constructor.getMenus(),
-                new String[]{"Nombre", "Descripci\u00f3n"," "}));
+                this.generateMatchTable(funcionality_menus,menus,this.funcionalityID),
+                new String[]{"Nombre", "Descripci\u00f3n","Seleccionar"}));
         menus_table.setRowHeight(35);
-        menus_table.getColumnModel().getColumn(0).setMaxWidth(70);
+        menus_table.getColumnModel().getColumn(0).setMaxWidth(150);
         menus_table.getColumnModel().getColumn(1).setMaxWidth(250);
-        menus_table.getColumnModel().getColumn(2).setMaxWidth(50);
+        menus_table.getColumnModel().getColumn(2).setMaxWidth(70);
         menus_table.setShowGrid(false);
         TableCellRenderer baseRenderer = menus_table.getTableHeader().getDefaultRenderer();
         menus_table.getTableHeader().setDefaultRenderer(new TableHeaderRender(baseRenderer));
@@ -79,7 +113,8 @@ public class SelectMenuForm extends JFrame {
     }
 
     private void SubmitActionPerformed() {
-        this.parent.joinFunctionalitiesToMenus(this);
+
+
         exitForm();
     }
 

@@ -266,10 +266,6 @@ public class Database {
         return false;
     }
 
-    /*public ResultSet getMenusWithFuncionalities(){
-
-    }*/
-
     //Generic table treatment
     public ResultSet search(String tableName, String column, String value) {
         try {
