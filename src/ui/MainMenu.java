@@ -7,17 +7,16 @@ package ui;
 import javax.swing.border.LineBorder;
 import javax.swing.table.*;
 
-import actions.DeletePersonAction;
-import actions.DeleteRoleAction;
-import actions.EditPersonAction;
-import actions.EditRoleAction;
+import actions.*;
 import org.ucu.bd.*;
 import ui.Renders.PersonsHistoryListRender;
 import ui.Renders.RolesHistoryListRenderer;
+import ui.Renders.UserHistoryListRender;
 import ui.creation.CreatePersonForm;
 import ui.creation.CreateRolForm;
 import ui.edit.EditPersonForm;
 import ui.edit.EditRolForm;
+import ui.edit.EditUserForm;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -130,7 +129,6 @@ public class MainMenu extends JFrame {
     }
 
     private void initUserTable() {
-        String[][] user_info = this.controller.getUsuarios();
         UserTable = new JTable(){
             public String getToolTipText(MouseEvent e) {
                 String tip = null;
@@ -145,26 +143,63 @@ public class MainMenu extends JFrame {
                 return tip;
             }
         };
+        fetchUsers();
+    }
+
+    private void updateUserTable(String[][] newData){
         UserTable.setModel(new DefaultTableModel(
-                user_info,
+                newData,
                 new String[] {"ID user","Nombre", "CI", " ", " "})
         {   @Override
         public boolean isCellEditable(int row, int column) {
-            return false;
-        }
-        });
+            return column == 3 || column == 4;
+        }});
+        ButtonColumn editButton = new ButtonColumn(UserTable,this, "/img/edit_button.png", new EditUserAction(),3);
+        ButtonColumn deleteButton = new ButtonColumn(UserTable,this, "/img/delete_button.png", new DeleteUserAction(),3);
+        UserTable.setRowHeight(35);
+        UserTable.getColumnModel().getColumn(3).setCellRenderer(editButton);
+        UserTable.getColumnModel().getColumn(3).setCellEditor(editButton);
+        UserTable.getColumnModel().getColumn(4).setCellEditor(deleteButton);
+        UserTable.getColumnModel().getColumn(4).setCellRenderer(deleteButton);
+        UserTable.getColumnModel().getColumn(0).setMaxWidth(50);
+        UserTable.getColumnModel().getColumn(3).setMaxWidth(32);
+        UserTable.getColumnModel().getColumn(4).setMaxWidth(32);
+        UserTable.setShowGrid(false);
+        TableCellRenderer baseRenderer = UserTable.getTableHeader().getDefaultRenderer();
+        UserTable.getTableHeader().setDefaultRenderer(new TableHeaderRender(baseRenderer));
+        UserTable.setBorder(new LineBorder(new Color(0,0,0,0)));
+        scrollTable2.setViewportView(UserTable);
+        scrollTable2.setBorder(new LineBorder(new Color(0,0,0,0)));
 
-        PersonTable.setRowHeight(35);
-        PersonTable.getColumnModel().getColumn(0).setMaxWidth(50);
-        PersonTable.getColumnModel().getColumn(3).setMaxWidth(32);
-        PersonTable.getColumnModel().getColumn(4).setMaxWidth(32);
-        PersonTable.setShowGrid(false);
-        TableCellRenderer baseRenderer = PersonTable.getTableHeader().getDefaultRenderer();
-        PersonTable.getTableHeader().setDefaultRenderer(new TableHeaderRender(baseRenderer));
-        PersonTable.setCellSelectionEnabled(false);
-        scrollTable3.setBorder(new LineBorder(new Color(0,0,0,0)));
-        scrollTable3.setViewportView(PersonTable);
-        fetchPersons();
+        user_history.setListData(controller.getUserLog());
+        user_history.setCellRenderer(new UserHistoryListRender());
+    }
+
+    public void fetchUsers(){
+        updateUserTable(this.controller.getUsuarios());
+    }
+
+    public void editUser(int row){
+        String userId = String.valueOf(UserTable.getValueAt(row, 0));
+        String userName = String.valueOf(UserTable.getValueAt(row, 1));
+        boolean blocked = false;
+        switch (String.valueOf(UserTable.getValueAt(row,3))){
+            case "f":
+                break;
+            case "v":
+                blocked = true;
+                break;
+        }
+
+        this.disable();
+        EditUserForm edit_screen = new EditUserForm(this,controller,userName,blocked,userId);
+        edit_screen.setVisible(true);
+    }
+
+    public void deleteUser(int row){
+        String id_edit = String.valueOf(UserTable.getValueAt(row, 0));
+        controller.deleteModel(id_edit,"usuario");
+        fetchUsers();
     }
 
     public void fetchPersons(){
