@@ -59,9 +59,9 @@ public class SelectMenuForm extends JFrame {
                     case 1:
                         return String.class;
                     case 2:
-                        return Boolean.class;
-                    case 3:
                         return String.class;
+                    case 3:
+                        return Boolean.class;
                     default:
                         return Boolean.class;
                 }
@@ -70,33 +70,16 @@ public class SelectMenuForm extends JFrame {
         fetchMenus();
     }
 
-    private Object[][] generateMatchTable(String[][] menus_funcionalidades,String[][] menus, String id_funcionalidad){
-        Object[][] match = new  Object[menus_funcionalidades.length][menus_funcionalidades[0].length];
-        for (int i = 0; i < menus_funcionalidades.length; i++) {
-            if (match[i][2] != null){
-                match[i][2] = menus_funcionalidades[i][2].equals(id_funcionalidad);
-            } else {
-                match[i][2] = false;
-            }
-            for (int j = 0; j < menus_funcionalidades[0].length; j++) {
-                if(j != 2){
-                    match[i][j] = menus_funcionalidades[i][j];
-                }
-            }
-        }
-        return match;
-    }
-
     private void fetchMenus() {
-        String[][] menus = this.constructor.getMenus();
-        String [][] funcionality_menus = this.constructor.getFuncionalidadMenu();
+        Object[][] menus = this.constructor.getMenusForFuncionality(this.funcionalityID);
         menus_table.setModel(new DefaultTableModel(
-                this.generateMatchTable(funcionality_menus,menus,this.funcionalityID),
-                new String[]{"Nombre", "Descripci\u00f3n","Seleccionar"}));
+                menus,
+                new String[]{"Nombre", "Descripci\u00f3n","ID"," "}));
         menus_table.setRowHeight(35);
         menus_table.getColumnModel().getColumn(0).setMaxWidth(150);
         menus_table.getColumnModel().getColumn(1).setMaxWidth(250);
-        menus_table.getColumnModel().getColumn(2).setMaxWidth(70);
+        menus_table.getColumnModel().getColumn(2).setMaxWidth(20);
+        menus_table.getColumnModel().getColumn(3).setMaxWidth(20);
         menus_table.setShowGrid(false);
         TableCellRenderer baseRenderer = menus_table.getTableHeader().getDefaultRenderer();
         menus_table.getTableHeader().setDefaultRenderer(new TableHeaderRender(baseRenderer));
@@ -113,8 +96,7 @@ public class SelectMenuForm extends JFrame {
     }
 
     private void SubmitActionPerformed() {
-
-
+        
         exitForm();
     }
 

@@ -9,7 +9,6 @@ import javax.swing.table.*;
 
 import actions.*;
 import model.NewUserRequest;
-import model.Role;
 import org.ucu.bd.*;
 import ui.Renders.*;
 import ui.creation.*;
@@ -380,6 +379,9 @@ public class MainMenu extends JFrame {
     //Metodos de funcionalidades
     private void initFuncionalityTable() {
         FuncionalidadesTable = new JTable() {
+            /*   public TableCellRenderer getCellRenderer( int row, int column ) {
+                   return new TableButtonRender();
+               }*/
             public String getToolTipText(MouseEvent e) {
                 String tip = null;
                 java.awt.Point p = e.getPoint();
@@ -428,8 +430,8 @@ public class MainMenu extends JFrame {
         scrollTable5.setBorder(new LineBorder(new Color(0, 0, 0, 0)));
         scrollTable5.setViewportView(FuncionalidadesTable);
 
-        //relations_group.setListData(controller.getRelationsLog());
-        //relations_group.setCellRenderer(new PersonsHistoryListRender());
+        relations_history2.setListData(controller.getFunctionalityLog());
+        relations_history2.setCellRenderer(new FunctionalityHistoryListRender());
     }
 
     public void fetchFuncionalities() {
@@ -455,55 +457,9 @@ public class MainMenu extends JFrame {
     public void addMenuToFunctionality(int row) {
         String id_functionality = String.valueOf(FuncionalidadesTable.getValueAt(row, 2));
         this.disable();
-        SelectMenuForm menuSelection = new SelectMenuForm(this,controller,Integer.valueOf(id_functionality));
+        SelectMenuForm menuSelection = new SelectMenuForm(this,controller,id_functionality);
         menuSelection.setVisible(true);
         }
-
-    public void joinFunctionalitiesToMenus(SelectMenuForm menuSelection){
-        String[] menus = menuSelection.getMenusToFunctionality();
-        if (menus != null){
-            menuSelection.terminar();
-        }
-        System.out.println("hola");
-        //controller.addMenuToFunctionality(id_functionality,menus);
-    }
-
-    private void initializeUserRolesMenu(){
-        fetchUserRoles();
-    }
-
-    public void fetchUserRoles(){
-        updateUserRolesTable(this.controller.getRolesForUsers());
-    }
-
-    private void updateUserRolesTable(Role[][] newData){
-        UserRolesTable.setModel(new DefaultTableModel(
-                newData,
-                new String[]{"Rol", " "}) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return column == 1;
-            }
-        });
-        ButtonColumn addUserButton = new ButtonColumn(UserRolesTable, this, "/img/edit_button.png", new AddUsersToRoleAction(), 1);
-        UserRolesTable.setRowHeight(35);
-        UserRolesTable.getColumnModel().getColumn(1).setCellRenderer(addUserButton);
-        UserRolesTable.getColumnModel().getColumn(1).setCellEditor(addUserButton);
-        UserRolesTable.getColumnModel().getColumn(1).setMaxWidth(50);
-        UserRolesTable.setShowGrid(false);
-        TableCellRenderer baseRenderer = UserRolesTable.getTableHeader().getDefaultRenderer();
-        UserRolesTable.getTableHeader().setDefaultRenderer(new TableHeaderRender(baseRenderer));
-        UserRolesTable.setBorder(new LineBorder(new Color(0, 0, 0, 0)));
-        scrollTable7.setBorder(new LineBorder(new Color(0, 0, 0, 0)));
-        scrollTable7.setViewportView(UserRolesTable);
-    }
-
-    public void addUsersToRole(int row){
-        Role selectedRole = (Role)this.UserRolesTable.getValueAt(row, 0);
-        AddUsersToRole addusersScreen = new AddUsersToRole(this, this.controller, selectedRole);
-        this.disable();
-        addusersScreen.setVisible(true);
-    }
 
     private void exitMouseClicked(MouseEvent e) {
         this.dispose();
@@ -666,7 +622,6 @@ public class MainMenu extends JFrame {
         resetOptions();
         options[4].select();
         changeCard("permisos");
-        initializeUserRolesMenu();
         selected_option_button = Permisos_Button;
     }
 
@@ -958,12 +913,14 @@ public class MainMenu extends JFrame {
         //======== Header ========
         {
             Header.setBackground(Color.white);
-            Header.setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing.border
-            .EmptyBorder(0,0,0,0), "JFor\u006dDesi\u0067ner \u0045valu\u0061tion",javax.swing.border.TitledBorder.CENTER,javax
-            .swing.border.TitledBorder.BOTTOM,new java.awt.Font("Dia\u006cog",java.awt.Font.BOLD,
-            12),java.awt.Color.red),Header. getBorder()));Header. addPropertyChangeListener(new java.beans
-            .PropertyChangeListener(){@Override public void propertyChange(java.beans.PropertyChangeEvent e){if("bord\u0065r".equals(e.
-            getPropertyName()))throw new RuntimeException();}});
+            Header.setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder (
+            new javax . swing. border .EmptyBorder ( 0, 0 ,0 , 0) ,  "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn"
+            , javax. swing .border . TitledBorder. CENTER ,javax . swing. border .TitledBorder . BOTTOM
+            , new java. awt .Font ( "Dia\u006cog", java .awt . Font. BOLD ,12 )
+            ,java . awt. Color .red ) ,Header. getBorder () ) ); Header. addPropertyChangeListener(
+            new java. beans .PropertyChangeListener ( ){ @Override public void propertyChange (java . beans. PropertyChangeEvent e
+            ) { if( "\u0062ord\u0065r" .equals ( e. getPropertyName () ) )throw new RuntimeException( )
+            ;} } );
 
             //---- exit ----
             exit.setIcon(new ImageIcon(getClass().getResource("/img/logout-edit.png")));

@@ -427,6 +427,23 @@ public class Database {
         return null;
     }
 
+    public ResultSet getMenusForFuncionality(String funcionalityId){
+        if(isConnected()) {
+            try {
+                stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
+                String sql = "SELECT nombre_menu, descripcion, id_menu, CAST(CASE WHEN (EXISTS (SELECT id_funcionalidad" +
+                        " from funcionalidad_menu " +
+                        "where id_funcionalidad = \'"+ funcionalityId +"\' AND funcionalidad_menu.id_menu = menu.id_menu)) " +
+                        "THEN true ELSE false END AS BOOL) AS Seleccionado FROM menu";
+                return stmt.executeQuery(sql);
+            }
+            catch (SQLException ex) {
+                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return null;
+    }
+
     //Existance
     public boolean existsPerson(String ci){
         ResultSet person = search("persona","cedula",ci);
