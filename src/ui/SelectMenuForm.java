@@ -4,10 +4,7 @@
 
 package ui;
 
-import actions.AddMenuToFunctionalityAction;
-import actions.DeleteRoleAction;
-import actions.EditRoleAction;
-import org.ucu.bd.ButtonColumn;
+import model.CurrentUser;
 import org.ucu.bd.ModelConstructor;
 import org.ucu.bd.TableHeaderRender;
 
@@ -18,6 +15,7 @@ import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
+import java.util.LinkedList;
 
 /**
  * @author unknown
@@ -26,7 +24,7 @@ public class SelectMenuForm extends JFrame {
 
     private ModelConstructor constructor;
     private MainMenu parent;
-    private String[] menusToFunctionality;
+    private LinkedList<String> addedMenus;
     private String funcionalityID;
 
     public SelectMenuForm(MainMenu parent, ModelConstructor controller,String funcionalityID) {
@@ -71,7 +69,13 @@ public class SelectMenuForm extends JFrame {
     }
 
     private void fetchMenus() {
+        this.addedMenus = new LinkedList<String>();
         Object[][] menus = this.constructor.getMenusForFuncionality(this.funcionalityID);
+        for (int i = 0; i < menus.length - 1; i++){
+            if ((boolean)menus[i][3]){
+                addedMenus.add(String.valueOf(menus[i][2]));
+            }
+        }
         menus_table.setModel(new DefaultTableModel(
                 menus,
                 new String[]{"Nombre", "Descripci\u00f3n","ID"," "}));
@@ -91,12 +95,19 @@ public class SelectMenuForm extends JFrame {
         this.exitForm();
     }
 
-    public String[] getMenusToFunctionality() {
-        return menusToFunctionality;
-    }
 
     private void SubmitActionPerformed() {
-        
+        String currentUserID = String.valueOf(CurrentUser.getCurrentUser().get_userId());
+        for (int row = 0; row < menus_table.getRowCount(); row++){
+            String id_menu = (String)menus_table.getValueAt(row, 2);
+            boolean checked = (boolean)menus_table.getValueAt(row, 3);
+            if (!addedMenus.contains(id_menu) && checked){
+                this.constructor.addRelation(this.funcionalityID,"funcionalidad",id_menu,"menu",currentUserID);
+            }
+            if(addedMenus.contains(id_menu) && !checked){
+                this.constructor.removeRelation(this.funcionalityID,"funcionalidad",id_menu,"menu",currentUserID);
+            }
+        }
         exitForm();
     }
 

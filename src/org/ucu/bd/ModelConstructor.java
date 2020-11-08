@@ -1,6 +1,5 @@
 package org.ucu.bd;
 
-import Utils.PasswordManager;
 import model.*;
 
 import javax.swing.*;
@@ -33,8 +32,8 @@ public class ModelConstructor {
         return db.createAddRoleToUserRequest(id_role, id_user, id_creator);
     }
 
-    public void removeRoleFromUser(String id_role, String id_user, String id_creator){
-        db.removeRoleFromUser(id_role, id_user, id_creator);
+    public void removeRelation(String id_Quitado, String tablename, String id_alQueQuitan,String secondTablename,String id_creator){
+        db.removeRelation(id_Quitado,tablename, id_alQueQuitan, secondTablename,id_creator);
     }
 
     public boolean createModel(String name, String description, String tablename, Component father){
@@ -52,6 +51,10 @@ public class ModelConstructor {
             }
             return false;
         }
+    }
+
+    public void addRelation(String id_Quitado, String tablename, String id_alQueQuitan,String secondTablename,String id_creator){
+        db.addRelation(id_Quitado, tablename,id_alQueQuitan,secondTablename,id_creator);
     }
 
     //Updates

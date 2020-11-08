@@ -27,7 +27,7 @@ public class AddUsersToRole extends JFrame {
     private MainMenu parent;
     private Role role;
     private LinkedList<String> addedUsers;
-  
+
     public AddUsersToRole(MainMenu parent, ModelConstructor controller, Role role) {
         this.constructor = controller;
         this.parent = parent;
@@ -70,7 +70,6 @@ public class AddUsersToRole extends JFrame {
     private void CancelActionPerformed(ActionEvent e) {
         exitForm();
     }
-
     private void SubmitActionPerformed() {
         // Obtener seleccion
         String currentUserID = String.valueOf(CurrentUser.getCurrentUser().get_userId());
@@ -79,16 +78,16 @@ public class AddUsersToRole extends JFrame {
             boolean checked = (boolean)UsersRoleTable.getValueAt(row, 2);
             if (!addedUsers.contains(id_user) && checked && !currentUserID.equals(id_user)){
                 if(!this.constructor.createAddRoleToUserRequest(role.getId_role(),id_user, currentUserID)){
-                    JOptionPane.showMessageDialog(this, "Ya se ha solicitado agregar esta relación.", "Esperar aprobación",1);
+                    JOptionPane.showMessageDialog(this, "Ya se ha solicitado agregar esta relación.",
+                            "Esperar aprobación",1);
                 }
             }
             if(addedUsers.contains(id_user) && !checked){
-                this.constructor.removeRoleFromUser(role.getId_role(), id_user, currentUserID);
+                this.constructor.removeRelation("usuario",id_user,role.getId_role(),"rol",currentUserID);
             }
         }
         exitForm();
     }
-
     private void exitForm(){
         parent.enable();
         parent.requestFocus();

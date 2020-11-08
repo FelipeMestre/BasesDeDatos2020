@@ -215,14 +215,14 @@ public class Database {
         return result;
     }
 
-    public void removeRoleFromUser(String id_role, String id_user, String id_creator){
+    public void addRelation(String id_Quitado, String tablename, String id_alQueQuitan,String secondTablename,String id_creator){
         if(isConnected()) {
             try {
-                System.out.println(id_role + ", " + id_user);
-                    stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
-                    String sql = "UPDATE usuario_rol SET activado = false WHERE id_rol = \'" + id_role + "\' AND id_usuario = \'" + id_user +"\'";
-                    stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
-
+                stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
+                String sql = "INSERT INTO "+ tablename + "_" + secondTablename + "(id_" + tablename + ", id_" + secondTablename +
+                        ") VALUES ( " + id_Quitado + " , " + id_alQueQuitan + " ) ON CONFLICT (id_" + tablename + ", id_" + secondTablename + ") " +
+                        "DO UPDATE set activo = true ; ";
+                stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
             } catch (SQLException ex) {
                 Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -385,6 +385,21 @@ public class Database {
         }
     }
 
+    //Deletes
+    public void removeRelation(String id_Quitado, String tablename, String id_alQueQuitan,String secondTablename,String id_creator ){
+        if(isConnected()) {
+            try {
+                stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
+                String sql = "UPDATE "+ tablename + "_" + secondTablename + " SET activo = false WHERE " +
+                        "id_" + secondTablename + " = " + id_alQueQuitan + " AND id_" + tablename + " = " +
+                        id_Quitado +" ;";
+                stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
+            } catch (SQLException ex) {
+                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
     public ResultSet deleteRow(String table_name, String row_id, boolean deleting) {
         if(isConnected()) {
             try {
@@ -453,7 +468,9 @@ public class Database {
         if(isConnected()) {
             try {
                 stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
-                String sql = "SELECT id_usuario, nombre_usuario, CAST(CASE WHEN (EXISTS (SELECT id_rol from usuario_rol where id_rol = \'"+ id_role +"\' AND usuario_rol.id_usuario = usuario.id_usuario AND usuario_rol.id_autorizante IS NOT NULL AND usuario_rol.activado = true)) THEN true ELSE false END AS BOOL) AS Seleccionado FROM usuario";
+                String sql = "SELECT id_usuario, nombre_usuario, CAST(CASE WHEN (EXISTS (SELECT id_rol from usuario_rol where id_rol = \'"
+                        + id_role +"\' AND usuario_rol.id_usuario = usuario.id_usuario AND usuario_rol.id_autorizante IS NOT NULL AND " +
+                        "usuario_rol.activo = true)) THEN true ELSE false END AS BOOL) AS Seleccionado FROM usuario";
                 return stmt.executeQuery(sql);
             }
             catch (SQLException ex) {
@@ -469,8 +486,9 @@ public class Database {
                 stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
                 String sql = "SELECT nombre_menu, descripcion, id_menu, CAST(CASE WHEN (EXISTS (SELECT id_funcionalidad" +
                         " from funcionalidad_menu " +
-                        "where id_funcionalidad = \'"+ funcionalityId +"\' AND funcionalidad_menu.id_menu = menu.id_menu)) " +
-                        "THEN true ELSE false END AS BOOL) AS Seleccionado FROM menu";
+                        "where id_funcionalidad = \'"+ funcionalityId +"\' AND funcionalidad_menu.id_menu = menu.id_menu" +
+                        " AND funcionalidad_menu.activo = true )) " +
+                        "THEN true ELSE false END AS BOOL) AS Seleccionado FROM menu where menu.activo = true";
                 return stmt.executeQuery(sql);
             }
             catch (SQLException ex) {

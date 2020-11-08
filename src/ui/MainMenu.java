@@ -268,7 +268,6 @@ public class MainMenu extends JFrame {
             JOptionPane.showMessageDialog(this, "Tú has solicitado la creación de este menú por lo que no puedes aprobarlo.", "Violación de seguridad", 1);
 
         }
-
         fetchUsers();
     }
 
@@ -463,15 +462,6 @@ public class MainMenu extends JFrame {
         menuSelection.setVisible(true);
         }
 
-    public void joinFunctionalitiesToMenus(SelectMenuForm menuSelection){
-        String[] menus = menuSelection.getMenusToFunctionality();
-        if (menus != null){
-            menuSelection.terminar();
-        }
-        System.out.println("hola");
-        //controller.addMenuToFunctionality(id_functionality,menus);
-    }
-
     private void initializeUserRolesMenu(){
         fetchUserRoles();
     }
@@ -520,7 +510,6 @@ public class MainMenu extends JFrame {
         this.disable();
         addusersScreen.setVisible(true);
     }
-
 
     private void exitMouseClicked(MouseEvent e) {
         this.dispose();
