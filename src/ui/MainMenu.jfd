@@ -467,15 +467,15 @@ new FormModel {
 						} )
 						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 							name: "scrollPane1"
-							"background": new java.awt.Color( 255, 255, 255, 255 )
+							"background": &Color13 new java.awt.Color( 255, 255, 255, 255 )
 							"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
 							"horizontalScrollBarPolicy": 31
 							add( new FormComponent( "javax.swing.JTable" ) {
 								name: "usersPending"
 								"selectionMode": 0
-								"background": new java.awt.Color( 255, 255, 255, 255 )
+								"background": &Color14 new java.awt.Color( 255, 255, 255, 255 )
 								"rowSelectionAllowed": false
-								"model": new com.jformdesigner.model.SwingTableModel( new java.util.Vector {
+								"model": &SwingTableModel1 new com.jformdesigner.model.SwingTableModel( new java.util.Vector {
 									add( new java.util.Vector {
 										add( null )
 										add( null )
@@ -692,7 +692,7 @@ new FormModel {
 							name: "label12"
 							"text": "Lista de Funcionalidades"
 							"font": &Font6 new java.awt.Font( "Segoe UI Semibold", 0, 18 )
-							"foreground": &Color13 new java.awt.Color( 102, 102, 102, 255 )
+							"foreground": &Color15 new java.awt.Color( 102, 102, 102, 255 )
 						}, new FormLayoutConstraints( null ) {
 							"width": 215
 							"height": 30
@@ -810,7 +810,7 @@ new FormModel {
 							name: "label11"
 							"text": "Lista de Menus"
 							"font": #Font6
-							"foreground": #Color13
+							"foreground": #Color15
 						}, new FormLayoutConstraints( null ) {
 							"x": 20
 							"y": 5
@@ -876,7 +876,7 @@ new FormModel {
 							name: "usersRoleLabel"
 							"text": "Asignar usuarios a roles"
 							"font": #Font6
-							"foreground": #Color13
+							"foreground": #Color15
 						}, new FormLayoutConstraints( null ) {
 							"x": 45
 							"y": 5
@@ -895,10 +895,38 @@ new FormModel {
 								"gridColor": #Color11
 							} )
 						}, new FormLayoutConstraints( null ) {
-							"width": 250
+							"width": 210
 							"height": 155
-							"x": 30
+							"x": 40
 							"y": 45
+						} )
+						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+							name: "rolesToUsersPane"
+							"background": #Color13
+							"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							"horizontalScrollBarPolicy": 31
+							add( new FormComponent( "javax.swing.JTable" ) {
+								name: "rolesToUsersPending"
+								"selectionMode": 0
+								"background": #Color14
+								"rowSelectionAllowed": false
+								"model": #SwingTableModel1
+								"rowHeight": 35
+							} )
+						}, new FormLayoutConstraints( null ) {
+							"width": 210
+							"height": 155
+							"x": 290
+							"y": 45
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "addUsersRoles_back"
+							"icon": new com.jformdesigner.model.SwingIcon( 0, "/img/permissions-back.png" )
+						}, new FormLayoutConstraints( null ) {
+							"x": 0
+							"y": 0
+							"height": 215
+							"width": 780
 						} )
 					} )
 				}, new FormLayoutConstraints( class java.lang.String ) {
@@ -941,7 +969,7 @@ new FormModel {
 					name: "usersLabel"
 					"text": "Usuarios"
 					"font": &Font7 new java.awt.Font( "Segoe UI Semibold", 0, 14 )
-					"foreground": &Color14 new java.awt.Color( 255, 255, 255, 255 )
+					"foreground": &Color16 new java.awt.Color( 255, 255, 255, 255 )
 				}, new FormLayoutConstraints( null ) {
 					"x": 75
 					"y": 231
@@ -1052,7 +1080,7 @@ new FormModel {
 					name: "rolesLabel"
 					"text": "Roles"
 					"font": #Font7
-					"foreground": #Color14
+					"foreground": #Color16
 				}, new FormLayoutConstraints( null ) {
 					"width": 35
 					"height": 20
@@ -1063,7 +1091,7 @@ new FormModel {
 					name: "peopleLabel"
 					"text": "Personas"
 					"font": #Font7
-					"foreground": #Color14
+					"foreground": #Color16
 				}, new FormLayoutConstraints( null ) {
 					"width": 60
 					"height": 20
@@ -1074,7 +1102,7 @@ new FormModel {
 					name: "RelationshipsLabel"
 					"text": "Relaciones"
 					"font": #Font7
-					"foreground": #Color14
+					"foreground": #Color16
 				}, new FormLayoutConstraints( null ) {
 					"width": 70
 					"height": 20
@@ -1085,7 +1113,7 @@ new FormModel {
 					name: "PermisosLabel"
 					"text": "Permisos"
 					"font": #Font7
-					"foreground": #Color14
+					"foreground": #Color16
 				}, new FormLayoutConstraints( null ) {
 					"width": 70
 					"height": 20
@@ -1132,7 +1160,7 @@ new FormModel {
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "Relaciones_Button"
-					"background": &Color15 new java.awt.Color( 60, 63, 65, 0 )
+					"background": &Color17 new java.awt.Color( 60, 63, 65, 0 )
 					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseEntered", "optionBack_4MouseEntered", true ) )
 					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseExited", "optionBack_4MouseExited", true ) )
 					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "optionBack_4MouseClicked", true ) )
@@ -1144,7 +1172,7 @@ new FormModel {
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "Permisos_Button"
-					"background": #Color15
+					"background": #Color17
 					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "Permisos_ButtonMouseClicked", true ) )
 					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseEntered", "Permisos_ButtonMouseEntered", true ) )
 					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseExited", "Permisos_ButtonMouseExited", true ) )

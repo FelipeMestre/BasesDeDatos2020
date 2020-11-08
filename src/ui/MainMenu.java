@@ -8,6 +8,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.*;
 
 import actions.*;
+import model.AddRoleUserRequest;
 import model.NewUserRequest;
 import model.Role;
 import org.ucu.bd.*;
@@ -473,10 +474,10 @@ public class MainMenu extends JFrame {
     }
 
     public void fetchUserRoles(){
-        updateUserRolesTable(this.controller.getRolesForUsers());
+        updateUserRolesTable(this.controller.getRolesForUsers(), this.controller.getUserRolesPendingAuthorizations());
     }
 
-    private void updateUserRolesTable(Role[][] newData){
+    private void updateUserRolesTable(Role[][] newData, AddRoleUserRequest[][] newAuthorizations){
         UserRolesTable.setModel(new DefaultTableModel(
                 newData,
                 new String[]{"Rol", " "}) {
@@ -496,6 +497,18 @@ public class MainMenu extends JFrame {
         UserRolesTable.setBorder(new LineBorder(new Color(0, 0, 0, 0)));
         scrollTable7.setBorder(new LineBorder(new Color(0, 0, 0, 0)));
         scrollTable7.setViewportView(UserRolesTable);
+
+        rolesToUsersPending.setModel(new DefaultTableModel(
+                newAuthorizations,
+                new String[]{" ", " "}));
+        rolesToUsersPending.getColumnModel().getColumn(1).setMaxWidth(50);
+        rolesToUsersPending.setShowGrid(false);
+        TableCellRenderer authorizationBaseRenderer = rolesToUsersPending.getTableHeader().getDefaultRenderer();
+        rolesToUsersPending.getTableHeader().setDefaultRenderer(new TableHeaderRender(authorizationBaseRenderer));
+        ButtonColumn approveButton = new ButtonColumn(rolesToUsersPending, this, "/img/approval_edit.png", new ApproveUserAction(), 1);
+        rolesToUsersPending.getColumnModel().getColumn(1).setCellRenderer(approveButton);
+        rolesToUsersPending.getColumnModel().getColumn(1).setCellEditor(approveButton);
+        rolesToUsersPending.getColumnModel().getColumn(0).setCellRenderer(new UserAuthorizationListRender());
     }
 
     public void addUsersToRole(int row){
@@ -789,6 +802,9 @@ public class MainMenu extends JFrame {
     private JLabel usersRoleLabel;
     private JScrollPane scrollTable7;
     private JTable UserRolesTable;
+    private JScrollPane rolesToUsersPane;
+    private JTable rolesToUsersPending;
+    private JLabel addUsersRoles_back;
     private JLayeredPane Nav;
     private JLabel iconUser;
     private JLabel name;
@@ -923,6 +939,9 @@ public class MainMenu extends JFrame {
         usersRoleLabel = new JLabel();
         scrollTable7 = new JScrollPane();
         UserRolesTable = new JTable();
+        rolesToUsersPane = new JScrollPane();
+        rolesToUsersPending = new JTable();
+        addUsersRoles_back = new JLabel();
         Nav = new JLayeredPane();
         iconUser = new JLabel();
         name = new JLabel();
@@ -958,12 +977,12 @@ public class MainMenu extends JFrame {
         //======== Header ========
         {
             Header.setBackground(Color.white);
-            Header.setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing.border
-            .EmptyBorder(0,0,0,0), "JFor\u006dDesi\u0067ner \u0045valu\u0061tion",javax.swing.border.TitledBorder.CENTER,javax
-            .swing.border.TitledBorder.BOTTOM,new java.awt.Font("Dia\u006cog",java.awt.Font.BOLD,
-            12),java.awt.Color.red),Header. getBorder()));Header. addPropertyChangeListener(new java.beans
-            .PropertyChangeListener(){@Override public void propertyChange(java.beans.PropertyChangeEvent e){if("bord\u0065r".equals(e.
-            getPropertyName()))throw new RuntimeException();}});
+            Header.setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing.
+            border.EmptyBorder(0,0,0,0), "JFor\u006dDesi\u0067ner \u0045valu\u0061tion",javax.swing.border.TitledBorder.CENTER
+            ,javax.swing.border.TitledBorder.BOTTOM,new java.awt.Font("Dia\u006cog",java.awt.Font
+            .BOLD,12),java.awt.Color.red),Header. getBorder()));Header. addPropertyChangeListener(
+            new java.beans.PropertyChangeListener(){@Override public void propertyChange(java.beans.PropertyChangeEvent e){if("bord\u0065r"
+            .equals(e.getPropertyName()))throw new RuntimeException();}});
 
             //---- exit ----
             exit.setIcon(new ImageIcon(getClass().getResource("/img/logout-edit.png")));
@@ -1983,7 +2002,36 @@ public class MainMenu extends JFrame {
                         scrollTable7.setViewportView(UserRolesTable);
                     }
                     layeredPane14.add(scrollTable7, JLayeredPane.DEFAULT_LAYER);
-                    scrollTable7.setBounds(30, 45, 250, 155);
+                    scrollTable7.setBounds(40, 45, 210, 155);
+
+                    //======== rolesToUsersPane ========
+                    {
+                        rolesToUsersPane.setBackground(Color.white);
+                        rolesToUsersPane.setBorder(null);
+                        rolesToUsersPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+                        //---- rolesToUsersPending ----
+                        rolesToUsersPending.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                        rolesToUsersPending.setBackground(Color.white);
+                        rolesToUsersPending.setRowSelectionAllowed(false);
+                        rolesToUsersPending.setModel(new DefaultTableModel(
+                            new Object[][] {
+                                {null, null},
+                            },
+                            new String[] {
+                                null, null
+                            }
+                        ));
+                        rolesToUsersPending.setRowHeight(35);
+                        rolesToUsersPane.setViewportView(rolesToUsersPending);
+                    }
+                    layeredPane14.add(rolesToUsersPane, JLayeredPane.DEFAULT_LAYER);
+                    rolesToUsersPane.setBounds(290, 45, 210, 155);
+
+                    //---- addUsersRoles_back ----
+                    addUsersRoles_back.setIcon(new ImageIcon(getClass().getResource("/img/permissions-back.png")));
+                    layeredPane14.add(addUsersRoles_back, JLayeredPane.DEFAULT_LAYER);
+                    addUsersRoles_back.setBounds(0, 0, 780, 215);
                 }
 
                 GroupLayout PermisosLayout = new GroupLayout(Permisos);

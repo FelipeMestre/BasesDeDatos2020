@@ -352,4 +352,25 @@ public class ModelConstructor {
     public boolean checkIfCorrectPassword(String userId,String userName, String password, String tablename,Container parent){
         return db.checkIfCorrectPassword(userId,userName, password, "usuario", parent);
     }
+
+    public AddRoleUserRequest[][] getUserRolesPendingAuthorizations() {
+        ResultSet rs = retrieveLog("vista_usuarios_roles_sin_autorizacion");
+        AddRoleUserRequest[][] result = new AddRoleUserRequest[0][0];
+        try {
+            rs.last();
+            int size = rs.getRow();
+            if (size > 0) {
+                result = new AddRoleUserRequest[size][1];
+                rs.first();
+                int rowNumber = 0;
+                do {
+                    result[rowNumber][0] = new AddRoleUserRequest("N/A", rs.getString(5),"N/A", rs.getString(4), rs.getString(2),rs.getString(1), rs.getString(3));
+                    rowNumber++;
+                } while (rs.next());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 }
