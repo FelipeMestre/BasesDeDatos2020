@@ -851,7 +851,7 @@ new FormModel {
 					"value": "relaciones"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {seq {par l {seq {space :p:45:p, par l {comp RelacionesTitle2::l:p::p, comp RelacionesDescription2::l:p:369:p}}, seq l {space :p:16:p, comp layeredPane14:::p:779:p}}, space ::25:x}}"
+					"$horizontalGroup": "par l {seq {par l {seq {space :p:45:p, par l {comp RelacionesTitle2::l:p::p, comp RelacionesDescription2::l:p:369:p}}, seq l {space :p:28:p, comp layeredPane14:::p:775:p}}, space ::17:x}}"
 					"$verticalGroup": "par l {seq l {space :p:17:p, comp RelacionesTitle2:::p::p, space :::p, comp RelacionesDescription2:::p::p, space u:::p, comp layeredPane14:::p:211:p, space ::225:x}}"
 				} ) {
 					name: "Permisos"
@@ -895,9 +895,9 @@ new FormModel {
 								"gridColor": #Color11
 							} )
 						}, new FormLayoutConstraints( null ) {
-							"width": 210
+							"width": 160
 							"height": 155
-							"x": 40
+							"x": 30
 							"y": 45
 						} )
 						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
@@ -914,9 +914,25 @@ new FormModel {
 								"rowHeight": 35
 							} )
 						}, new FormLayoutConstraints( null ) {
-							"width": 210
+							"width": 300
 							"height": 155
-							"x": 290
+							"x": 205
+							"y": 45
+						} )
+						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+							name: "scrollHistoryUser2"
+							"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+							add( new FormComponent( "javax.swing.JList" ) {
+								name: "userRolesHistory"
+								"background": sfield java.awt.Color white
+								"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+								"selectionMode": 0
+								"visibleRowCount": 10
+							} )
+						}, new FormLayoutConstraints( null ) {
+							"width": 220
+							"height": 155
+							"x": 520
 							"y": 45
 						} )
 						add( new FormComponent( "javax.swing.JLabel" ) {

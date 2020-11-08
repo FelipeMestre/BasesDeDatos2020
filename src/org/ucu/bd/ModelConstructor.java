@@ -85,6 +85,10 @@ public class ModelConstructor {
         return result;
     }
 
+    public void approveRoleToUser(String userToAttach, String roleToAttach, String Authorizer){
+        db.putRoleToUserAutorization(userToAttach,roleToAttach,Authorizer);
+    }
+
     public ResultSet search(String tableName, String column, String value) {
         return db.search(tableName, column, value);
     }
@@ -126,11 +130,11 @@ public class ModelConstructor {
             rs.last();
             int size = rs.getRow();
             if (size > 0) {
-                result = new Role[1][size];
+                result = new Role[size][1];
                 rs.first();
                 int rowNumber = 0;
                 do {
-                    result[0][rowNumber] = new Role(rs.getString(1),rs.getString(2));
+                    result[rowNumber][0] = new Role(rs.getString(1),rs.getString(2));
                     rowNumber++;
                 } while (rs.next());
             }
@@ -392,13 +396,35 @@ public class ModelConstructor {
                 rs.first();
                 int rowNumber = 0;
                 do {
-                    result[rowNumber][0] = new AddRoleUserRequest("N/A", rs.getString(5),"N/A", rs.getString(4), rs.getString(2),rs.getString(1), rs.getString(3));
+                    result[rowNumber][0] = new AddRoleUserRequest("N/A", rs.getString(5),rs.getString(6), rs.getString(4), rs.getString(2),rs.getString(3), rs.getString(1));
                     rowNumber++;
                 } while (rs.next());
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return result;
+    }
+
+    public Log_Role_User[] getUserRoleLog() {
+        ResultSet rs = retrieveLog("vista_cambios_usuario_rol");
+        Log_Role_User[] result = new Log_Role_User[0];
+        try {
+            rs.last();
+            int size = rs.getRow();
+            if (size > 0) {
+                result = new Log_Role_User[size];
+                rs.first();
+                int rowNumber = 0;
+                do {
+                    result[rowNumber] = new Log_Role_User(rs.getString(1), rs.getString(2), rs.getString(4), rs.getString(3),rs.getString(5), rs.getString(6));
+                    rowNumber++;
+                } while (rs.next());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return result;
     }
 }

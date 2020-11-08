@@ -86,6 +86,7 @@ public class AddUsersToRole extends JFrame {
                 this.constructor.removeRelation("usuario",id_user,role.getId_role(),"rol",currentUserID);
             }
         }
+        parent.fetchUserRoles();
         exitForm();
     }
     private void exitForm(){
