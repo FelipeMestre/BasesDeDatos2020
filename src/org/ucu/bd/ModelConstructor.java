@@ -29,6 +29,14 @@ public class ModelConstructor {
         return db.createUserEdit(username, password, ci_persona, creador, autorizador, admin, blocked, activo, availabletries);
     }
 
+    public boolean createAddRoleToUserRequest(String id_role, String id_user, String id_creator){
+        return db.createAddRoleToUserRequest(id_role, id_user, id_creator);
+    }
+
+    public void removeRoleFromUser(String id_role, String id_user, String id_creator){
+        db.removeRoleFromUser(id_role, id_user, id_creator);
+    }
+
     public boolean createModel(String name, String description, String tablename, Component father){
         if (!name.equals("") && name.length() <= 50 && !description.equals("") && description.length() <= 200){
             return this.db.createModel(name,description,tablename,1);
