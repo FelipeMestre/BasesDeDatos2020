@@ -2,11 +2,12 @@
  * Created by JFormDesigner on Tue Nov 03 14:04:54 UYT 2020
  */
 
-package ui;
+package ui.add;
 
 import model.CurrentUser;
 import org.ucu.bd.ModelConstructor;
 import org.ucu.bd.TableHeaderRender;
+import ui.MainMenu;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -20,14 +21,14 @@ import java.util.LinkedList;
 /**
  * @author unknown
  */
-public class SelectMenuForm extends JFrame {
+public class AddMenuToFuncionalityForm extends JFrame {
 
     private ModelConstructor constructor;
     private MainMenu parent;
     private LinkedList<String> addedMenus;
     private String funcionalityID;
 
-    public SelectMenuForm(MainMenu parent, ModelConstructor controller,String funcionalityID) {
+    public AddMenuToFuncionalityForm(MainMenu parent, ModelConstructor controller, String funcionalityID) {
         this.constructor = controller;
         this.parent = parent;
         this.funcionalityID = funcionalityID;
@@ -108,6 +109,7 @@ public class SelectMenuForm extends JFrame {
                 this.constructor.removeRelation(this.funcionalityID,"funcionalidad",id_menu,"menu",currentUserID);
             }
         }
+        parent.fetchFuncionalities();
         exitForm();
     }
 

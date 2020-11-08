@@ -156,6 +156,31 @@ public class ModelConstructor {
         return this.getStringArray(db.getAllElements("vista_usuarios_con_autorizacion"));
     }
 
+    public Object[][] getFuncionalitiesForRole(Role role){
+        ResultSet rs = this.db.getFuncionalitiesForRole(role.getId_role());
+        Object[][] result = new Object[0][0];
+        try {
+            int columnsNumber = rs.getMetaData().getColumnCount();
+            rs.last();
+            int size = rs.getRow();
+            if (size > 0) {
+                result = new Object[size][columnsNumber];
+                rs.first();
+                int rowNumber = 0;
+                do {
+                    result[rowNumber][0] = rs.getString(1);
+                    result[rowNumber][1] = rs.getString(2);
+                    result[rowNumber][2] = rs.getString(3);
+                    result[rowNumber][3] = rs.getBoolean(4);
+                    rowNumber++;
+                } while (rs.next());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     public Object[][] getUsersForRole(Role role){
         String id_role = role.getId_role();
         ResultSet rs = this.db.getUsersForRole(id_role);

@@ -851,8 +851,8 @@ new FormModel {
 					"value": "relaciones"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-					"$horizontalGroup": "par l {seq {par l {seq {space :p:45:p, par l {comp RelacionesTitle2::l:p::p, comp RelacionesDescription2::l:p:369:p}}, seq l {space :p:28:p, comp layeredPane14:::p:775:p}}, space ::17:x}}"
-					"$verticalGroup": "par l {seq l {space :p:17:p, comp RelacionesTitle2:::p::p, space :::p, comp RelacionesDescription2:::p::p, space u:::p, comp layeredPane14:::p:211:p, space ::225:x}}"
+					"$horizontalGroup": "par l {seq {par l {seq {space :p:45:p, par l {comp RelacionesTitle2::l:p::p, comp RelacionesDescription2::l:p:369:p}}, seq l {space :p:28:p, par l {comp layeredPane14:::p:780:p, comp layeredPane12:::::x}}}, space ::12:x}}"
+					"$verticalGroup": "par l {seq l {space :p:17:p, comp RelacionesTitle2:::p::p, space :::p, comp RelacionesDescription2:::p::p, space u:::p, comp layeredPane14:::p:211:p, space s:::p, comp layeredPane12:::p:183:p, space ::24:x}}"
 				} ) {
 					name: "Permisos"
 					"background": #Color0
@@ -943,6 +943,42 @@ new FormModel {
 							"y": 0
 							"height": 215
 							"width": 780
+						} )
+					} )
+					add( new FormContainer( "javax.swing.JLayeredPane", new FormLayoutManager( class javax.swing.JLayeredPane ) ) {
+						name: "layeredPane12"
+						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+							name: "scrollPane2"
+							add( new FormComponent( "javax.swing.JTable" ) {
+								name: "FuncionalitiesRolesTable"
+							} )
+						}, new FormLayoutConstraints( null ) {
+							"x": 30
+							"y": 35
+							"width": 355
+							"height": 110
+						} )
+						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+							name: "scrollPane3"
+							add( new FormComponent( "javax.swing.JTable" ) {
+								name: "FuncionalitiesLogTable"
+							} )
+						}, new FormLayoutConstraints( null ) {
+							"x": 415
+							"y": 35
+							"width": 325
+							"height": 110
+						} )
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label13"
+							"text": "Asignar Funcionalidades a Roles"
+							"font": new java.awt.Font( "Segoe UI Semibold", 0, 18 )
+							"foreground": new java.awt.Color( 102, 102, 102, 255 )
+						}, new FormLayoutConstraints( null ) {
+							"x": 50
+							"y": 0
+							"width": 305
+							"height": 26
 						} )
 					} )
 				}, new FormLayoutConstraints( class java.lang.String ) {
