@@ -960,8 +960,8 @@ new FormModel {
 						} )
 						add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 							name: "scrollPane3"
-							add( new FormComponent( "javax.swing.JTable" ) {
-								name: "FuncionalitiesLogTable"
+							add( new FormComponent( "javax.swing.JList" ) {
+								name: "FuncionalitiesToRolLog"
 							} )
 						}, new FormLayoutConstraints( null ) {
 							"x": 415

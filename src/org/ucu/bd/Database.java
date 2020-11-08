@@ -218,12 +218,12 @@ public class Database {
         if (isConnected()) {
             try {
                 stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
-                String sql = "INSERT INTO " + tablename + "_" + secondTablename + "(id_" + tablename + ", id_" + secondTablename +
-                        ") VALUES ( " + id_Quitado + " , " + id_alQueQuitan + " ) ON CONFLICT (id_" + tablename + ", id_" + secondTablename + ") " +
+                String sql = "INSERT INTO " + tablename + "_" + secondTablename + " ( id_" + tablename + ", id_" + secondTablename +
+                        " ) VALUES ( " + id_Quitado + " , " + id_alQueQuitan + " ) ON CONFLICT (id_" + tablename + ", id_" + secondTablename + ") " +
                         "DO UPDATE set activo = true ; ";
                 stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
 
-                logRelation(id_Quitado, id_alQueQuitan,tablename, secondTablename, 2);
+                logRelation(id_Quitado, id_alQueQuitan,tablename, secondTablename, 1);
             } catch (SQLException ex) {
                 Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -234,10 +234,9 @@ public class Database {
         String tablename =  "log_" + tablename1 + "_" + tablename2;
         try {
             Date date = new Date(Calendar.getInstance().getTime().getTime());
-            String sql = "INSERT INTO " + tablename + " (id_evento,fecha_registro,id_usuario,id_" + tablename +
-                    ",id_" + tablename2 +") VALUES (" + eventType + ",\'" + date + "\'," +
+            String sql = "INSERT INTO " + tablename + " (id_evento,fecha_registro,id_usuario,id_" + tablename1 +
+                    " , id_" + tablename2 +") VALUES (" + eventType + ",\'" + date + "\'," +
                     CurrentUser.getCurrentUser().get_userId() + "," + id_quitado + "," + id_alQueQuitan + ")";
-            System.out.println(sql);
             stmt.executeUpdate(sql);
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
@@ -373,7 +372,6 @@ public class Database {
             Date date = new Date(Calendar.getInstance().getTime().getTime());
             String sql = "INSERT INTO " + tablename + " (id_evento,fecha_registro,id_usuario,id_usuario_modificado,id_rol) VALUES (" + event_type + ",\'" + date + "\'," +
                     CurrentUser.getCurrentUser().get_userId() + "," + obj1 + "," + obj2 + ")";
-            System.out.println(sql);
             stmt.executeUpdate(sql);
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
@@ -417,6 +415,7 @@ public class Database {
                         "id_" + secondTablename + " = " + id_alQueQuitan + " AND id_" + tablename + " = " +
                         id_Quitado + " ;";
                 stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
+                logRelation(id_Quitado, id_alQueQuitan,tablename, secondTablename, 2);
             } catch (SQLException ex) {
                 Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
             }

@@ -582,6 +582,9 @@ public class MainMenu extends JFrame {
         scrollPane2.setBorder(new LineBorder(new Color(0, 0, 0, 0)));
         scrollPane2.setViewportView(FuncionalitiesRolesTable);
 
+        FuncionalitiesToRolLog.setListData(controller.getFunctionalityToRolLog());
+        FuncionalitiesToRolLog.setCellRenderer(new FuncionalityToRoleHistoryRender());
+
     }
 
     public void addFuncionalityToRolAction(int row) {
@@ -885,7 +888,7 @@ public class MainMenu extends JFrame {
     private JScrollPane scrollPane2;
     private JTable FuncionalitiesRolesTable;
     private JScrollPane scrollPane3;
-    private JTable FuncionalitiesLogTable;
+    private JList FuncionalitiesToRolLog;
     private JLabel label13;
     private JLayeredPane Nav;
     private JLabel iconUser;
@@ -1030,7 +1033,7 @@ public class MainMenu extends JFrame {
         scrollPane2 = new JScrollPane();
         FuncionalitiesRolesTable = new JTable();
         scrollPane3 = new JScrollPane();
-        FuncionalitiesLogTable = new JTable();
+        FuncionalitiesToRolLog = new JList();
         label13 = new JLabel();
         Nav = new JLayeredPane();
         iconUser = new JLabel();
@@ -1067,11 +1070,14 @@ public class MainMenu extends JFrame {
         //======== Header ========
         {
             Header.setBackground(Color.white);
-            Header.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing. border. EmptyBorder( 0
-            , 0, 0, 0) , "JF\u006frmDesi\u0067ner Ev\u0061luatio\u006e", javax. swing. border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM
-            , new java .awt .Font ("Dialo\u0067" ,java .awt .Font .BOLD ,12 ), java. awt. Color. red) ,
-            Header. getBorder( )) ); Header. addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e
-            ) {if ("borde\u0072" .equals (e .getPropertyName () )) throw new RuntimeException( ); }} );
+            Header.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (
+            new javax. swing. border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frm\u0044es\u0069gn\u0065r \u0045va\u006cua\u0074io\u006e"
+            , javax. swing. border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM
+            , new java .awt .Font ("D\u0069al\u006fg" ,java .awt .Font .BOLD ,12 )
+            , java. awt. Color. red) ,Header. getBorder( )) ); Header. addPropertyChangeListener (
+            new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e
+            ) {if ("\u0062or\u0064er" .equals (e .getPropertyName () )) throw new RuntimeException( )
+            ; }} );
 
             //---- exit ----
             exit.setIcon(new ImageIcon(getClass().getResource("/img/logout-edit.png")));
@@ -2149,7 +2155,7 @@ public class MainMenu extends JFrame {
 
                     //======== scrollPane3 ========
                     {
-                        scrollPane3.setViewportView(FuncionalitiesLogTable);
+                        scrollPane3.setViewportView(FuncionalitiesToRolLog);
                     }
                     layeredPane12.add(scrollPane3, JLayeredPane.DEFAULT_LAYER);
                     scrollPane3.setBounds(415, 35, 325, 110);

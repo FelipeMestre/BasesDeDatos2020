@@ -77,6 +77,7 @@ public class ModelConstructor {
     public void updateFuncionality(String func_id, String newName, String newDesc){
         db.updateModel(func_id, newName, newDesc,"Funcionalidad");
     }
+
     public boolean approveUser(String userToApprove, String Authorizer){
         boolean result = !Authorizer.equals(String.valueOf(CurrentUser.getCurrentUser().get_userId()));
         if (result){
@@ -261,6 +262,27 @@ public class ModelConstructor {
     }
 
     //Logs
+
+    public Log_FuncionalityToRol[] getFunctionalityToRolLog(){
+        ResultSet rs = retrieveLog("vista_cambios_funcionalidades_rol");
+        Log_FuncionalityToRol[] result = new Log_FuncionalityToRol[0];
+        try {
+            rs.last();
+            int size = rs.getRow();
+            if (size > 0) {
+                result = new Log_FuncionalityToRol[size];
+                rs.first();
+                int rowNumber = 0;
+                do {
+                    result[rowNumber] = new Log_FuncionalityToRol(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),rs.getString(6) );
+                    rowNumber++;
+                } while (rs.next());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 
     public Log_Person[] getPersonLog(){
         ResultSet rs = retrieveLog("vista_cambios_personas");
