@@ -455,7 +455,7 @@ public class MainMenu extends JFrame {
     public void addMenuToFunctionality(int row) {
         String id_functionality = String.valueOf(FuncionalidadesTable.getValueAt(row, 2));
         this.disable();
-        SelectMenuForm menuSelection = new SelectMenuForm(this,controller,Integer.valueOf(id_functionality));
+        SelectMenuForm menuSelection = new SelectMenuForm(this,controller,id_functionality);
         menuSelection.setVisible(true);
         }
 

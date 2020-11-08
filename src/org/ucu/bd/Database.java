@@ -193,6 +193,42 @@ public class Database {
         return false;
     }
 
+    public boolean createAddRoleToUserRequest(String id_role, String id_user, String id_creator){
+        boolean result = false;
+        if(isConnected()) {
+            try {
+                stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
+                String sql = "SELECT * FROM usuario_rol WHERE id_rol = " +id_role + " AND id_usuario = " + id_user;
+                ResultSet existsRegister = stmt.executeQuery(sql);
+
+                if (!existsRegister.first()){
+                    result = true;
+                    stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
+                    sql = "INSERT INTO usuario_rol (id_rol, id_usuario, activado, id_creador) VALUES(" +id_role+","+id_user+", true,"+id_creator+")";
+                    stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return result;
+    }
+
+    public void removeRoleFromUser(String id_role, String id_user, String id_creator){
+        if(isConnected()) {
+            try {
+                System.out.println(id_role + ", " + id_user);
+                    stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
+                    String sql = "UPDATE usuario_rol SET activado = false WHERE id_rol = \'" + id_role + "\' AND id_usuario = \'" + id_user +"\'";
+                    stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
+
+            } catch (SQLException ex) {
+                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
     public boolean createUserEdit(String username, String password, int ci_persona, int creador, int autorizador, boolean admin, boolean blocked, boolean activo, int availabletries) {
         if(isConnected()) {
             try {
@@ -417,7 +453,7 @@ public class Database {
         if(isConnected()) {
             try {
                 stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
-                String sql = "SELECT id_usuario, nombre_usuario, CAST(CASE WHEN (EXISTS (SELECT id_rol from usuario_rol where id_rol = \'"+ id_role +"\' AND usuario_rol.id_usuario = usuario.id_usuario)) THEN true ELSE false END AS BOOL) AS Seleccionado FROM usuario";
+                String sql = "SELECT id_usuario, nombre_usuario, CAST(CASE WHEN (EXISTS (SELECT id_rol from usuario_rol where id_rol = \'"+ id_role +"\' AND usuario_rol.id_usuario = usuario.id_usuario AND usuario_rol.id_autorizante IS NOT NULL)) THEN true ELSE false END AS BOOL) AS Seleccionado FROM usuario";
                 return stmt.executeQuery(sql);
             }
             catch (SQLException ex) {

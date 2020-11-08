@@ -4,12 +4,14 @@
 
 package ui;
 
+import model.CurrentUser;
 import model.Role;
 import org.ucu.bd.ModelConstructor;
 import org.ucu.bd.TableHeaderRender;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.LinkedList;
 import javax.swing.*;
 import javax.swing.GroupLayout;
 import javax.swing.border.LineBorder;
@@ -24,14 +26,17 @@ public class AddUsersToRole extends JFrame {
     private ModelConstructor constructor;
     private MainMenu parent;
     private Role role;
+    private LinkedList<String> addedUsers;
   
     public AddUsersToRole(MainMenu parent, ModelConstructor controller, Role role) {
         this.constructor = controller;
         this.parent = parent;
         this.role = role;
+        addedUsers = new LinkedList<>();
         initComponents();
         this.selectedRole.setText(role.toString());
         initializeUsersTable();
+
     }
     
     private void initializeUsersTable(){
@@ -48,7 +53,14 @@ public class AddUsersToRole extends JFrame {
                 }
             }
         };
-        UsersRoleTable.setModel(new DefaultTableModel(constructor.getUsersForRole(role), new String[]{"ID usuario", "Nombre", " "}));
+        Object[][] users = constructor.getUsersForRole(role);
+        for (int i = 0; i < users.length; i++){
+            if ((boolean)users[i][2]){
+                addedUsers.add(String.valueOf(users[i][0]));
+            }
+        }
+
+        UsersRoleTable.setModel(new DefaultTableModel(users, new String[]{"ID usuario", "Nombre", " "}));
         TableCellRenderer baseRenderer = UsersRoleTable.getTableHeader().getDefaultRenderer();
         UsersRoleTable.getTableHeader().setDefaultRenderer(new TableHeaderRender(baseRenderer));
         UsersRoleTable.getColumnModel().getColumn(2).setMaxWidth(60);
@@ -60,7 +72,20 @@ public class AddUsersToRole extends JFrame {
     }
 
     private void SubmitActionPerformed() {
-        
+        // Obtener seleccion
+        String currentUserID = String.valueOf(CurrentUser.getCurrentUser().get_userId());
+        for (int row = 0; row < UsersRoleTable.getRowCount(); row++){
+            String id_user = (String)UsersRoleTable.getValueAt(row, 0);
+            boolean checked = (boolean)UsersRoleTable.getValueAt(row, 2);
+            if (!addedUsers.contains(id_user) && checked && !currentUserID.equals(id_user)){
+                if(!this.constructor.createAddRoleToUserRequest(role.getId_role(),id_user, currentUserID)){
+                    JOptionPane.showMessageDialog(this, "Ya se ha solicitado agregar esta relación.", "Esperar aprobación",1);
+                }
+            }
+            if(addedUsers.contains(id_user) && !checked){
+                this.constructor.removeRoleFromUser(role.getId_role(), id_user, currentUserID);
+            }
+        }
         exitForm();
     }
 
