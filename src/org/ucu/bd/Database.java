@@ -453,7 +453,7 @@ public class Database {
         if(isConnected()) {
             try {
                 stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
-                String sql = "SELECT id_usuario, nombre_usuario, CAST(CASE WHEN (EXISTS (SELECT id_rol from usuario_rol where id_rol = \'"+ id_role +"\' AND usuario_rol.id_usuario = usuario.id_usuario AND usuario_rol.id_autorizante IS NOT NULL)) THEN true ELSE false END AS BOOL) AS Seleccionado FROM usuario";
+                String sql = "SELECT id_usuario, nombre_usuario, CAST(CASE WHEN (EXISTS (SELECT id_rol from usuario_rol where id_rol = \'"+ id_role +"\' AND usuario_rol.id_usuario = usuario.id_usuario AND usuario_rol.id_autorizante IS NOT NULL AND usuario_rol.activado = true)) THEN true ELSE false END AS BOOL) AS Seleccionado FROM usuario";
                 return stmt.executeQuery(sql);
             }
             catch (SQLException ex) {

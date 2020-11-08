@@ -511,7 +511,7 @@ public class MainMenu extends JFrame {
         ButtonColumn approveButton = new ButtonColumn(rolesToUsersPending, this, "/img/approval_edit.png", new ApproveUserAction(), 1);
         rolesToUsersPending.getColumnModel().getColumn(1).setCellRenderer(approveButton);
         rolesToUsersPending.getColumnModel().getColumn(1).setCellEditor(approveButton);
-        rolesToUsersPending.getColumnModel().getColumn(0).setCellRenderer(new UserAuthorizationListRender());
+        rolesToUsersPending.getColumnModel().getColumn(0).setCellRenderer(new UserRoleAuthorizationListRender());
     }
 
     public void addUsersToRole(int row){
@@ -683,6 +683,7 @@ public class MainMenu extends JFrame {
         resetOptions();
         options[4].select();
         changeCard("permisos");
+        initializeUserRolesMenu();
         selected_option_button = Permisos_Button;
     }
 
