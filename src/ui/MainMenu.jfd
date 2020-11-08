@@ -895,7 +895,7 @@ new FormModel {
 								"gridColor": #Color11
 							} )
 						}, new FormLayoutConstraints( null ) {
-							"width": 210
+							"width": 160
 							"height": 155
 							"x": 40
 							"y": 45
@@ -914,9 +914,9 @@ new FormModel {
 								"rowHeight": 35
 							} )
 						}, new FormLayoutConstraints( null ) {
-							"width": 210
+							"width": 300
 							"height": 155
-							"x": 290
+							"x": 215
 							"y": 45
 						} )
 						add( new FormComponent( "javax.swing.JLabel" ) {

@@ -23,22 +23,31 @@ public class UserRoleAuthorizationListRender extends JPanel implements TableCell
         requester_label.setFont(font);
 
         // Mostrar usuarioACrear
-        String newUserName = request.getAttachedRoleName();
-        JLabel newUserName_label = new JLabel(newUserName);
-        newUserName_label.setForeground(new Color(98,187,206));
+        String roleName = request.getAttachedRoleName();
+        JLabel roleName_label = new JLabel(roleName);
+        roleName_label.setForeground(new Color(98,187,206));
         font = new Font("Segoe UI", Font.BOLD, 10);
-        newUserName_label.setFont(font);
+        roleName_label.setFont(font);
 
         // Mostrar descripcion
-        String description = "pide asignar el rol";
+        String description = "pide";
         JLabel description_label = new JLabel(description);
         description_label.setForeground(new Color(145,145,145));
         font = new Font("Segoe UI", Font.PLAIN, 10);
         description_label.setFont(font);
 
-        JLabel approve_icon = new JLabel();
-        approve_icon.setIcon(new ImageIcon(getClass().getResource("/img/approval_edit.png")));
+        // Mostrar a
+        String a = "para";
+        JLabel a_label = new JLabel(a);
+        a_label.setForeground(new Color(145,145,145));
+        a_label.setFont(font);
 
+        // Mostrar usuarioRecibe
+        String userName = request.getAttachedUserName();
+        JLabel userName_label = new JLabel(userName);
+        userName_label.setForeground(new Color(102,102,102));
+        font = new Font("Segoe UI", Font.BOLD, 10);
+        userName_label.setFont(font);
 
         GroupLayout panel1Layout = new GroupLayout(background);
         background.setLayout(panel1Layout);
@@ -46,11 +55,15 @@ public class UserRoleAuthorizationListRender extends JPanel implements TableCell
                 panel1Layout.createParallelGroup()
                         .addGroup(panel1Layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(requester_label, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(requester_label, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(description_label, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(newUserName_label, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(roleName_label, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(a_label, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(userName_label, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap())
         );
         panel1Layout.setVerticalGroup(
@@ -58,13 +71,17 @@ public class UserRoleAuthorizationListRender extends JPanel implements TableCell
                         .addGroup(panel1Layout.createParallelGroup()
                                 .addComponent(requester_label, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(description_label, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(newUserName_label, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(roleName_label, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(a_label, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(userName_label, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         )
         );
 
         background.add(requester_label);
         background.add(description_label);
-        background.add(newUserName_label);
+        background.add(roleName_label);
+        background.add(a_label);
+        background.add(userName_label);
         return background;
     }
 }

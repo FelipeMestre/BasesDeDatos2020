@@ -86,6 +86,7 @@ public class AddUsersToRole extends JFrame {
                 this.constructor.removeRoleFromUser(role.getId_role(), id_user, currentUserID);
             }
         }
+        parent.fetchUserRoles();
         exitForm();
     }
 

@@ -491,4 +491,20 @@ public class Database {
         return false;
     }
 
+    public void putRoleToUserAutorization(String userToAttach, String roleToAttach, String authorizer) {
+        if (isConnected()) {
+            try {
+                stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
+                System.out.println(userToAttach);
+                System.out.println(roleToAttach);
+                System.out.println(authorizer);
+                String sql = "UPDATE usuario_rol SET id_autorizante = " + authorizer + " WHERE id_usuario = " + userToAttach + " AND id_rol = " + roleToAttach;
+                System.out.println(sql);
+                stmt.executeUpdate(sql);
+                // this.logActivity(id_usuario, "usuario", 5);
+            } catch (SQLException ex) {
+                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
 }

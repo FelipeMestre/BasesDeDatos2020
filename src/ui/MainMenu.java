@@ -9,6 +9,7 @@ import javax.swing.table.*;
 
 import actions.*;
 import model.AddRoleUserRequest;
+import model.CurrentUser;
 import model.NewUserRequest;
 import model.Role;
 import org.ucu.bd.*;
@@ -501,17 +502,36 @@ public class MainMenu extends JFrame {
         scrollTable7.setBorder(new LineBorder(new Color(0, 0, 0, 0)));
         scrollTable7.setViewportView(UserRolesTable);
 
+        rolesToUsersPending = new JTable() {
+            public String getToolTipText(MouseEvent e) {
+                String tip = null;
+                java.awt.Point p = e.getPoint();
+                int rowIndex = rowAtPoint(p);
+                int colIndex = columnAtPoint(p);
+                int realColumnIndex = convertColumnIndexToModel(colIndex);
+
+                if (realColumnIndex == 0) {
+                    AddRoleUserRequest req = (AddRoleUserRequest)getValueAt(rowIndex, colIndex);
+                    tip = req.getRequesterName().toUpperCase() + " pide el rol " + req.getAttachedRoleName().toUpperCase() + " para el usuario " + req.getAttachedUserName().toUpperCase();
+                }
+                return tip;
+            }
+        };
+        rolesToUsersPending.setRowHeight(35);
         rolesToUsersPending.setModel(new DefaultTableModel(
                 newAuthorizations,
-                new String[]{" ", " "}));
+                new String[]{"Autorizaciones", " "}));
         rolesToUsersPending.getColumnModel().getColumn(1).setMaxWidth(50);
         rolesToUsersPending.setShowGrid(false);
         TableCellRenderer authorizationBaseRenderer = rolesToUsersPending.getTableHeader().getDefaultRenderer();
         rolesToUsersPending.getTableHeader().setDefaultRenderer(new TableHeaderRender(authorizationBaseRenderer));
-        ButtonColumn approveButton = new ButtonColumn(rolesToUsersPending, this, "/img/approval_edit.png", new ApproveUserAction(), 1);
+        ButtonColumn approveButton = new ButtonColumn(rolesToUsersPending, this, "/img/approval_edit.png", new ApproveRoleToUserAction(), 1);
         rolesToUsersPending.getColumnModel().getColumn(1).setCellRenderer(approveButton);
         rolesToUsersPending.getColumnModel().getColumn(1).setCellEditor(approveButton);
         rolesToUsersPending.getColumnModel().getColumn(0).setCellRenderer(new UserRoleAuthorizationListRender());
+        rolesToUsersPane.setBorder(new LineBorder(new Color(0,0,0,0)));
+
+        rolesToUsersPane.setViewportView(rolesToUsersPending);
     }
 
     public void addUsersToRole(int row){
@@ -519,6 +539,17 @@ public class MainMenu extends JFrame {
         AddUsersToRole addusersScreen = new AddUsersToRole(this, this.controller, selectedRole);
         this.disable();
         addusersScreen.setVisible(true);
+    }
+
+    public void approveRoleToUser(int row){
+       AddRoleUserRequest request = (AddRoleUserRequest)this.rolesToUsersPending.getValueAt(row,0);
+       String currentUserID = String.valueOf(CurrentUser.getCurrentUser().get_userId());
+       if (!request.getRequesterID().equals(currentUserID)){
+           this.controller.approveRoleToUser(request.getRequestedUserID(), request.getRequestedRoleID(), currentUserID);
+           fetchUserRoles();
+       } else {
+           JOptionPane.showMessageDialog(this, "No puedes aprobar esto porque tú mismo lo solicitaste", "Violación de seguridad", 1);
+       }
     }
 
 
@@ -981,15 +1012,12 @@ public class MainMenu extends JFrame {
         //======== Header ========
         {
             Header.setBackground(Color.white);
-            Header.setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder (
-            new javax . swing. border .EmptyBorder ( 0, 0 ,0 , 0) ,  "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn"
-            , javax. swing .border . TitledBorder. CENTER ,javax . swing. border .TitledBorder . BOTTOM
-            , new java. awt .Font ( "Dia\u006cog", java .awt . Font. BOLD ,12 )
-            ,java . awt. Color .red ) ,Header. getBorder () ) ); Header. addPropertyChangeListener(
-            new java. beans .PropertyChangeListener ( ){ @Override public void propertyChange (java . beans. PropertyChangeEvent e
-            ) { if( "\u0062ord\u0065r" .equals ( e. getPropertyName () ) )throw new RuntimeException( )
-            ;} } );
-
+            Header.setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing.
+            border.EmptyBorder(0,0,0,0), "JFor\u006dDesi\u0067ner \u0045valu\u0061tion",javax.swing.border.TitledBorder.CENTER
+            ,javax.swing.border.TitledBorder.BOTTOM,new java.awt.Font("Dia\u006cog",java.awt.Font
+            .BOLD,12),java.awt.Color.red),Header. getBorder()));Header. addPropertyChangeListener(
+            new java.beans.PropertyChangeListener(){@Override public void propertyChange(java.beans.PropertyChangeEvent e){if("bord\u0065r"
+            .equals(e.getPropertyName()))throw new RuntimeException();}});
 
             //---- exit ----
             exit.setIcon(new ImageIcon(getClass().getResource("/img/logout-edit.png")));
@@ -2009,7 +2037,7 @@ public class MainMenu extends JFrame {
                         scrollTable7.setViewportView(UserRolesTable);
                     }
                     layeredPane14.add(scrollTable7, JLayeredPane.DEFAULT_LAYER);
-                    scrollTable7.setBounds(40, 45, 210, 155);
+                    scrollTable7.setBounds(40, 45, 160, 155);
 
                     //======== rolesToUsersPane ========
                     {
@@ -2033,7 +2061,7 @@ public class MainMenu extends JFrame {
                         rolesToUsersPane.setViewportView(rolesToUsersPending);
                     }
                     layeredPane14.add(rolesToUsersPane, JLayeredPane.DEFAULT_LAYER);
-                    rolesToUsersPane.setBounds(290, 45, 210, 155);
+                    rolesToUsersPane.setBounds(215, 45, 300, 155);
 
                     //---- addUsersRoles_back ----
                     addUsersRoles_back.setIcon(new ImageIcon(getClass().getResource("/img/permissions-back.png")));
