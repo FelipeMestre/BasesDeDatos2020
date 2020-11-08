@@ -204,8 +204,9 @@ public class Database {
                 if (!existsRegister.first()){
                     result = true;
                     stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
-                    sql = "INSERT INTO usuario_rol (id_rol, id_usuario, activado, id_creador) VALUES(" +id_role+","+id_user+", true,"+id_creator+")";
+                    sql = "INSERT INTO usuario_rol (id_rol, id_usuario, activo, id_creador) VALUES(" +id_role+","+id_user+", true,"+id_creator+")";
                     stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
+                    logPermission(id_user, id_role,"log_usuario_rol",1);
                 }
 
             } catch (SQLException ex) {
@@ -218,11 +219,10 @@ public class Database {
     public void removeRoleFromUser(String id_role, String id_user, String id_creator){
         if(isConnected()) {
             try {
-                System.out.println(id_role + ", " + id_user);
                     stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
-                    String sql = "UPDATE usuario_rol SET activado = false WHERE id_rol = \'" + id_role + "\' AND id_usuario = \'" + id_user +"\'";
+                    String sql = "UPDATE usuario_rol SET activo = false WHERE id_rol = \'" + id_role + "\' AND id_usuario = \'" + id_user +"\'";
                     stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
-
+                logPermission(id_user, id_role,"log_usuario_rol",2);
             } catch (SQLException ex) {
                 Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -357,6 +357,18 @@ public class Database {
         }
     }
 
+    private void logPermission(String obj1, String obj2, String tablename, int event_type){
+        try{
+            Date date = new Date(Calendar.getInstance().getTime().getTime());
+            String sql = "INSERT INTO "+tablename+ " (id_evento,fecha_registro,id_usuario,id_usuario_modificado,id_rol) VALUES (" + event_type + ",\'" + date + "\'," +
+                    CurrentUser.getCurrentUser().get_userId() + "," + obj1 + "," + obj2 + ")";
+            System.out.println(sql);
+            stmt.executeUpdate(sql);
+        } catch (SQLException ex){
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     private void logActivity(String modelKey, String tablename, int event_type){
         try{
             Date date = new Date(Calendar.getInstance().getTime().getTime());
@@ -453,7 +465,7 @@ public class Database {
         if(isConnected()) {
             try {
                 stmt = db_connection.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_FORWARD_ONLY);
-                String sql = "SELECT id_usuario, nombre_usuario, CAST(CASE WHEN (EXISTS (SELECT id_rol from usuario_rol where id_rol = \'"+ id_role +"\' AND usuario_rol.id_usuario = usuario.id_usuario AND usuario_rol.id_autorizante IS NOT NULL AND usuario_rol.activado = true)) THEN true ELSE false END AS BOOL) AS Seleccionado FROM usuario";
+                String sql = "SELECT id_usuario, nombre_usuario, CAST(CASE WHEN (EXISTS (SELECT id_rol from usuario_rol where id_rol = \'"+ id_role +"\' AND usuario_rol.id_usuario = usuario.id_usuario AND usuario_rol.id_autorizante IS NOT NULL AND usuario_rol.activo = true)) THEN true ELSE false END AS BOOL) AS Seleccionado FROM usuario";
                 return stmt.executeQuery(sql);
             }
             catch (SQLException ex) {
@@ -501,7 +513,7 @@ public class Database {
                 String sql = "UPDATE usuario_rol SET id_autorizante = " + authorizer + " WHERE id_usuario = " + userToAttach + " AND id_rol = " + roleToAttach;
                 System.out.println(sql);
                 stmt.executeUpdate(sql);
-                // this.logActivity(id_usuario, "usuario", 5);
+                logPermission(userToAttach, roleToAttach,"log_usuario_rol",5);
             } catch (SQLException ex) {
                 Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
             }
