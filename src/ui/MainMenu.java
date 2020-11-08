@@ -581,7 +581,7 @@ public class MainMenu extends JFrame {
         FuncionalitiesRolesTable.setBorder(new LineBorder(new Color(0, 0, 0, 0)));
         scrollPane2.setBorder(new LineBorder(new Color(0, 0, 0, 0)));
         scrollPane2.setViewportView(FuncionalitiesRolesTable);
-
+        scrollPane3.setBorder(new LineBorder(new Color(0, 0, 0, 0)));
         FuncionalitiesToRolLog.setListData(controller.getFunctionalityToRolLog());
         FuncionalitiesToRolLog.setCellRenderer(new FuncionalityToRoleHistoryRender());
 
@@ -1070,14 +1070,6 @@ public class MainMenu extends JFrame {
         //======== Header ========
         {
             Header.setBackground(Color.white);
-            Header.setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (
-            new javax. swing. border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frm\u0044es\u0069gn\u0065r \u0045va\u006cua\u0074io\u006e"
-            , javax. swing. border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM
-            , new java .awt .Font ("D\u0069al\u006fg" ,java .awt .Font .BOLD ,12 )
-            , java. awt. Color. red) ,Header. getBorder( )) ); Header. addPropertyChangeListener (
-            new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e
-            ) {if ("\u0062or\u0064er" .equals (e .getPropertyName () )) throw new RuntimeException( )
-            ; }} );
 
             //---- exit ----
             exit.setIcon(new ImageIcon(getClass().getResource("/img/logout-edit.png")));
@@ -2049,13 +2041,13 @@ public class MainMenu extends JFrame {
 
                 //---- RelacionesTitle2 ----
                 RelacionesTitle2.setText("Permisos");
-                RelacionesTitle2.setFont(new Font("Segoe UI", Font.BOLD, 36));
+                RelacionesTitle2.setFont(new Font("Segoe UI", Font.BOLD, 32));
                 RelacionesTitle2.setBackground(new Color(64, 65, 65));
                 RelacionesTitle2.setForeground(new Color(64, 65, 65));
 
                 //---- RelacionesDescription2 ----
                 RelacionesDescription2.setText("Administra los permisos de tu aplicaci\u00f3n");
-                RelacionesDescription2.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
+                RelacionesDescription2.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
                 RelacionesDescription2.setForeground(new Color(126, 126, 126));
 
                 //======== layeredPane14 ========
@@ -2063,10 +2055,10 @@ public class MainMenu extends JFrame {
 
                     //---- usersRoleLabel ----
                     usersRoleLabel.setText("Asignar usuarios a roles");
-                    usersRoleLabel.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 18));
+                    usersRoleLabel.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 16));
                     usersRoleLabel.setForeground(new Color(102, 102, 102));
                     layeredPane14.add(usersRoleLabel, JLayeredPane.DEFAULT_LAYER);
-                    usersRoleLabel.setBounds(45, 5, 220, 30);
+                    usersRoleLabel.setBounds(50, 15, 220, 30);
 
                     //======== scrollTable7 ========
                     {
@@ -2097,7 +2089,7 @@ public class MainMenu extends JFrame {
                         scrollTable7.setViewportView(UserRolesTable);
                     }
                     layeredPane14.add(scrollTable7, JLayeredPane.DEFAULT_LAYER);
-                    scrollTable7.setBounds(30, 45, 160, 155);
+                    scrollTable7.setBounds(30, 55, 160, 145);
 
                     //======== rolesToUsersPane ========
                     {
@@ -2121,7 +2113,7 @@ public class MainMenu extends JFrame {
                         rolesToUsersPane.setViewportView(rolesToUsersPending);
                     }
                     layeredPane14.add(rolesToUsersPane, JLayeredPane.DEFAULT_LAYER);
-                    rolesToUsersPane.setBounds(205, 45, 300, 155);
+                    rolesToUsersPane.setBounds(205, 55, 300, 145);
 
                     //======== scrollHistoryUser2 ========
                     {
@@ -2135,12 +2127,12 @@ public class MainMenu extends JFrame {
                         scrollHistoryUser2.setViewportView(userRolesHistory);
                     }
                     layeredPane14.add(scrollHistoryUser2, JLayeredPane.DEFAULT_LAYER);
-                    scrollHistoryUser2.setBounds(520, 45, 220, 155);
+                    scrollHistoryUser2.setBounds(520, 55, 220, 145);
 
                     //---- addUsersRoles_back ----
                     addUsersRoles_back.setIcon(new ImageIcon(getClass().getResource("/img/permissions-back.png")));
                     layeredPane14.add(addUsersRoles_back, JLayeredPane.DEFAULT_LAYER);
-                    addUsersRoles_back.setBounds(0, 0, 780, 215);
+                    addUsersRoles_back.setBounds(0, 10, 780, 215);
                 }
 
                 //======== layeredPane12 ========
@@ -2151,18 +2143,18 @@ public class MainMenu extends JFrame {
                         scrollPane2.setViewportView(FuncionalitiesRolesTable);
                     }
                     layeredPane12.add(scrollPane2, JLayeredPane.DEFAULT_LAYER);
-                    scrollPane2.setBounds(30, 35, 355, 110);
+                    scrollPane2.setBounds(30, 35, 255, 110);
 
                     //======== scrollPane3 ========
                     {
                         scrollPane3.setViewportView(FuncionalitiesToRolLog);
                     }
                     layeredPane12.add(scrollPane3, JLayeredPane.DEFAULT_LAYER);
-                    scrollPane3.setBounds(415, 35, 325, 110);
+                    scrollPane3.setBounds(300, 35, 440, 110);
 
                     //---- label13 ----
                     label13.setText("Asignar Funcionalidades a Roles");
-                    label13.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 18));
+                    label13.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 16));
                     label13.setForeground(new Color(102, 102, 102));
                     layeredPane12.add(label13, JLayeredPane.DEFAULT_LAYER);
                     label13.setBounds(50, 0, 305, 26);
@@ -2173,31 +2165,30 @@ public class MainMenu extends JFrame {
                 PermisosLayout.setHorizontalGroup(
                     PermisosLayout.createParallelGroup()
                         .addGroup(PermisosLayout.createSequentialGroup()
+                            .addGap(28, 28, 28)
                             .addGroup(PermisosLayout.createParallelGroup()
-                                .addGroup(PermisosLayout.createSequentialGroup()
-                                    .addGap(45, 45, 45)
-                                    .addGroup(PermisosLayout.createParallelGroup()
-                                        .addComponent(RelacionesTitle2)
-                                        .addComponent(RelacionesDescription2, GroupLayout.PREFERRED_SIZE, 369, GroupLayout.PREFERRED_SIZE)))
-                                .addGroup(PermisosLayout.createSequentialGroup()
-                                    .addGap(28, 28, 28)
-                                    .addGroup(PermisosLayout.createParallelGroup()
-                                        .addComponent(layeredPane14, GroupLayout.PREFERRED_SIZE, 780, GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(layeredPane12))))
+                                .addComponent(layeredPane14, GroupLayout.PREFERRED_SIZE, 780, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(layeredPane12))
                             .addContainerGap(12, Short.MAX_VALUE))
+                        .addGroup(PermisosLayout.createSequentialGroup()
+                            .addGap(46, 46, 46)
+                            .addGroup(PermisosLayout.createParallelGroup()
+                                .addComponent(RelacionesTitle2)
+                                .addComponent(RelacionesDescription2, GroupLayout.PREFERRED_SIZE, 369, GroupLayout.PREFERRED_SIZE))
+                            .addContainerGap(405, Short.MAX_VALUE))
                 );
                 PermisosLayout.setVerticalGroup(
                     PermisosLayout.createParallelGroup()
                         .addGroup(PermisosLayout.createSequentialGroup()
-                            .addGap(17, 17, 17)
+                            .addGap(23, 23, 23)
                             .addComponent(RelacionesTitle2)
                             .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(RelacionesDescription2)
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(layeredPane14, GroupLayout.PREFERRED_SIZE, 211, GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
+                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                             .addComponent(layeredPane12, GroupLayout.PREFERRED_SIZE, 183, GroupLayout.PREFERRED_SIZE)
-                            .addContainerGap(24, Short.MAX_VALUE))
+                            .addGap(22, 22, 22))
                 );
             }
             main.add(Permisos, "permisos");

@@ -92,13 +92,6 @@ public class CreatePersonForm extends JFrame {
         //======== panel1 ========
         {
             panel1.setBackground(new Color(244, 244, 244));
-            panel1.setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.
-            swing.border.EmptyBorder(0,0,0,0), "JF\u006frmDesi\u0067ner Ev\u0061luatio\u006e",javax.swing.border
-            .TitledBorder.CENTER,javax.swing.border.TitledBorder.BOTTOM,new java.awt.Font("Dialo\u0067"
-            ,java.awt.Font.BOLD,12),java.awt.Color.red),panel1. getBorder
-            ()));panel1. addPropertyChangeListener(new java.beans.PropertyChangeListener(){@Override public void propertyChange(java
-            .beans.PropertyChangeEvent e){if("borde\u0072".equals(e.getPropertyName()))throw new RuntimeException
-            ();}});
 
             //---- Title ----
             Title.setText("Crear Una Persona");

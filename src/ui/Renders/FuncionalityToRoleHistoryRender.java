@@ -19,8 +19,8 @@ public class FuncionalityToRoleHistoryRender extends JPanel implements ListCellR
         layout.setHorizontalGroup(
                 layout.createParallelGroup()
                         .addGroup(layout.createSequentialGroup()
-                                .addGap(5)
-                                .addComponent(item_back, 235,235,235)
+                                .addContainerGap()
+                                .addComponent(item_back, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -40,15 +40,16 @@ public class FuncionalityToRoleHistoryRender extends JPanel implements ListCellR
         String funct_type = value.getEventType();
         String description = null;
         switch (funct_type) {
-            case "ADD":
-                description = "ha agregado la funcionalidad";
+            case "1":
+                description = "agregó la funcionalidad";
                 break;
-            case "DELETE":
-                description = "ha quitado la funcionalidad";
+            case "2":
+                description = "quitó la funcionalidad";
                 break;
             default:
                 break;
         }
+
         JLabel func_description = new JLabel(description);
         func_description.setForeground(new Color(89,89,89));
         font = new Font("Segoe UI", Font.PLAIN, 11);
@@ -68,6 +69,13 @@ public class FuncionalityToRoleHistoryRender extends JPanel implements ListCellR
         font = new Font("Segoe UI", Font.BOLD, 11);
         funcionalidad_name.setFont(font);
 
+        // Mostrar de
+        JLabel de_label = new JLabel("de");
+        de_label.setForeground(new Color(89,89,89));
+        font = new Font("Segoe UI", Font.PLAIN, 11);
+        de_label.setFont(font);
+
+
         // Mostrar fecha
         String fecha = value.getCreate_date();
         JLabel rol_date = new JLabel(fecha);
@@ -86,9 +94,13 @@ public class FuncionalityToRoleHistoryRender extends JPanel implements ListCellR
                                         .addGroup(panel1Layout.createSequentialGroup()
                                                 .addComponent(user_name, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(func_description, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(func_description, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(role_name, 90, 90, 90)
+                                                .addComponent(funcionalidad_name, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(de_label, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(role_name, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,Short.MAX_VALUE)
                                         ))
                                 .addContainerGap())
         );
@@ -99,6 +111,8 @@ public class FuncionalityToRoleHistoryRender extends JPanel implements ListCellR
                                 .addGroup(panel1Layout.createParallelGroup()
                                         .addComponent(user_name, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                         .addComponent(func_description, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(funcionalidad_name, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(de_label, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(role_name, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addComponent(rol_date, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                 .addGap(5))
@@ -109,6 +123,7 @@ public class FuncionalityToRoleHistoryRender extends JPanel implements ListCellR
         item_back.add(func_description);
         item_back.add(funcionalidad_name);
         item_back.add(role_name);
+        item_back.add(de_label);
         background.add(item_back);
         return background;
     }

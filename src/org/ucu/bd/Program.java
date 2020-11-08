@@ -6,7 +6,7 @@ import ui.*;
 
 public class Program {
 
-    private static String CONFIG_PATH = "lib/config.txt";
+    private static String CONFIG_PATH = "config.txt";
     private static HashMap<String, Object> CONFIG;
     private static String user;
     private static String password;
