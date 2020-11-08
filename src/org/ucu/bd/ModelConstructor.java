@@ -171,6 +171,31 @@ public class ModelConstructor {
             e.printStackTrace();
         }
         return result;
+    }
+
+    public Object[][] getMenusForFuncionality(String funcionalityId){
+        ResultSet rs = this.db.getMenusForFuncionality(funcionalityId);
+        Object[][] result = new Object[0][0];
+        try {
+            int columnsNumber = rs.getMetaData().getColumnCount();
+            rs.last();
+            int size = rs.getRow();
+            if (size > 0) {
+                result = new Object[size][columnsNumber];
+                rs.first();
+                int rowNumber = 0;
+                do {
+                    result[rowNumber][0] = rs.getString(1);
+                    result[rowNumber][1] = rs.getString(2);
+                    result[rowNumber][2] = rs.getString(3);
+                    result[rowNumber][3] = rs.getBoolean(4);
+                    rowNumber++;
+                } while (rs.next());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
 
     }
 

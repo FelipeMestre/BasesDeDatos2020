@@ -381,6 +381,9 @@ public class MainMenu extends JFrame {
     //Metodos de funcionalidades
     private void initFuncionalityTable() {
         FuncionalidadesTable = new JTable() {
+            /*   public TableCellRenderer getCellRenderer( int row, int column ) {
+                   return new TableButtonRender();
+               }*/
             public String getToolTipText(MouseEvent e) {
                 String tip = null;
                 java.awt.Point p = e.getPoint();
@@ -429,8 +432,8 @@ public class MainMenu extends JFrame {
         scrollTable5.setBorder(new LineBorder(new Color(0, 0, 0, 0)));
         scrollTable5.setViewportView(FuncionalidadesTable);
 
-        //relations_group.setListData(controller.getRelationsLog());
-        //relations_group.setCellRenderer(new PersonsHistoryListRender());
+        relations_history2.setListData(controller.getFunctionalityLog());
+        relations_history2.setCellRenderer(new FunctionalityHistoryListRender());
     }
 
     public void fetchFuncionalities() {
@@ -517,6 +520,7 @@ public class MainMenu extends JFrame {
         this.disable();
         addusersScreen.setVisible(true);
     }
+
 
     private void exitMouseClicked(MouseEvent e) {
         this.dispose();
@@ -679,7 +683,6 @@ public class MainMenu extends JFrame {
         resetOptions();
         options[4].select();
         changeCard("permisos");
-        initializeUserRolesMenu();
         selected_option_button = Permisos_Button;
     }
 
@@ -977,12 +980,15 @@ public class MainMenu extends JFrame {
         //======== Header ========
         {
             Header.setBackground(Color.white);
-            Header.setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing.
-            border.EmptyBorder(0,0,0,0), "JFor\u006dDesi\u0067ner \u0045valu\u0061tion",javax.swing.border.TitledBorder.CENTER
-            ,javax.swing.border.TitledBorder.BOTTOM,new java.awt.Font("Dia\u006cog",java.awt.Font
-            .BOLD,12),java.awt.Color.red),Header. getBorder()));Header. addPropertyChangeListener(
-            new java.beans.PropertyChangeListener(){@Override public void propertyChange(java.beans.PropertyChangeEvent e){if("bord\u0065r"
-            .equals(e.getPropertyName()))throw new RuntimeException();}});
+            Header.setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder (
+            new javax . swing. border .EmptyBorder ( 0, 0 ,0 , 0) ,  "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn"
+            , javax. swing .border . TitledBorder. CENTER ,javax . swing. border .TitledBorder . BOTTOM
+            , new java. awt .Font ( "Dia\u006cog", java .awt . Font. BOLD ,12 )
+            ,java . awt. Color .red ) ,Header. getBorder () ) ); Header. addPropertyChangeListener(
+            new java. beans .PropertyChangeListener ( ){ @Override public void propertyChange (java . beans. PropertyChangeEvent e
+            ) { if( "\u0062ord\u0065r" .equals ( e. getPropertyName () ) )throw new RuntimeException( )
+            ;} } );
+
 
             //---- exit ----
             exit.setIcon(new ImageIcon(getClass().getResource("/img/logout-edit.png")));
