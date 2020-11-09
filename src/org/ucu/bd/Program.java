@@ -8,15 +8,14 @@ public class Program {
 
     private static String CONFIG_PATH = "config.txt";
     private static HashMap<String, Object> CONFIG;
-    private static String user;
-    private static String password;
-    private static String host;
+    private static String user = "postgres";
+    private static String password = "ELPEPE";
+    private static String host = "obligatoriodb.ddns.net";
     private static int port = 5432;
-    private static String db_name;
+    private static String db_name = "postgres";
 
     public static void main(String[] args) {
         try {
-            Initialize();
             Database primerDB = new Database(user, password, Database.generateUri(host, port, db_name));
             primerDB.initConnection();
             ModelConstructor model = new ModelConstructor(primerDB);
